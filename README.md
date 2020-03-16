@@ -15,9 +15,9 @@ Waiting on them from Mohamed.
 
 ### Installing the Software
 For instructions on how to connect the raspberry pi to your network and install Raspbian Buster, follow these instructions, 
-[Setup RPI](https://desertbot.io/blog/headless-pi-zero-w-wifi-setup-windows)
+[Setup Raspberry PI](https://desertbot.io/blog/headless-pi-zero-w-wifi-setup-windows)
 
-First clone the repo with
+To use download and run the scripts within this repo, you must first clone the repo with the command
 ```
 git clone https://github.com/andersonmolter1/LTG-RC-Car-AI/
 ```
