@@ -1,4 +1,4 @@
-# LTG-RC-Car-AI
+# LTG-RC-Car
 
 Project for creating a line following car using a PID AI to control the movement, speed, and steering of RC Car. This project uses the Raspberry Pi Zero with brushed DC motors for both steering and forward movement.
 
@@ -11,11 +11,11 @@ Project for creating a line following car using a PID AI to control the movement
 ## Installation (H/S)
 
 ### Hardware Installation
-
 Waiting on them from Mohamed.
 
 ### Installing the Software
-For instructions on how to connect the raspberry pi to your network and install Raspbian Buster, follow these instructions, https://desertbot.io/blog/headless-pi-zero-w-wifi-setup-windows __
+For instructions on how to connect the raspberry pi to your network and install Raspbian Buster, follow these instructions, 
+[Setup RPI](https://desertbot.io/blog/headless-pi-zero-w-wifi-setup-windows)
 
 First clone the repo with
 ```
@@ -37,11 +37,12 @@ Control of this car is going to use a PID Controller Model below. "error" will b
 
 ### P (Proportion)
 ![\Large (J_P\vert_{J_{P=25}}error)](https://latex.codecogs.com/gif.latex?%28J_P%5Cvert_%7BJ_%7BP%3D25%7D%7Derror%29)
+This section of the model will be determining the initial amount of steering to be applied depedent on the amount of error off the line the car is experiencing.
 ### I (Integral)
 ![\Large (J_I\sum_{n=0}^{k\vert_{k=v.len}}v\vert_{v=v[]})](https://latex.codecogs.com/gif.latex?%28J_I%5Csum_%7Bn%3D0%7D%5E%7Bk%5Cvert_%7Bk%3Dv.len%7D%7Dv%5Cvert_%7Bv%3Dv%5B%5D%7D%29)
+This section of the model will take into consideration the entire  
 ### D (Derivative)
 ![\Large (J_D\vert_{J_{D=1}}\frac{d}{dt}error)](https://latex.codecogs.com/gif.latex?%28J_D%5Cvert_%7BJ_%7BD%3D1%7D%7D%5Cfrac%7Bd%7D%7Bdt%7Derror%29)
-
 ## Authors
 
 * **Anderson Molter** - (https://github.com/andersonmolter1)
