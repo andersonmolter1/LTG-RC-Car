@@ -43,8 +43,8 @@ This section of the model will be determining the initial amount of steering to 
 ![\Large (J_I\sum_{n=0}^{k\vert_{k=v.len}}v\vert_{v=v[]})](https://latex.codecogs.com/gif.latex?%28J_I%5Csum_%7Bn%3D0%7D%5E%7Bk%5Cvert_%7Bk%3Dv.len%7D%7Dv%5Cvert_%7Bv%3Dv%5B%5D%7D%29)
 This section of the model will take into consideration the entire  
 ### D (Derivative)
-This portion of the model calculates the delta between the previous error and the current error and will divide that over the amount of time in between the two errors. This should reduce the overshoot effect that can happen when the current error greatly deviates from the last error.
 ![\Large (J_D\vert_{J_{D=1}}\frac{d}{dt}error)](https://latex.codecogs.com/gif.latex?%28J_D%5Cvert_%7BJ_%7BD%3D1%7D%7D%5Cfrac%7Bd%7D%7Bdt%7Derror%29)
+This portion of the model calculates the delta between the previous error and the current error and will divide that over the amount of time in between the two errors. This should reduce the overshoot effect that can happen when the current error greatly deviates from the last error.
 ## Authors
 
 * **Anderson Molter** - (https://github.com/andersonmolter1)
