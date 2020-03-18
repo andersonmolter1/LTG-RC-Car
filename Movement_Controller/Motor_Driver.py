@@ -35,7 +35,7 @@ class DriveAI:
     def TurnLeft(self): 
         err = self.error
         self.driving.ChangeDutyCycle(self.Speed())
-        Gpio.output(11,GPIO.HIGH) # flips polarity of motor to change motor direction
+        GPIO.output(11,GPIO.HIGH) # flips polarity of motor to change motor direction
         GPIO.output(12,GPIO.LOW)
         self.steering.ChangeDutyCycle(self.PID())
     def TurnRight(self):
