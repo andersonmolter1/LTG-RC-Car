@@ -1,17 +1,17 @@
-#import sympy as sym
 import  RPi.GPIO as GPIO
 from time import sleep
 import sys
-
+from datetime import datetime
 class DriveAI:
     J_P = 25 # Proportion value
     J_I = 0 # Integral Step value
     J_D = 0 # Derivative Step Value
     error = 0 # amount of error on the line the car is experiencing
-    #PV = [error] # list of all values errors that the car has experienced
+    PV = [] # list of all values errors that the car has experienced
+    prevError = 0
     driving = 0
     steering = 0
-    def __init__(self):
+    def initialize(self):
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD) 
         GPIO.setup(7,GPIO.OUT) # Motor that controls steering
@@ -32,14 +32,18 @@ class DriveAI:
     def offTrack(self): # Stops car if it went all the way off track
         self.driving.ChangeDutyCycle(0)
         self.steering.ChangeDutyCycle(0)
-    def TurnLeft(self): 
-        err = self.error
+    def TurnLeft(self):
+        self.PV.append(self.error)
+        print(self.error)
+        self.error = abs(self.error)
         self.driving.ChangeDutyCycle(self.Speed())
         GPIO.output(11,GPIO.HIGH) # flips polarity of motor to change motor direction
         GPIO.output(12,GPIO.LOW)
         self.steering.ChangeDutyCycle(self.PID())
     def TurnRight(self):
-        err = abs(self.error)
+        self.PV.append(self.error)
+        print(self.error)
+        self.error = abs(self.error)
         self.driving.ChangeDutyCycle(self.Speed())
         GPIO.output(11,GPIO.LOW)
         GPIO.output(12,GPIO.HIGH)
@@ -52,12 +56,12 @@ class DriveAI:
     def Proportion(self): # Calculates P of PID
         return (self.error * self.J_P)
     def Integral(self): # Calculates I of PID
-        return 0 
+        return (sum(self.PV)*self.J_I)
     def Derivative(self): # Caluclates D of PID
-        return 0
+        return ((self.error - self.prevError) * self.J_D)
     def PID(self): # Returns PID model
         return (self.Proportion() - self.Derivative() - self.Integral())
-    def driveCar(self): 
+    def driveCar(self):
         line = 0 # if no argument given, will default to line being black with a white background
         noLine = 1
         if (len(sys.argv) > 1 and sys.argv[1] == 2):
@@ -69,7 +73,9 @@ class DriveAI:
             MM = GPIO.input(33) # Middle Middle Sensor
             LM = GPIO.input(35) # Left Middle Sensor
             LL = GPIO.input(37) # Left Left Sensor
-            print(f'{LL:d} {LM:d} {MM:d} {RM:1d} {RR:d}')
+            #print(f'{LL:d} {LM:d} {MM:d} {RM:1d} {RR:d}')
+            temp = sum(self.PV)
+            print(f'{temp:d}')
             # 0 0 0 0 1 ==> Error = 4
             # 0 0 0 1 1 ==> Error = 3
             # 0 0 0 1 0 ==> Error = 2
@@ -94,7 +100,7 @@ class DriveAI:
                 self.error = 1
                 self.TurnRight()
             elif (LL == noLine and LM == noLine and MM == line and RM == noLine and RR == noLine):
-                self.noError(0)
+                self.noError()
             elif (LL == noLine and LM == line and MM == line and RM == noLine and RR == noLine):
                 self.error = -1
                 self.TurnLeft()
@@ -107,6 +113,6 @@ class DriveAI:
             elif (LL == line and LM == noLine and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -4
                 self.TurnLeft()
-            #PV.append(error) # Adds error to PV list for intgeral calculation
 car = DriveAI()
+car.initialize()
 car.driveCar()
