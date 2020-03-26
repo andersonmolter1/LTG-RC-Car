@@ -47,6 +47,8 @@ class DriveAI:
         temp = self.PID()
         if (temp > 100):
             temp = 100
+        elif (temp < 0):
+            temp = 0
         self.steering.ChangeDutyCycle(temp)
 
     def TurnRight(self):
@@ -58,6 +60,8 @@ class DriveAI:
         temp = self.PID()
         if (temp > 100):
             temp = 100
+        elif (temp < 0):
+            temp = 0
         self.steering.ChangeDutyCycle(temp)
 
     def noError(self):
@@ -130,6 +134,8 @@ class DriveAI:
             elif (LL == line and LM == noLine and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -4
                 self.TurnLeft()
+            else:
+                dump = 0
 
 
 car = DriveAI()
