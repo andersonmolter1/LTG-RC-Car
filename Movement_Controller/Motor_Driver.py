@@ -44,8 +44,10 @@ class DriveAI:
         # flips polarity of motor to change motor direction
         GPIO.output(11, GPIO.HIGH)
         GPIO.output(12, GPIO.LOW)
-        print(self.PID())
-        self.steering.ChangeDutyCycle(self.PID())
+        temp = self.PID()
+        if (temp > 100):
+            temp = 100
+        self.steering.ChangeDutyCycle(temp)
 
     def TurnRight(self):
         self.PV.append(self.error)
@@ -53,8 +55,10 @@ class DriveAI:
         self.driving.ChangeDutyCycle(self.Speed())
         GPIO.output(11, GPIO.LOW)
         GPIO.output(12, GPIO.HIGH)
-        print(self.PID())
-        self.steering.ChangeDutyCycle(self.PID())
+        temp = self.PID()
+        if (temp > 100):
+            temp = 100
+        self.steering.ChangeDutyCycle(temp)
 
     def noError(self):
         self.steering.ChangeDutyCycle(0)
@@ -73,7 +77,7 @@ class DriveAI:
         return ((self.error - self.prevError) * self.J_D)
 
     def PID(self):  # Returns PID model
-        return (self.Proportion() - self.Derivative() - self.Integral())
+        return abs(self.Proportion() - self.Derivative() - self.Integral())
 
     def driveCar(self):
         line = 1  # if no argument given, will default to line being black with a white background
