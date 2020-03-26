@@ -6,8 +6,8 @@ from datetime import datetime
 
 class DriveAI:
     J_P = 25  # Proportion value
-    J_I = 0  # Integral Step value
-    J_D = 0  # Derivative Step Value
+    J_I = 1  # Integral Step value
+    J_D = 1  # Derivative Step Value
     error = 0  # amount of error on the line the car is experiencing
     PV = []  # list of all values errors that the car has experienced
     prevError = 0
@@ -45,7 +45,7 @@ class DriveAI:
         GPIO.output(11, GPIO.HIGH)
         GPIO.output(12, GPIO.LOW)
         print(self.PID())
-        # self.steering.ChangeDutyCycle(self.PID())
+        self.steering.ChangeDutyCycle(self.PID())
 
     def TurnRight(self):
         self.PV.append(self.error)
@@ -54,7 +54,7 @@ class DriveAI:
         GPIO.output(11, GPIO.LOW)
         GPIO.output(12, GPIO.HIGH)
         print(self.PID())
-        # self.steering.ChangeDutyCycle(self.PID())
+        self.steering.ChangeDutyCycle(self.PID())
 
     def noError(self):
         self.steering.ChangeDutyCycle(0)
@@ -76,12 +76,13 @@ class DriveAI:
         return (self.Proportion() - self.Derivative() - self.Integral())
 
     def driveCar(self):
-        line = 0  # if no argument given, will default to line being black with a white background
-        noLine = 1
+        line = 1  # if no argument given, will default to line being black with a white background
+        noLine = 0
         if (len(sys.argv) > 1 and sys.argv[1] == 2):
             line = 1
             noLine = 0
         while True:
+            sleep(0.1)
             RR = GPIO.input(29)  # Right Right Sensor
             RM = GPIO.input(31)  # Right Middle Sensor
             MM = GPIO.input(33)  # Middle Middle Sensor
