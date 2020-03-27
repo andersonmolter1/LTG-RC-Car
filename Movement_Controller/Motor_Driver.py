@@ -6,8 +6,8 @@ from datetime import datetime
 
 class DriveAI:
     J_P = 25  # Proportion value
-    J_I = 1  # Integral Step value
-    J_D = 1  # Derivative Step Value
+    J_I = 0  # Integral Step value
+    J_D = 0  # Derivative Step Value
     error = 0  # amount of error on the line the car is experiencing
     PV = []  # list of all values errors that the car has experienced
     prevError = 0
