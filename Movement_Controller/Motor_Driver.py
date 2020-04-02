@@ -50,19 +50,22 @@ class DriveAI:
         elif (temp < 0):
             temp = 0
         self.steering.ChangeDutyCycle(temp)
+        prevError = error
 
     def TurnRight(self):
+        # Add error to the PV array to calculate I step
         self.PV.append(self.error)
         self.error = abs(self.error)
         self.driving.ChangeDutyCycle(self.Speed())
         GPIO.output(11, GPIO.LOW)
         GPIO.output(12, GPIO.HIGH)
         temp = self.PID()
-        if (temp > 100):
+        if (temp > 100):  # Defaults to closest valid value if over 100
             temp = 100
         elif (temp < 0):
             temp = 0
         self.steering.ChangeDutyCycle(temp)
+        prevError = error
 
     def noError(self):
         self.steering.ChangeDutyCycle(0)
@@ -90,7 +93,7 @@ class DriveAI:
             line = 1
             noLine = 0
         while True:
-            sleep(0.1)
+            sleep(0.0075)
             RR = GPIO.input(29)  # Right Right Sensor
             RM = GPIO.input(31)  # Right Middle Sensor
             MM = GPIO.input(33)  # Middle Middle Sensor
