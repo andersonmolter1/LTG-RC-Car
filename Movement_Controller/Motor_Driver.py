@@ -9,7 +9,7 @@ class DriveAI:
     J_I = 0  # Integral Step value
     J_D = 0  # Derivative Step Value
     error = 0  # amount of error on the line the car is experiencing
-    PV = []  # list of all values errors that the car has experienced
+    PV = 0  # list of all values errors that the car has experienced
     prevError = 0
     driving = 0
     steering = 0
@@ -38,7 +38,7 @@ class DriveAI:
         self.steering.ChangeDutyCycle(0)
 
     def TurnLeft(self):
-        self.PV.append(self.error)
+        self.PV = self.PV + self.error
         self.error = abs(self.error)
         self.driving.ChangeDutyCycle(self.Speed())
         # flips polarity of motor to change motor direction
@@ -78,7 +78,7 @@ class DriveAI:
         return (self.error * self.J_P)
 
     def Integral(self):  # Calculates I of PID
-        return (sum(self.PV)*self.J_I)
+        return (self.PV * self.J_I)
 
     def Derivative(self):  # Caluclates D of PID
         return ((self.error - self.prevError) * self.J_D)
