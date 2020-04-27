@@ -9,11 +9,6 @@ Project for creating a line following car using a PID AI to control the movement
 * 2 Brushed DC Motors
 * (ADD REQUIREMENTS for Hardware)
 
-## Installation (H/S)
-
-### Hardware Installation
-Waiting on them from Mohamed.
-
 ### Installing the Software
 For instructions on how to connect the raspberry pi to your network and install Raspbian Buster, follow these instructions, 
 [Setup Raspberry PI](https://desertbot.io/blog/headless-pi-zero-w-wifi-setup-windows)
