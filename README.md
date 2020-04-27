@@ -26,9 +26,8 @@ To run the installation script run this chmod command to run the .sh script.
 ```
 chmod u=rwx ./Install 
 ```
-Then run the Install Script with the command where "PI-HostName" is the Hostname of the PI you desire. If let blank it will default to raspberrypi.
 ```
-./Install [PI-HostName]
+./Install 
 ```
 
 ## Error? What's an Error?
