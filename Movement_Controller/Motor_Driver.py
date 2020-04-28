@@ -10,9 +10,9 @@ class DriveAI:
     J_D = 0  # Derivative Step Value
     error = 0  # amount of error on the line the car is experiencing
     PV = 0  # list of all values errors that the car has experienced
-    prevError = 0
-    driving = 0
-    steering = 0
+    prevError = 0 # error of last calculation used for Derivative calc
+    driving = 0 # driving motor
+    steering = 0 # steering motor
 
     def initialize(self):
         GPIO.setwarnings(False)
@@ -44,13 +44,14 @@ class DriveAI:
         # flips polarity of motor to change motor direction
         GPIO.output(11, GPIO.HIGH)
         GPIO.output(12, GPIO.LOW)
-        temp = self.PID()
-        if (temp > 100):
+        temp = self.PID() #gets PID Value for later use to steer.
+        if (temp > 100): # Defaults to closest valid value if over 100 to not go past GPIO limit of 100 or 0
             temp = 100
         elif (temp < 0):
             temp = 0
         self.steering.ChangeDutyCycle(temp)
-        prevError = error
+        self.prevError = self.error # to calculate derivative in next PID call
+
 
     def TurnRight(self):
         # Add error to the PV array to calculate I step
@@ -60,28 +61,28 @@ class DriveAI:
         GPIO.output(11, GPIO.LOW)
         GPIO.output(12, GPIO.HIGH)
         temp = self.PID()
-        if (temp > 100):  # Defaults to closest valid value if over 100
+        if (temp > 100):  # Defaults to closest valid value if over 100 to not go past GPIO limit of 100 or 0
             temp = 100
         elif (temp < 0):
             temp = 0
         self.steering.ChangeDutyCycle(temp)
-        prevError = error
+        self.prevError = self.error # to calculate derivative in next PID call
 
-    def noError(self):
+    def noError(self): # if car is going straight then go full speed and move motor to default state.
         self.steering.ChangeDutyCycle(0)
         self.driving.ChangeDutyCycle(50)
 
     def Speed(self):  # Gets speed proportional to error term
         return (50 - (abs(self.error) * 8))
 
-    def Proportion(self):  # Calculates P of PID
+    def Proportion(self):  # Calculates P of PID multiplied by the its constant
         return (self.error * self.J_P)
 
-    def Integral(self):  # Calculates I of PID
-        return (self.PV * self.J_I)
+    def Integral(self):  # Calculates I of PID multiplied by the its constant
+        return (self.PV * self.J_I) 
 
-    def Derivative(self):  # Caluclates D of PID
-        return ((self.error - self.prevError) * self.J_D)
+    def Derivative(self):  # Caluclates D of PID multiplied by the its constant
+        return ((self.error - self.prevError) * self.J_D) 
 
     def PID(self):  # Returns PID model
         return abs(self.Proportion() - self.Derivative() - self.Integral())
@@ -90,8 +91,8 @@ class DriveAI:
         line = 1  # if no argument given, will default to line being black with a white background
         noLine = 0
         if (len(sys.argv) > 1 and sys.argv[1] == 2):
-            line = 1
-            noLine = 0
+            line = 0
+            noLine = 1
         while True:
             sleep(0.0075)
             RR = GPIO.input(29)  # Right Right Sensor
@@ -139,8 +140,6 @@ class DriveAI:
                 self.TurnLeft()
             else:
                 dump = 0
-
-
 car = DriveAI()
 car.initialize()
 car.driveCar()
