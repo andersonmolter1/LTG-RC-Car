@@ -1,18 +1,8 @@
 # LTG-RC-Car
 
+
 Project for creating a line following car using a PID AI to control the movement, speed, and steering of RC Car. This project uses the Raspberry Pi Zero with brushed DC motors for both steering and forward movement.
 ![Car Driving](Images/CarDriving_Trim)
-
-## Hardware Requirements
-
-* Raspberry PI Zero with Raspbian Buster Desktop
-* 2 Brushed DC Motors
-* (ADD REQUIREMENTS for Hardware)
-
-## Installation (H/S)
-
-### Hardware Installation
-Waiting on them from Mohamed.
 
 ### Installing the Software
 For instructions on how to connect the raspberry pi to your network and install Raspbian Buster, follow these instructions, 
@@ -26,9 +16,8 @@ To run the installation script run this chmod command to run the .sh script.
 ```
 chmod u=rwx ./Install 
 ```
-Then run the Install Script with the command where "PI-HostName" is the Hostname of the PI you desire. If let blank it will default to raspberrypi.
 ```
-./Install [PI-HostName]
+./Install 
 ```
 
 ## Error? What's an Error?
@@ -66,6 +55,31 @@ This section of the model will take into consideration all of the previous error
 ### D (Derivative)
 ![(J_D\vert_{J_{D=0}}\frac{d}{dt}error) ](https://latex.codecogs.com/gif.latex?%28J_D%5Cvert_%7BJ_%7BD%3D0%7D%7D%5Cfrac%7Bd%7D%7Bdt%7Derror%29) <br>
 This portion of the model calculates the delta between the previous error and the current error and then multiply that by the constant which we will figure out in a later step. For now, it will be set to 0. Once implemented, this should reduce the overshoot effect that can happen when the current error greatly deviates from the last error. 
+
+## Tuning PID Controller
+
+Remember! The correct PID tuning is based on many many factors so don't worry if it takes a while!
+
+### Tuning P
+To start the tuning of the PID Controller, we will start with the P value. Make sure all other values are set to 0 but J_P. Then slowly increase this value until the car has a steady oscillation. 
+
+### Tuning D
+We then will move on to tuning D or the variable J_D. We want to increase this value until those oscillations are dampened to your liking. 
+
+### Tuning I
+We will then move to tuning I or the variable J_I. We want to increase this value until the oscillations are very minute and keep the car in a relatively straight position.
+
+### Helpful Tip!
+If you cannot find the tuning that you desire, slow the speed of the car down and then try it again! Oscillation patterns are more common at higher speeds.
+
+
+## Gallery of Cars 
+![Cars without their tops](Images/CarsWOTop.jpg)
+![Cars with their tops](Images/CarsWTops.jpg)
+![IR Sensor Array](Images/IRSensorArray.jpg)
+![Side View](Images/SideViewCarWOTop.jpg)
+![Police Car](Images/PoliceCam.jpg)
+
 ## Authors
 
 * **Anderson Molter** - (https://github.com/andersonmolter1)
