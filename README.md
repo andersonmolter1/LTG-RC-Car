@@ -19,7 +19,11 @@ chmod u=rwx ./Install
 ```
 ./Install 
 ```
-
+## How to run? 
+To run the AI to follow a line. Enter the command below in the terminal.
+```
+python3 LTG-RC-Car\Movement_Controller\Motor_Driver.py
+```
 ## Error? What's an Error?
 
 One concept you will hear me talk about a lot in this tutorial is the idea of error. Error is going to refer to how far left or right the car is relative to the middle of the track.
