@@ -18,10 +18,6 @@
 #             c.close()
 import socket
 class MySocket:
-    """demonstration class only
-      - coded for clarity, not efficiency
-    """
-
     def __init__(self, sock=None):
         if sock is None:
             self.sock = socket.socket(
@@ -51,4 +47,5 @@ class MySocket:
             bytes_recd = bytes_recd + len(chunk)
         return b''.join(chunks)
 s = MySocket()
-s.connect()
+s.connect('192.168.1.7', 5000)
+s.send("hello world")
