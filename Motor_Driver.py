@@ -32,7 +32,10 @@ class DriveAI:
         GPIO.setup(33, GPIO.IN)  # MM IR Sensor
         GPIO.setup(35, GPIO.IN)  # LM IR Sensor
         GPIO.setup(37, GPIO.IN)  # LL IR Sensor
-
+    def setConstants(self, P, I, D):
+        self.J_P = P
+        self.J_I = I
+        self.J_D = D
     def offTrack(self):  # Stops car if it went all the way off track
         self.driving.ChangeDutyCycle(0)
         self.steering.ChangeDutyCycle(0)
