@@ -82,5 +82,6 @@ while True:
     t = 0
     while isConnected:
         print "Server connected at", t, "s"
-        time.sleep(10)
-        t += 10
+	conn.sendall("message")
+	print(conn.recv(1024))
+        time.sleep(.1)
