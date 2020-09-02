@@ -11,7 +11,11 @@ class PIDController:
     error = 0  # amount of error on the line the car is experiencing
     PV = 0  # list of all values errors that the car has experienced
     prevError = 0 # error of last calculation used for Derivative calc
-
+    GPIO.setup(29, GPIO.IN)  # RR IR Sensor
+    GPIO.setup(31, GPIO.IN)  # RM IR Sensor
+    GPIO.setup(33, GPIO.IN)  # MM IR Sensor
+    GPIO.setup(35, GPIO.IN)  # LM IR Sensor
+    GPIO.setup(37, GPIO.IN)  # LL IR Sensor
     def Speed(self):  # Gets speed proportional to error term
         return (50 - (abs(self.error) * 8))
 
