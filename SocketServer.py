@@ -4,7 +4,7 @@ from threading import Thread
 import socket
 import time
 import RPi.GPIO as GPIO
-
+import Motor_Driver
 VERBOSE = False
 IP_PORT = 5000
 P_BUTTON = 24 # adapt to your wiring
@@ -15,7 +15,8 @@ def setup():
 
 def debug(text):
     if VERBOSE:
-        print "Debug:---", text
+        print("Debug:---", text)
+
 # ---------------------- class SocketHandler ------------------------
 class SocketHandler(Thread):
     def __init__(self, conn):
@@ -39,7 +40,7 @@ class SocketHandler(Thread):
                 break
             self.executeCommand(cmd)
         conn.close()
-        print "Client disconnected. Waiting for next client..."
+        print("Client disconnected. Waiting for next client...")
         isConnected = False
         debug("SocketHandler terminated")
 
@@ -50,8 +51,39 @@ class SocketHandler(Thread):
                 state = "Button pressed"
             else:
                 state = "Button released"
-            print "Reporting current state:", state
+            print("Reporting current state:", state)
             self.conn.sendall(state + "\0")
 # ----------------- End of SocketHandler -----------------------
+def TCP(car):
+    print("here")
+    setup()
+    serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # close port when process exits:
+    serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) 
+    debug("Socket created")
+    HOSTNAME = "" # Symbolic name meaning all available interfaces
+    try:
+        serverSocket.bind((HOSTNAME, IP_PORT))
+    except socket.error as msg:
+        print("Bind failed", msg[0], msg[1])
+        sys.exit()
+    serverSocket.listen(10)
 
-
+    print("Waiting for a connecting client...")
+    isConnected = False
+    while True:
+        debug("Calling blocking accept()...")
+        conn, addr = serverSocket.accept()
+        print("Connected with client at " + addr[0])
+        isConnected = True
+        socketHandler = SocketHandler(conn)
+        # necessary to terminate it at program termination:
+        socketHandler.setDaemon(True)  
+        socketHandler.start()
+        print("Server connected")
+        while isConnected:
+            message = str(car.error)
+            print(message)
+            conn.sendall(message.encode('utf-8'))
+#            print(conn.recv(1024))
+            time.sleep(.1)

@@ -13,7 +13,6 @@ class DriveAI:
     prevError = 0 # error of last calculation used for Derivative calc
     driving = 0 # driving motor
     steering = 0 # steering motor
-
     def initialize(self):
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD)
@@ -58,7 +57,8 @@ class DriveAI:
 
     def TurnRight(self):
         # Add error to the PV array to calculate I step
-        self.PV.append(self.error)
+	self.PV = self.PV + self.error
+        #self.PV.append(self.error)
         self.error = abs(self.error)
         self.driving.ChangeDutyCycle(self.Speed())
         GPIO.output(11, GPIO.LOW)
@@ -103,7 +103,7 @@ class DriveAI:
             MM = GPIO.input(33)  # Middle Middle Sensor
             LM = GPIO.input(35)  # Left Middle Sensor
             LL = GPIO.input(37)  # Left Left Sensor
-            #print(f'{LL:d} {LM:d} {MM:d} {RM:1d} {RR:d}')
+            print(f'{LL:d} {LM:d} {MM:d} {RM:1d} {RR:d}')
             # 0 0 0 0 1 ==> Error = 4
             # 0 0 0 1 1 ==> Error = 3
             # 0 0 0 1 0 ==> Error = 2
