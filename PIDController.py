@@ -71,7 +71,8 @@ class PIDController:
                 self.error = 1
                 controller.MoveRight(25)
             elif (LL == noLine and LM == noLine and MM == line and RM == noLine and RR == noLine):
-          	controller.MoveForward(0)
+                #controller.MoveForward(0)
+                dummy = 0
             elif (LL == noLine and LM == line and MM == line and RM == noLine and RR == noLine):
                 self.error = -1
                 controller.MoveLeft(25)
