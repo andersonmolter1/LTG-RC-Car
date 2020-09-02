@@ -56,10 +56,10 @@ class DriveAI:
 
 
     def TurnRight(self):
-        # Add error to the PV array to calculate I step
-	    self.PV = self.PV + self.error
+        # Add error to the PV array to calculate I ste
+        self.PV = self.PV + self.error
         #self.PV.append(self.error)
-        self.error = abs(self.error)
+        # self.error = abs(self.error)
         self.driving.ChangeDutyCycle(self.Speed())
         GPIO.output(11, GPIO.LOW)
         GPIO.output(12, GPIO.HIGH)
