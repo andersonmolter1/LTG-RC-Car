@@ -25,16 +25,15 @@ class PIDController:
         return (self.error * self.J_P)
 
     def Integral(self):  # Calculates I of PID multiplied by the its constant
-        return (self.PV * self.J_I) 
+        return (self.PV * self.J_I)
 
     def Derivative(self):  # Caluclates D of PID multiplied by the its constant
-        return ((self.error - self.prevError) * self.J_D) 
+        return ((self.error - self.prevError) * self.J_D)
 
     def PID(self):  # Returns PID model
         return abs(self.Proportion() - self.Derivative() - self.Integral())
 
     def driveCar(self):
-        
         line = 1  # if no argument given, will default to line being black with a white background
         noLine = 0
         if (len(sys.argv) > 1 and sys.argv[1] == 2):
@@ -72,7 +71,7 @@ class PIDController:
                 self.error = 1
                 controller.MoveRight(25)
             elif (LL == noLine and LM == noLine and MM == line and RM == noLine and RR == noLine):
-                controller.MoveForward(1)
+          	controller.MoveForward(0)
             elif (LL == noLine and LM == line and MM == line and RM == noLine and RR == noLine):
                 self.error = -1
                 controller.MoveLeft(25)
