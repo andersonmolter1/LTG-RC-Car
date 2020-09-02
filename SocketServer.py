@@ -82,7 +82,7 @@ def TCP(car):
         socketHandler.start()
         print("Server connected")
         while isConnected:
-            message = str(car.error)
+            message = str(car.prevError)
             print(message)
             conn.sendall(message.encode('utf-8'))
 #            print(conn.recv(1024))
