@@ -35,7 +35,7 @@ class MotorControl:
 		self.mf_pwm.start(0)
 		self.mb_pwm.start(0)
 	
-def MoveForward(self, driveDegree):
+	def MoveForward(self, driveDegree):
 		GPIO.output(self.mb_p1,GPIO.HIGH)
 		GPIO.output(self.mb_p2,GPIO.LOW)
 		GPIO.output(self.mf_p1,GPIO.LOW)

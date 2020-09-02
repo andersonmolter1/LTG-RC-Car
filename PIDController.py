@@ -61,30 +61,30 @@ class PIDController:
                 controller.Stopper()
             elif (LL == noLine and LM == noLine and MM == noLine and RM == noLine and RR == line):
                 self.error = 4
-                controller.MoveRight(1)
+                controller.MoveRight(100)
             elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == line):
                 self.error = 3
-                controller.MoveRight(.75)
+                controller.MoveRight(75)
             elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == noLine):
                 self.error = 2
-                controller.MoveRight(.50)
+                controller.MoveRight(50)
             elif (LL == noLine and LM == noLine and MM == line and RM == line and RR == noLine):
                 self.error = 1
-                controller.MoveRight(.25)
+                controller.MoveRight(25)
             elif (LL == noLine and LM == noLine and MM == line and RM == noLine and RR == noLine):
-                controller.noError()
+                controller.MoveForward(1)
             elif (LL == noLine and LM == line and MM == line and RM == noLine and RR == noLine):
                 self.error = -1
-                controller.MoveLeft(.25)
+                controller.MoveLeft(25)
             elif (LL == noLine and LM == line and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -2
-                controller.MoveLeft(.50)
+                controller.MoveLeft(50)
             elif (LL == line and LM == line and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -3
-                controller.MoveLeft(.75)
+                controller.MoveLeft(75)
             elif (LL == line and LM == noLine and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -4
-                controller.MoveLeft(1)
+                controller.MoveLeft(100)
             else:
                 dump = 0
 car = PIDController()
