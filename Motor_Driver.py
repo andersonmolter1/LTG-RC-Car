@@ -72,7 +72,7 @@ class DriveAI:
             temp = 0
         self.steering.ChangeDutyCycle(temp)
     def noError(self): # if car is going straight then go full speed and move motor to default state.
-        self.prevError = self.error # to calculate derivative in next PID call
+        self.prevError = 0 # to calculate derivative in next PID call
         self.steering.ChangeDutyCycle(0)
         self.driving.ChangeDutyCycle(50)
 

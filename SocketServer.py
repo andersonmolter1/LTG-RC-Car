@@ -86,4 +86,4 @@ def TCP(car):
             print(message)
             conn.sendall(message.encode('utf-8'))
 #            print(conn.recv(1024))
-            time.sleep(.1)
+            time.sleep(.025)
