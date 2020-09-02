@@ -62,30 +62,30 @@ class PIDController:
                 self.controller.Stopper()
             elif (LL == noLine and LM == noLine and MM == noLine and RM == noLine and RR == line):
                 self.error = 4
-                MotorControl.MoveRight(controller,1)
+                MotorControl.MoveRight(self.controller,1)
             elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == line):
                 self.error = 3
-                MotorControl.MoveRight(controller,.75)
+                MotorControl.MoveRight(self.controller,.75)
             elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == noLine):
                 self.error = 2
-                MotorControl.MoveRight(controller,.50)
+                MotorControl.MoveRight(self.controller,.50)
             elif (LL == noLine and LM == noLine and MM == line and RM == line and RR == noLine):
                 self.error = 1
-                MotorControl.MoveRight(controller,.25)
+                MotorControl.MoveRight(self.controller,.25)
             elif (LL == noLine and LM == noLine and MM == line and RM == noLine and RR == noLine):
                 self.controller.noError()
             elif (LL == noLine and LM == line and MM == line and RM == noLine and RR == noLine):
                 self.error = -1
-                MotorControl.MoveLeft(controller,.25)
+                MotorControl.MoveLeft(self.controller,.25)
             elif (LL == noLine and LM == line and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -2
-                MotorControl.MoveLeft(controller,.50)
+                MotorControl.MoveLeft(self.controller,.50)
             elif (LL == line and LM == line and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -3
-                MotorControl.MoveLeft(controller,.75)
+                MotorControl.MoveLeft(self.controller,.75)
             elif (LL == line and LM == noLine and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -4
-                MotorControl.MoveLeft(controller, 1)
+                MotorControl.MoveLeft(self.controller, 1)
             else:
                 dump = 0
 car = PIDController()
