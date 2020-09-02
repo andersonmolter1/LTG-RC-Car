@@ -6,7 +6,6 @@ from datetime import datetime
 from MotorControl import MotorControl
 
 class PIDController:
-    controller = MotorControl()
     J_P = 25  # Proportion value
     J_I = 0  # Integral Step value
     J_D = 0  # Derivative Step Value
@@ -88,5 +87,4 @@ class PIDController:
             else:
                 dump = 0
 car = PIDController()
-car.initialize()
 car.driveCar()
