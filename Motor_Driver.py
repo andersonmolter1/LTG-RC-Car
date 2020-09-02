@@ -40,6 +40,7 @@ class DriveAI:
         self.steering.ChangeDutyCycle(0)
 
     def TurnLeft(self):
+        self.prevError = self.error # to calculate derivative in next PID call
         self.PV = self.PV + self.error
         self.error = abs(self.error)
         self.driving.ChangeDutyCycle(self.Speed())
@@ -52,7 +53,7 @@ class DriveAI:
         elif (temp < 0):
             temp = 0
         self.steering.ChangeDutyCycle(temp)
-        self.prevError = self.error # to calculate derivative in next PID call
+        
 
 
     def TurnRight(self):
