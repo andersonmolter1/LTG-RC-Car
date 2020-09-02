@@ -143,6 +143,3 @@ class DriveAI:
                 self.TurnLeft()
             else:
                 dump = 0
-car = DriveAI()
-car.initialize()
-car.driveCar()
