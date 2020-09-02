@@ -1,7 +1,9 @@
+
+import RPi.GPIO as GPIO
 from time import sleep
 import sys
 from datetime import datetime
-from motorControl import MotorControl
+from MotorControl import MotorControl
 
 class PIDController:
     controller = MotorControl()
@@ -32,6 +34,7 @@ class PIDController:
         return abs(self.Proportion() - self.Derivative() - self.Integral())
 
     def driveCar(self):
+        controller = MotorControl()
         line = 1  # if no argument given, will default to line being black with a white background
         noLine = 0
         if (len(sys.argv) > 1 and sys.argv[1] == 2):
