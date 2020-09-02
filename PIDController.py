@@ -46,7 +46,7 @@ class PIDController:
             MM = GPIO.input(33)  # Middle Middle Sensor
             LM = GPIO.input(35)  # Left Middle Sensor
             LL = GPIO.input(37)  # Left Left Sensor
-            print(f'{LL:d} {LM:d} {MM:d} {RM:1d} {RR:d}')
+#            print(f'{LL:d} {LM:d} {MM:d} {RM:1d} {RR:d}')
             # 0 0 0 0 1 ==> Error = 4
             # 0 0 0 1 1 ==> Error = 3
             # 0 0 0 1 0 ==> Error = 2

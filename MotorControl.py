@@ -48,16 +48,18 @@ class MotorControl:
 		GPIO.output(self.mf_p1,GPIO.LOW)
 		self.mb_pwm.ChangeDutyCycle(self.pwmSpeed)
 	def MoveLeft(self, turnDegree):
+		print(turnDegree)
 		#GPIO.output(self.mb_p1,turnDegree)
-		#GPIO.output(self.mb_p2,turnDegree)
+		#GPIO.output(self.mb_p2,turnDegree) ?
 		GPIO.output(self.mf_p1,turnDegree)
-		GPIO.output(self.mf_p2,turnDegree)
+		GPIO.output(self.mf_p2,GPIO.LOW)
 		self.mb_pwm.ChangeDutyCycle(self.pwmSpeed2)
 		self.mf_pwm.ChangeDutyCycle(self.pwmSpeed1)
 	def MoveRight(self, turnDegree):
-		#GPIO.output(self.mb_p1,turnDegree)
+		print(turnDegree)
+		#GPIO.output(self.mb_p1,turnDegree) #forward
 		#GPIO.output(self.mb_p2,turnDegree)
-		GPIO.output(self.mf_p1,turnDegree)
+		GPIO.output(self.mf_p1,GPIO.LOW)
 		GPIO.output(self.mf_p2,turnDegree)
 		self.mb_pwm.ChangeDutyCycle(self.pwmSpeed2)
 		self.mf_pwm.ChangeDutyCycle(self.pwmSpeed1)
@@ -66,5 +68,4 @@ class MotorControl:
 		GPIO.output(self.mb_p2,GPIO.LOW)
 		GPIO.output(self.mf_p1,GPIO.LOW)
 		GPIO.output(self.mf_p2,GPIO.LOW)
-		
 		self.mf_pwm.ChangeDutyCycle(0)
