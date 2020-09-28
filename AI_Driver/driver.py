@@ -1,8 +1,6 @@
 import sys
 from threading import Thread
-import socket
 import time
-import RPi.GPIO as GPIO
 import PIDController
 import SocketServer
 import _thread

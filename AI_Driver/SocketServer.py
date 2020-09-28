@@ -4,7 +4,6 @@ from threading import Thread
 import socket
 import time
 import RPi.GPIO as GPIO
-import PIDController
 VERBOSE = False
 IP_PORT = 5000
 P_BUTTON = 24 # adapt to your wiring

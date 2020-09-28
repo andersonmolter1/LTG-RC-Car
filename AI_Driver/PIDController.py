@@ -4,7 +4,7 @@ from time import sleep
 import sys
 import socket
 from datetime import datetime
-from MotorControl import MotorControl
+import MotorControl
 controller = MotorControl()
 class PIDController:
     socket = 0
