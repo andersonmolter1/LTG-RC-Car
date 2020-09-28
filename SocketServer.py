@@ -4,7 +4,7 @@ from threading import Thread
 import socket
 import time
 import RPi.GPIO as GPIO
-import Motor_Driver
+import PIDController
 VERBOSE = False
 IP_PORT = 5000
 P_BUTTON = 24 # adapt to your wiring
@@ -44,18 +44,17 @@ class SocketHandler(Thread):
         isConnected = False
         debug("SocketHandler terminated")
 
-    def executeCommand(self, cmd):
-        debug("Calling executeCommand() with  cmd: " + cmd)
-        if cmd[:-1] == "go":  # remove trailing "\0"
-            if GPIO.input(P_BUTTON) == GPIO.LOW:
-                state = "Button pressed"
-            else:
-                state = "Button released"
-            print("Reporting current state:", state)
-            self.conn.sendall(state + "\0")
+    # def executeCommand(self, cmd):
+    #     debug("Calling executeCommand() with  cmd: " + cmd)
+    #     if cmd[:-1] == "go":  # remove trailing "\0"
+    #         if GPIO.input(P_BUTTON) == GPIO.LOW:
+    #             state = "Button pressed"
+    #         else:
+    #             state = "Button released"
+    #         print("Reporting current state:", state)
+    #         self.conn.sendall(state + "\0")
 # ----------------- End of SocketHandler -----------------------
 def TCP(car):
-    print("here")
     setup()
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # close port when process exits:
@@ -83,7 +82,10 @@ def TCP(car):
         print("Server connected")
         while isConnected:
             message = str(car.prevError)
-            print(message)
+            car = PIDController()
+            
+
+            
             conn.sendall(message.encode('utf-8'))
 #            print(conn.recv(1024))
             time.sleep(.025)

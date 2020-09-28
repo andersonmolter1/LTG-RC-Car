@@ -1,9 +1,6 @@
 import RPi.GPIO as GPIO
 from time import sleep
-
-
-
-
+import socket
 class MotorControl:
 	PWMValue=""
 	mf_pwm=""
@@ -14,6 +11,7 @@ class MotorControl:
 	mb_p2=""
 	mb_p1=""
 	pwmSpeed=""
+	
 	def __init__(self):
 		self.pwmSpeed=80
 		self.pwmSpeed1=80

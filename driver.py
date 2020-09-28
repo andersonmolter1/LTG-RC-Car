@@ -3,13 +3,12 @@ from threading import Thread
 import socket
 import time
 import RPi.GPIO as GPIO
-import Motor_Driver
+import PIDController
 import SocketServer
 import _thread
 
-car = Motor_Driver.DriveAI()
+car = PIDController()
 def drive(thread):
-    car.initialize()
     car.driveCar()
 def comm(thread):
     SocketServer.TCP(car)

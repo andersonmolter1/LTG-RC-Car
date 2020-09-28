@@ -2,10 +2,12 @@
 import RPi.GPIO as GPIO
 from time import sleep
 import sys
+import socket
 from datetime import datetime
 from MotorControl import MotorControl
 controller = MotorControl()
 class PIDController:
+    socket = 0
     J_P = 25  # Proportion value
     J_I = 0  # Integral Step value
     J_D = 0  # Derivative Step Value
@@ -87,5 +89,4 @@ class PIDController:
                 controller.MoveLeft(100)
             else:
                 dump = 0
-car = PIDController()
-car.driveCar()
+
