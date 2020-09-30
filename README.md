@@ -87,6 +87,6 @@ If you cannot find the tuning that you desire, slow the speed of the car down an
 ## Authors
 
 * **Anderson Molter** - (https://github.com/andersonmolter1)
-* **Mohamed Mohamed**
-* **Qin Yang**
 * **Sanjay Sarma** - (https://github.com/sanjayovs)
+* PI: Prof. Ramviyas Parasuraman - HeRoLab UGA - (http://hero.uga.edu)
+
