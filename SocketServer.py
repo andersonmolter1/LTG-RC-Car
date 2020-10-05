@@ -55,7 +55,6 @@ class SocketHandler(Thread):
             self.conn.sendall(state + "\0")
 # ----------------- End of SocketHandler -----------------------
 def TCP(car):
-    print("here")
     setup()
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # close port when process exits:
@@ -83,7 +82,6 @@ def TCP(car):
         print("Server connected")
         while isConnected:
             message = str(car.prevError)
-            print(message)
             conn.sendall(message.encode('utf-8'))
-#            print(conn.recv(1024))
-            time.sleep(.025)
+            print(conn.recv(1024))
+#            time.sleep(.025)
