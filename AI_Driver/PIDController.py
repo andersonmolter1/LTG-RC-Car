@@ -1,12 +1,13 @@
-
 import RPi.GPIO as GPIO
 from time import sleep
 import sys
 import socket
 from datetime import datetime
 import MotorControl
-controller = MotorControl()
+import AI_Driver.AutoPhatMD
+
 class PIDController:
+    motorDriver = AI_Driver.AutoPhatMD()
     socket = 0
     J_P = 25  # Proportion value
     J_I = 0  # Integral Step value
@@ -34,6 +35,13 @@ class PIDController:
 
     def PID(self):  # Returns PID model
         return abs(self.Proportion() - self.Derivative() - self.Integral())
+    def getMotion():
+        if (error > 0):
+            motorDriver.MoveLeft(error * 63.75)
+        elif (error < 0):
+            motorDriver.MoveRight(abs(error * 63.75))
+        else:
+            motorDriver.Stop()
 
     def driveCar(self):
         line = 1  # if no argument given, will default to line being black with a white background
@@ -48,7 +56,7 @@ class PIDController:
             MM = GPIO.input(33)  # Middle Middle Sensor
             LM = GPIO.input(35)  # Left Middle Sensor
             LL = GPIO.input(37)  # Left Left Sensor
-#            print(f'{LL:d} {LM:d} {MM:d} {RM:1d} {RR:d}')
+            #            print(f'{LL:d} {LM:d} {MM:d} {RM:1d} {RR:d}')
             # 0 0 0 0 1 ==> Error = 4
             # 0 0 0 1 1 ==> Error = 3
             # 0 0 0 1 0 ==> Error = 2
@@ -62,31 +70,30 @@ class PIDController:
                 controller.Stopper()
             elif (LL == noLine and LM == noLine and MM == noLine and RM == noLine and RR == line):
                 self.error = 4
-                controller.MoveRight(100)
+
             elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == line):
                 self.error = 3
-                controller.MoveRight(75)
+
             elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == noLine):
                 self.error = 2
-                controller.MoveRight(50)
+
             elif (LL == noLine and LM == noLine and MM == line and RM == line and RR == noLine):
                 self.error = 1
-                controller.MoveRight(25)
+
             elif (LL == noLine and LM == noLine and MM == line and RM == noLine and RR == noLine):
-                #controller.MoveForward(0)
-                dummy = 0
+                continue
             elif (LL == noLine and LM == line and MM == line and RM == noLine and RR == noLine):
                 self.error = -1
-                controller.MoveLeft(25)
+
             elif (LL == noLine and LM == line and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -2
-                controller.MoveLeft(50)
+
             elif (LL == line and LM == line and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -3
-                controller.MoveLeft(75)
+
             elif (LL == line and LM == noLine and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -4
-                controller.MoveLeft(100)
-            else:
-                dump = 0
 
+            else:
+                continue
+            getMotion()
