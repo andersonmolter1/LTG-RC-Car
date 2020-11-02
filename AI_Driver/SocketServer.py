@@ -31,7 +31,7 @@ class SocketHandler(Thread):
                 debug("Calling blocking conn.recv()")
                 cmd = self.conn.recv(1024)
             except:
-                debug("exception in conn.recv()") 
+                debug("exception in conn.recv()")
                 # happens when connection is reset from the peer
                 break
             debug("Received cmd: " + cmd + " len: " + str(len(cmd)))
@@ -57,7 +57,7 @@ def TCP(car):
     setup()
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # close port when process exits:
-    serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) 
+    serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     debug("Socket created")
     HOSTNAME = "" # Symbolic name meaning all available interfaces
     try:
@@ -76,15 +76,16 @@ def TCP(car):
         isConnected = True
         socketHandler = SocketHandler(conn)
         # necessary to terminate it at program termination:
-        socketHandler.setDaemon(True)  
+        socketHandler.setDaemon(True)
         socketHandler.start()
         print("Server connected")
         while isConnected:
             message = str(car.prevError)
-            car = PIDController()
-            
+            car.modiftyPID(str(conn.recv(1024))[0:10])
 
-            
+
+
+
             conn.sendall(message.encode('utf-8'))
-#            print(conn.recv(1024))
+            print(conn.recv(1024))
             time.sleep(.025)

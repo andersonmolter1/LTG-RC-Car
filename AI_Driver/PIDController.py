@@ -35,14 +35,17 @@ class PIDController:
 
     def PID(self):  # Returns PID model
         return abs(self.Proportion() - self.Derivative() - self.Integral())
-    def getMotion():
-        if (error > 0):
+    def getMotion(self):
+        if (self.error > 0):
             motorDriver.MoveLeft(error * 63.75)
-        elif (error < 0):
+        elif (self.error < 0):
             motorDriver.MoveRight(abs(error * 63.75))
         else:
             motorDriver.Stop()
-
+    def modifyPID(self, newPID):
+        self.J_P = newPID[1:2]
+        self.J_I = newPID[3:4]
+        self.J_D = newPID[5:6]
     def driveCar(self):
         line = 1  # if no argument given, will default to line being black with a white background
         noLine = 0
