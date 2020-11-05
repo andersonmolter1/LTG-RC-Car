@@ -6,17 +6,21 @@ import time
 import RPi.GPIO as GPIO
 VERBOSE = False
 IP_PORT = 5000
-P_BUTTON = 24 # adapt to your wiring
+P_BUTTON = 24  # adapt to your wiring
+
 
 def setup():
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(P_BUTTON, GPIO.IN, GPIO.PUD_UP)
+
 
 def debug(text):
     if VERBOSE:
         print("Debug:---", text)
 
 # ---------------------- class SocketHandler ------------------------
+
+
 class SocketHandler(Thread):
     def __init__(self, conn):
         Thread.__init__(self)
@@ -53,13 +57,15 @@ class SocketHandler(Thread):
     #         print("Reporting current state:", state)
     #         self.conn.sendall(state + "\0")
 # ----------------- End of SocketHandler -----------------------
+
+
 def TCP(car):
     setup()
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # close port when process exits:
     serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     debug("Socket created")
-    HOSTNAME = "" # Symbolic name meaning all available interfaces
+    HOSTNAME = ""  # Symbolic name meaning all available interfaces
     try:
         serverSocket.bind((HOSTNAME, IP_PORT))
     except socket.error as msg:
@@ -80,12 +86,9 @@ def TCP(car):
         socketHandler.start()
         print("Server connected")
         while isConnected:
-            message = str(car.prevError)
-            car.modiftyPID(str(conn.recv(1024))[0:10])
-
-
-
+            message = str(car.error)
+            car.modifyPID(str(conn.recv(1024)))
 
             conn.sendall(message.encode('utf-8'))
-            print(conn.recv(1024))
+            #(conn.recv(1024))
             time.sleep(.025)

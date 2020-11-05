@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #-----------------------------------------------------------------------------
-# A simple test to speed up and slow down both motors in opposite directions.
+# A simple test to speed up and slow down 1 motor.
 #------------------------------------------------------------------------
 #
 # Written by Mark Lindemer
@@ -44,59 +44,48 @@ import sys
 import math
 import qwiic_scmd
 
+myMotor = qwiic_scmd.QwiicScmd()
 
 
-class AutoPhatMD:
-    myMotor = qwiic_scmd.QwiicScmd()
-    def MoveLeft(PID):
-        myMotor.set_drive(0, 0, PID)
-        myMotor.set_drive(1, 0, PID)
-    def MoveRight():
-        myMotor.set_drive(0, 1, PID)
-        myMotor.set_drive(1, 0, PID)
-    def Stop():
-        myMotor.set_drive(0, 1, 0)
-        myMotor.set_drive(1, 0, 0)
+def runExample():
+    print("Motor Test.")
+    R_MTR = 0
+    L_MTR = 1
+    FWD = 0
+    BWD = 1
 
-    def __init__(self):
-        R_MTR = 0
-        L_MTR = 1
-        FWD = 0
-        BWD = 1
-        if myMotor.connected == False:
-            print("Motor Driver not connected. Check connections.", \
+    if myMotor.connected == False:
+        print("Motor Driver not connected. Check connections.", \
             file=sys.stderr)
-            return
-        myMotor.begin()
-        print("Motor initialized.")
-        time.sleep(.250)
+        return
+    myMotor.begin()
+    print("Motor initialized.")
+    time.sleep(.250)
 
-        # Zero Motor Speeds
-        myMotor.set_drive(0, 0, 0)
-        myMotor.set_drive(1, 0, 0)
+    # Zero Motor Speeds
+    myMotor.set_drive(0, 0, 0)
+    myMotor.set_drive(1, 0, 0)
 
-        myMotor.enable()
-        print("Motor enabled")
-        # time.sleep(.250)
+    myMotor.enable()
+    print("Motor enabled")
+    time.sleep(.250)
 
-        # while True:
-        #     speed = 20
-        #     for speed in range(20, 255):
-        #         print(speed)
-        #         myMotor.set_drive(R_MTR, FWD, speed)
-        #         myMotor.set_drive(L_MTR, BWD, speed)
-        #         time.sleep(.05)
-        #     for speed in range(254, 20, -1):
-        #         print(speed)
-        #         myMotor.set_drive(R_MTR, FWD, speed)
-        #         myMotor.set_drive(L_MTR, BWD, speed)
-        #         time.sleep(.05)
+    while True:
+        speed = 20
+        for speed in range(50, 150):
+            print(speed)
+            myMotor.set_drive(R_MTR, FWD, speed)
+            time.sleep(.05)
+        for speed in range(150, 50, -1):
+            print(speed)
+            myMotor.set_drive(R_MTR, FWD, speed)
+            time.sleep(.05)
 
 
-    # if __name__ == '__main__':
-    #     try:
-    #         runExample()
-    #     except (KeyboardInterrupt, SystemExit) as exErr:
-    #         print("Ending example.")
-    #         myMotor.disable()
-    #         sys.exit(0)
+if __name__ == '__main__':
+    try:
+        runExample()
+    except (KeyboardInterrupt, SystemExit) as exErr:
+        print("Ending example.")
+        myMotor.disable()
+        sys.exit(0)
