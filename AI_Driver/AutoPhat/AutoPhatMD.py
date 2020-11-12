@@ -10,11 +10,9 @@ class AutoPhatMD:
     myMotor = qwiic_scmd.QwiicScmd()
 
     def TurnLeft(self, PID):
-        print(str(PID) + " left")
         self.myMotor.set_drive(0, 0, math.floor(PID))
         self.myMotor.set_drive(1, 0, math.floor(255 - (PID * 63.75)))
     def TurnRight(self, PID):
-        print(str(PID) + " right")
         self.myMotor.set_drive(0, 1, math.floor(PID) - 1)
         self.myMotor.set_drive(1, 0, math.floor(255 - (PID * 63.75)))
     def Stop(self):

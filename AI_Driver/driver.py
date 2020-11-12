@@ -20,6 +20,7 @@ try:
     _thread.start_new_thread(drive, (1,))
     _thread.start_new_thread(comm, (1,))
 except:
+    print("here")
     print(Exception)
 while 1:
     pass

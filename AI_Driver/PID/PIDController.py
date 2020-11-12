@@ -45,10 +45,12 @@ class PIDController:
     def getMotion(self):
         if (self.error > 0):
             tempE = abs(self.error * 63.75)
-            self.motorDriver.TurnRight(tempE)
+            print("here")
+            #self.motorDriver.TurnRight(tempE)
         if (self.error < 0):
             tempE = abs(self.error * 63.75)
-            self.motorDriver.TurnLeft(tempE)
+            print("there")
+            #self.motorDriver.TurnLeft(tempE)
 
     def modifyPID(self, newPID):
         newConstants = re.sub("[^\w]", " ",  newPID).split()
