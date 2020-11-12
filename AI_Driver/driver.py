@@ -1,9 +1,10 @@
 import sys
-from threading import Thread
+from _thread import *
+import threading
 import time
 from PID.PIDController import PIDController
-import Socket.SocketServer
-import _thread
+import Socket.SocketClient
+
 
 car = PIDController()
 
@@ -16,11 +17,21 @@ def comm(thread):
     Socket.SocketServer.TCP(car)
 
 
-try:
-    _thread.start_new_thread(drive, (1,))
-    _thread.start_new_thread(comm, (1,))
-except:
-    print("here")
-    print(Exception)
-while 1:
-    pass
+
+if __name__ == "__main__":
+    # creating thread
+    t1 = threading.Thread(target=drive, args=(10,))
+    t2 = threading.Thread(target=comm, args=(10,))
+
+    # starting thread 1
+    t1.start()
+    # starting thread 2
+    t2.start()
+
+    # wait until thread 1 is completely executed
+    t1.join()
+    # wait until thread 2 is completely executed
+    t2.join()
+
+    # both threads completely executed
+    print("Done!")
