@@ -78,10 +78,9 @@ If you cannot find the tuning that you desire, slow the speed of the car down an
 
 
 ## Gallery of Cars 
-![Cars without their tops](Images/CarsWOTop.jpg)
-![Cars with their tops](Images/CarsWTops.jpg)
+![Cars without their tops](Images/AutophatView.jpg)
+![Cars with their tops](Images/SideView.jpg)
 ![IR Sensor Array](Images/IRSensorArray.jpg)
-![Side View](Images/SideViewCarWOTop.jpg)
 ![Police Car](Images/PoliceCam.jpg)
 
 ## Authors
