@@ -1,8 +1,9 @@
 # LTG-RC-Car
 
 
-Project for creating a line following car using a PID AI to control the movement, speed, and steering of RC Car. This project uses the Raspberry Pi Zero with brushed DC motors for both steering and forward movement.
-![Car Driving](Images\CarDrivingTrim.gif)
+Project for creating a line following car using a PID AI to control the movement, speed, and steering of RC Car. This project uses the Raspberry Pi Zero with brushed DC motors for both steering and forward movement.<br>
+<img src="Images\CarDrivingTrim.gif" width="100" height="200" />
+
 ### Hardware
 This is the fritzing diagram of our car! More details to come soon!
 ![Frit](LTG-Schematic_bb.png)
