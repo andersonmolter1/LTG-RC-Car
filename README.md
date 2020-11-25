@@ -3,7 +3,9 @@
 
 Project for creating a line following car using a PID AI to control the movement, speed, and steering of RC Car. This project uses the Raspberry Pi Zero with brushed DC motors for both steering and forward movement.
 ![Car Driving](Images/CarDriving_Trim)
-
+### Hardware
+This is the fritzing diagram of our car! More details to come soon!
+[Frit](LTG-Schematic_bb.png)
 ### Installing the Software
 For instructions on how to connect the raspberry pi to your network and install Raspbian Buster, follow these instructions, 
 [Setup Raspberry PI](https://desertbot.io/blog/headless-pi-zero-w-wifi-setup-windows)
