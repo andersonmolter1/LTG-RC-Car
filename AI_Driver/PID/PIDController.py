@@ -45,13 +45,12 @@ class PIDController:
     def getMotion(self):
         if (self.error > 0):
             tempE = abs(self.error * 63.75)
-            print("here")
-            #self.motorDriver.TurnRight(tempE)
+            self.motorDriver.TurnRight(tempE)
         if (self.error < 0):
             tempE = abs(self.error * 63.75)
-            print("there")
-            #self.motorDriver.TurnLeft(tempE)
-
+            self.motorDriver.TurnLeft(tempE)
+    def StopCar(self):
+        self.motorDriver.Stop()
     def modifyPID(self, newPID):
         newConstants = re.sub("[^\w]", " ",  newPID).split()
         self.J_P = newConstants[1]
@@ -88,30 +87,31 @@ class PIDController:
                 self.motorDriver.Stop()
             elif (LL == noLine and LM == noLine and MM == noLine and RM == noLine and RR == line):
                 self.error = 4
-
+                self.getMotion()
             elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == line):
                 self.error = 3
-
+                self.getMotion()
             elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == noLine):
                 self.error = 2
-
+                self.getMotion()
             elif (LL == noLine and LM == noLine and MM == line and RM == line and RR == noLine):
                 self.error = 1
-
+                self.getMotion()
             elif (LL == noLine and LM == noLine and MM == line and RM == noLine and RR == noLine):
                 self.error = 0
+                self.getMotion()
             elif (LL == noLine and LM == line and MM == line and RM == noLine and RR == noLine):
                 self.error = -1
-
+                self.getMotion()
             elif (LL == noLine and LM == line and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -2
-
+                self.getMotion()
             elif (LL == line and LM == line and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -3
-
+                self.getMotion()
             elif (LL == line and LM == noLine and MM == noLine and RM == noLine and RR == noLine):
                 self.error = -4
-
+                self.getMotion()
             else:
-                continue
-            self.getMotion()
+                self.StopCar()
+            
