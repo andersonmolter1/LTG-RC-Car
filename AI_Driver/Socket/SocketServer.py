@@ -5,14 +5,7 @@ import socket
 import time
 import RPi.GPIO as GPIO
 VERBOSE = False
-IP_PORT = 5000
-P_BUTTON = 24  # adapt to your wiring
-
-
-def setup():
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(P_BUTTON, GPIO.IN, GPIO.PUD_UP)
-
+IP_PORT = 50005
 
 def debug(text):
     if VERBOSE:
@@ -47,20 +40,19 @@ class SocketHandler(Thread):
         isConnected = False
         debug("SocketHandler terminated")
 
-    # def executeCommand(self, cmd):
-    #     debug("Calling executeCommand() with  cmd: " + cmd)
-    #     if cmd[:-1] == "go":  # remove trailing "\0"
-    #         if GPIO.input(P_BUTTON) == GPIO.LOW:
-    #             state = "Button pressed"
-    #         else:
-    #             state = "Button released"
-    #         print("Reporting current state:", state)
-    #         self.conn.sendall(state + "\0")
+    def executeCommand(self, cmd):
+        debug("Calling executeCommand() with  cmd: " + cmd)
+        if cmd[:-1] == "go":  # remove trailing "\0"
+            if GPIO.input(P_BUTTON) == GPIO.LOW:
+                state = "Button pressed"
+            else:
+                state = "Button released"
+            print("Reporting current state:" + str(state))
+            self.conn.sendall(state + "\0")
 # ----------------- End of SocketHandler -----------------------
 
 
 def TCP(car):
-    setup()
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # close port when process exits:
     serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -69,26 +61,32 @@ def TCP(car):
     try:
         serverSocket.bind((HOSTNAME, IP_PORT))
     except socket.error as msg:
-        print("Bind failed", msg[0], msg[1])
+        print("Bind failed" + msg[0] + msg[1])
         sys.exit()
     serverSocket.listen(10)
 
-    print("Waiting for a connecting client...")
+    print ("Waiting for a connecting client...")
     isConnected = False
     while True:
         debug("Calling blocking accept()...")
         conn, addr = serverSocket.accept()
-        print("Connected with client at " + addr[0])
+        print ("Connected with client at " + addr[0])
         isConnected = True
         socketHandler = SocketHandler(conn)
         # necessary to terminate it at program termination:
         socketHandler.setDaemon(True)
         socketHandler.start()
-        print("Server connected")
+        t = 0
         while isConnected:
+            car.isConnected = True
             message = str(car.error)
             car.modifyPID(str(conn.recv(1024)))
-
-            conn.sendall(message.encode('utf-8'))
-            #(conn.recv(1024))
+            print("Server connected at" + str(t) + "s")
+            try:
+                conn.sendall(message.encode('utf-8'))
+            except Exception as e:
+                sys.exit()
+            print(conn.recv(1024))
             time.sleep(.025)
+        car.isConnected, isConnected = False
+

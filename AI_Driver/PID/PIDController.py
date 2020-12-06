@@ -3,12 +3,11 @@ from time import sleep
 import sys
 import socket
 from datetime import datetime
-import MotorControl
 from AutoPhat.AutoPhatMD import AutoPhatMD
 import re
 
-
 class PIDController:
+    isConnected = False
     motorDriver = AutoPhatMD()
     socket = 0
     J_P = 25  # Proportion value
@@ -45,20 +44,24 @@ class PIDController:
     def getMotion(self):
         if (self.error > 0):
             tempE = abs(self.error * 63.75)
-            self.motorDriver.TurnRight(tempE)
+            #self.motorDriver.TurnRight(tempE)
         if (self.error < 0):
             tempE = abs(self.error * 63.75)
-            self.motorDriver.TurnLeft(tempE)
+            #self.motorDriver.TurnLeft(tempE)
+
     def StopCar(self):
         self.motorDriver.Stop()
+
     def modifyPID(self, newPID):
-        newConstants = re.sub("[^\w]", " ",  newPID).split()
-        self.J_P = newConstants[1]
-        self.J_I = newConstants[2]
-        self.J_D = newConstants[3]
-        self.pauseCar = newConstants[4]
-        self.isManual = newConstants[5]
-        #print(newConstants)
+        if newPID == '':
+            print("here")
+            newConstants = re.sub("[^\w]", " ",  newPID).split()
+            self.J_P = newConstants[1]
+            self.J_I = newConstants[2]
+            self.J_D = newConstants[3]
+            self.pauseCar = newConstants[4]
+            self.isManual = newConstants[5]
+        # print(newConstants)
 
     def driveCar(self):
         line = 1  # if no argument given, will default to line being black with a white background
@@ -66,8 +69,7 @@ class PIDController:
         if (len(sys.argv) > 1 and sys.argv[1] == 2):
             line = 0
             noLine = 1
-        while True:
-            sleep(0.0075)
+        while self.isConnected:
             RR = GPIO.input(29)  # Right Right Sensor
             RM = GPIO.input(31)  # Right Middle Sensor
             MM = GPIO.input(33)  # Middle Middle Sensor
@@ -114,4 +116,3 @@ class PIDController:
                 self.getMotion()
             else:
                 self.StopCar()
-            
