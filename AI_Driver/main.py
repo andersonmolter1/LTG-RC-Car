@@ -3,7 +3,7 @@ from _thread import *
 import threading
 import time
 from PID.PIDController import PIDController
-import Socket.SocketServer
+import Socket.Client
 
 
 car = PIDController()
@@ -14,7 +14,7 @@ def drive(thread):
 
 
 def comm(thread):
-    Socket.SocketServer.TCP(car)
+    Socket.Client.TCP(car)
 
 
 if __name__ == "__main__":
@@ -32,6 +32,7 @@ if __name__ == "__main__":
         t1.join()
         # wait until thread 2 is completely executed
         t2.join()
+        print("here")
     except Exception as e:
         print(e + "WWWWWWWWWWWWWWWWWWWWWW")
     # both threads completely executed
