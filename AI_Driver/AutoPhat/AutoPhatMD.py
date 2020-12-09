@@ -8,19 +8,19 @@ import math
 # MOTOR 1 DRIVE
 class AutoPhatMD:
     myMotor = qwiic_scmd.QwiicScmd()
-
     def TurnLeft(self, PID):
+        self.myMotor.enable()
         self.myMotor.set_drive(0, 0, math.floor(PID))
-        self.myMotor.set_drive(1, 0, math.floor(255 - (PID * 63.75)))
+        self.myMotor.set_drive(1, 0, math.floor(200 - (PID * 50)))
     def TurnRight(self, PID):
-        self.myMotor.set_drive(0, 1, math.floor(PID) - 1)
-        self.myMotor.set_drive(1, 0, math.floor(255 - (PID * 63.75)))
+        self.myMotor.enable()
+        self.myMotor.set_drive(0, 1, math.floor(PID))
+        self.myMotor.set_drive(1, 0, math.floor(200 - (PID * 50)))
     def Stop(self):
-        self.myMotor.set_drive(0, 1, 0)
-        self.myMotor.set_drive(1, 0, 0)
+        
     def NoError(self):
-        self.myMotor.set_drive(0, 0, 255)
-        self.myMotor.set_drive(1, 0, 0)
+        self.myMotor.set_drive(0, 0, 0)
+        self.myMotor.set_drive(1, 0, 255)
 
     def __init__(self):
         R_MTR = 0

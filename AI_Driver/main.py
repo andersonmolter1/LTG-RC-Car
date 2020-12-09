@@ -34,6 +34,7 @@ if __name__ == "__main__":
         t2.join()
         print("here")
     except Exception as e:
-        print(e + "WWWWWWWWWWWWWWWWWWWWWW")
+        print(e)
+        sys.exit()
     # both threads completely executed
     print("Done!")
