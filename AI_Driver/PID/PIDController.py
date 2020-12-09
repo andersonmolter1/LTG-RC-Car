@@ -43,14 +43,14 @@ class PIDController:
 
     def getMotion(self):
         if (self.error == -5):
-            self.StopCar()
+            self.motorDriver.Stop()
         if (self.error == 0):
-            self.NoError()
+            self.motorDriver.NoError()
         if (self.error > 0):
-            tempE = abs(self.error * 50)
+            tempE = abs(self.error * 40)
             self.motorDriver.TurnRight(tempE)
         if (self.error < 0):
-            tempE = abs(self.error * 50)
+            tempE = abs(self.error * 40)
             self.motorDriver.TurnLeft(tempE)
 
     def modifyPID(self, newPID):
@@ -121,4 +121,4 @@ class PIDController:
                     self.getMotion()
                 else:
                     self.error = -5
-                    self.StopCar()
+                    self.getMotion()

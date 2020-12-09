@@ -7,21 +7,35 @@ import math
 # MOTOR 0 STEERING
 # MOTOR 1 DRIVE
 class AutoPhatMD:
+    pastError = 0
     myMotor = qwiic_scmd.QwiicScmd()
-    def TurnLeft(self, PID):
-        self.myMotor.enable()
-        self.myMotor.set_drive(0, 0, math.floor(PID))
-        self.myMotor.set_drive(1, 0, math.floor(200 - (PID * 50)))
-    def TurnRight(self, PID):
-        self.myMotor.enable()
-        self.myMotor.set_drive(0, 1, math.floor(PID))
-        self.myMotor.set_drive(1, 0, math.floor(200 - (PID * 50)))
+    def TurnLeft(self, error):
+        if (error > self.pastError):
+            for i in range (self.pastError, error, 25):
+                self.myMotor.set_drive(0, 1, i)
+                self.myMotor.set_drive(1, 0, 255 - i)
+            self.pastError = error
+            return
+        self.myMotor.set_drive(0, 1, error)
+        self.myMotor.set_drive(1, 0, 255 - error)
+        self.pastError = error
+    def TurnRight(self, error):
+        if (error > self.pastError):
+            for i in range (self.pastError, error, 25):
+                self.myMotor.set_drive(0, 1, i)
+                self.myMotor.set_drive(1, 0, 255 - i)
+            self.pastError = error
+            return
+        self.myMotor.set_drive(0, 1, error)
+        self.myMotor.set_drive(1, 0, 255 - error)
+        self.pastError = error
     def Stop(self):
-        
+        self.myMotor.set_drive(0, 0, 0)
+        self.myMotor.set_drive(1, 0, 0)
     def NoError(self):
         self.myMotor.set_drive(0, 0, 0)
-        self.myMotor.set_drive(1, 0, 255)
-
+        for i in range (100, 200, 25):
+                self.myMotor.set_drive(1, 0, i)
     def __init__(self):
         R_MTR = 0
         L_MTR = 1
@@ -34,32 +48,8 @@ class AutoPhatMD:
         self.myMotor.begin()
         print("Motor initialized.")
         time.sleep(.250)
-
         # Zero Motor Speeds
         self.myMotor.set_drive(0, 0, 0)
-        #self.myMotor.set_drive(1, 0, 0)
-
+        self.myMotor.set_drive(1, 0, 0)
         self.myMotor.enable()
         print("Motor enabled")
-        # time.sleep(.250)
-
-        # while True:
-        #     speed = 20
-        #     for speed in range(20, 255):
-        #         print(speed)
-        #         myMotor.set_drive(R_MTR, FWD, speed)
-        #         myMotor.set_drive(L_MTR, BWD, speed)
-        #         time.sleep(.05)
-        #     for speed in range(254, 20, -1):
-        #         print(speed)
-        #         myMotor.set_drive(R_MTR, FWD, speed)
-        #         myMotor.set_drive(L_MTR, BWD, speed)
-        #         time.sleep(.05)
-
-    # if __name__ == '__main__':
-    #     try:
-    #         runExample()
-    #     except (KeyboardInterrupt, SystemExit) as exErr:
-    #         print("Ending example.")
-    #         myMotor.disable()
-    #         sys.exit(0)

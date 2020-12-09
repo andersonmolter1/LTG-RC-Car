@@ -71,16 +71,18 @@ def runExample():
 
     while True:
         speed = 20
-        for speed in range(50, 200):
+        for speed in range(50, 200, 10):
             print(speed)
             myMotor.set_drive(R_MTR, FWD, speed)
             myMotor.set_drive(L_MTR, BWD, speed)
             time.sleep(.05)
-        for speed in range(200, 50, -1):
+        time.sleep(5)
+        for speed in range(200, 50, -5):
             print(speed)
             myMotor.set_drive(R_MTR, FWD, speed)
             myMotor.set_drive(L_MTR, BWD, speed)
             time.sleep(.05)
+        time.sleep(5)
 
 
 if __name__ == '__main__':
