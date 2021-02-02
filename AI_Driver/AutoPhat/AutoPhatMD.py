@@ -29,6 +29,10 @@ class AutoPhatMD:
         self.myMotor.set_drive(0, 0, error)
         self.myMotor.set_drive(1, 0, 200 - error)
         self.pastError = error
+    def DriveForward(self, amount):
+        self.myMotor.set_drive(1, 0, 255)
+    def DriveBackwards(self, amount):
+        self.myMotor.set_drive(1, 1, 255)
     def Stop(self):
         self.myMotor.set_drive(0, 0, 0)
         #self.myMotor.set_drive(1, 0, 0)
@@ -53,3 +57,15 @@ class AutoPhatMD:
         self.myMotor.set_drive(1, 0, 0)
         self.myMotor.enable()
         print("Motor enabled")
+
+car = AutoPhatMD()
+while (True):
+    car.TurnRight(200)
+    car.TurnRight(150)
+    car.TurnRight(100)
+    car.TurnRight(50)
+    car.Stop()
+    car.TurnLeft(50)
+    car.TurnLeft(100)
+    car.TurnLeft(150)
+    car.TurnLeft(200)

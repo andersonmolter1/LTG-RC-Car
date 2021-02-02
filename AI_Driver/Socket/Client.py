@@ -1,9 +1,16 @@
 import socket
 import sys
 import os
+import re
 import time
 import traceback
 def TCP (car):
+
+    # IPList = []
+    # for i in range(0, 100):
+    #     IPList.append('192.168.1.' + str(i))
+    # print(IPList.count)
+    # print(IPList[45])
     # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Connect the socket to the port where the server is listening
@@ -20,11 +27,13 @@ def TCP (car):
     # Send data
     while isConnected:
         try:
-            data = sock.recv(50)
+            data = sock.recv(20)
         except socket.timeout as e:
             print(e)
         message = str(car.error)
-        car.modifyPID(str(data))
+        newConstants = re.sub("[^\w]", " ",  str(data)).split()
+        if (len(newConstants) == 9 and newConstants[1] == 'a') :
+            car.modifyPID(newConstants)
         try:
             sock.sendall(str(car.error).encode('utf-8'))
         except BrokenPipeError as e:
