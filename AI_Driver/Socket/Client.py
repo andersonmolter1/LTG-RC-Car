@@ -33,6 +33,7 @@ def TCP (car):
         message = str(car.error)
         newConstants = re.sub("[^\w]", " ",  str(data)).split()
         if (len(newConstants) == 9 and newConstants[1] == 'a') :
+            print(newConstants)
             car.modifyPID(newConstants)
         try:
             sock.sendall(str(car.error).encode('utf-8'))

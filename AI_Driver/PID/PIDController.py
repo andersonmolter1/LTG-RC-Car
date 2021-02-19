@@ -76,16 +76,21 @@ class PIDController:
             noLine = 1
         while (True):
             if (self.isConnected):
-                print(self.isManual)
-                if (self.isManual == 1):
-                    if (self.steeringM == 0):
-                        self.motorDriver.TurnLeft(255)
-                    else: 
-                        self.motorDriver.TurnRight(255)
-                    if (self.drivingM == 0):
-                        self.motorDriver.DriveFoward(255)
-                    else:
-                        self.motorDriver.DriveBackwards(255)
+                if (self.isManual == '1'):
+                    if (self.steeringM == '2'):
+                        print("left")
+                        self.motorDriver.ManualLeft()
+                    elif (self.steeringM == '1'): 
+                        print("right")
+                        self.motorDriver.ManualRight()
+                    elif (self.steeringM == '0'):
+                        self.motorDriver.ManualSteerStop()
+                    if (self.drivingM == '1'):
+                        self.motorDriver.ManualForward()
+                    elif (self.drivingM == '2'):
+                        self.motorDriver.ManualReverse()
+                    elif (self.drivingM == '0'):
+                        self.motorDriver.ManualDriveStop()
                 else:
                     RR = GPIO.input(29)  # Right Right Sensor
                     RM = GPIO.input(31)  # Right Middle Sensor

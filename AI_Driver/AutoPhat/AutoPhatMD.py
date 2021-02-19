@@ -10,36 +10,48 @@ class AutoPhatMD:
     pastError = 0
     myMotor = qwiic_scmd.QwiicScmd()
     def TurnLeft(self, error):
-        if (error > self.pastError):
-            for i in range (self.pastError, error, 25):
-                self.myMotor.set_drive(0, 1, i)
-                self.myMotor.set_drive(1, 0, 200 - i)
-            self.pastError = error
-            return
+        time.sleep(0.05)
         self.myMotor.set_drive(0, 1, error)
         self.myMotor.set_drive(1, 0, 200 - error)
-        self.pastError = error
+        time.sleep(0.05)
     def TurnRight(self, error):
-        if (error > self.pastError):
-            for i in range (self.pastError, error, 25):
-                self.myMotor.set_drive(0, 0, i)
-                self.myMotor.set_drive(1, 0, 200 - i)
-            self.pastError = error
-            return
         self.myMotor.set_drive(0, 0, error)
         self.myMotor.set_drive(1, 0, 200 - error)
-        self.pastError = error
+        time.sleep(0.05)
     def DriveForward(self, amount):
         self.myMotor.set_drive(1, 0, 255)
+        time.sleep(0.05)
     def DriveBackwards(self, amount):
         self.myMotor.set_drive(1, 1, 255)
+        time.sleep(0.05)
     def Stop(self):
         self.myMotor.set_drive(0, 0, 0)
+        time.sleep(0.05)
         #self.myMotor.set_drive(1, 0, 0)
     def NoError(self):
         self.myMotor.set_drive(0, 0, 0)
+        time.sleep(0.05)
         #for i in range (100, 200, 25):
                 #self.myMotor.set_drive(1, 0, i)
+
+    def ManualLeft(self):
+        self.myMotor.set_drive(0, 1, 150)
+        time.sleep(0.05)
+    def ManualRight(self):
+        self.myMotor.set_drive(0, 0, 150)
+        time.sleep(0.05)
+    def ManualSteerStop(self):
+        self.myMotor.set_drive(0, 1, 0)
+        time.sleep(0.05)
+    def ManualForward(self):
+        self.myMotor.set_drive(1, 1, 150)
+        time.sleep(0.05)
+    def ManualReverse(self):
+        self.myMotor.set_drive(1, 0, 150)
+        time.sleep(0.05)
+    def ManualDriveStop(self):
+        self.myMotor.set_drive(0, 0, 0)
+        time.sleep(0.05)
     def __init__(self):
         R_MTR = 0
         L_MTR = 1
@@ -57,15 +69,3 @@ class AutoPhatMD:
         self.myMotor.set_drive(1, 0, 0)
         self.myMotor.enable()
         print("Motor enabled")
-
-car = AutoPhatMD()
-while (True):
-    car.TurnRight(200)
-    car.TurnRight(150)
-    car.TurnRight(100)
-    car.TurnRight(50)
-    car.Stop()
-    car.TurnLeft(50)
-    car.TurnLeft(100)
-    car.TurnLeft(150)
-    car.TurnLeft(200)
