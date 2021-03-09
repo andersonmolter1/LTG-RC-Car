@@ -14,7 +14,7 @@ def TCP (car):
     # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Connect the socket to the port where the server is listening
-    server_address = ('192.168.1.3', 50005)
+    server_address = (GetServerIP(), 50005)
     try:
         sock.connect(server_address)
     except Exception as e:
@@ -42,4 +42,11 @@ def TCP (car):
             print("closed")
             sock.close()
             os._exit(0)
-    
+
+def GetServerIP():
+    port = 40005
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.bind(("", port))
+    print("waiting on port:"+ str(port))
+    data, addr = s.recvfrom(1024)
+    return addr[0]
