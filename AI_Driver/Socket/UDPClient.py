@@ -1,8 +1,12 @@
 import socket
-port = 40005
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.bind(("", port))
-print("waiting on port:"+ str(port))
-print('here')
-data, addr = s.recvfrom(1024)
-r
+import sys
+
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# Bind the socket to the port
+server_address = ('', 40005)
+sock.bind(server_address)
+print (str(sys.stderr) +  '\nwaiting to receive message')
+data, address = sock.recvfrom(4096)
+print (data + str(address))

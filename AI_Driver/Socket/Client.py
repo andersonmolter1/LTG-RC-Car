@@ -14,7 +14,10 @@ def TCP (car):
     # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Connect the socket to the port where the server is listening
-    server_address = (GetServerIP(), 50005)
+    ip = GetServerIP()
+    print(ip)
+    server_address = (ip, 50005)
+    print("here")
     try:
         sock.connect(server_address)
     except Exception as e:
@@ -44,9 +47,10 @@ def TCP (car):
             os._exit(0)
 
 def GetServerIP():
-    port = 40005
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.bind(("", port))
-    print("waiting on port:"+ str(port))
-    data, addr = s.recvfrom(1024)
-    return addr[0]
+        # Create a TCP/IP socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    # Bind the socket to the port
+    server_address = ('', 40005)
+    sock.bind(server_address)
+    data, address = sock.recvfrom(4096)
+    return address[0]
