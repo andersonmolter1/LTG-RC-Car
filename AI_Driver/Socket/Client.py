@@ -29,18 +29,15 @@ def TCP (car):
     # Send data
     while isConnected:
         try:
-            print("here")
-            data = sock.recv(20)
+            data = sock.recv(6, socket.MSG_WAITALL)
         except socket.timeout as e:
             print(e)
         message = str(car.error)
-        newConstants = re.sub("[^\w]", " ",  str(data)).split()
-        if (len(newConstants) == 9 and newConstants[1] == 'a') :
-            print(newConstants)
-            car.modifyPID(newConstants)
+        car.modifyPID(data)
         try:
-            message = str(car.error) + " " + str(car.speed)
-            sock.sendall(message.encode('utf-8'))
+            rList = [car.error + 10, car.speed]
+            arr = bytearray(rList)
+            sock.sendall(arr)
         except BrokenPipeError as e:
             car.isConnected = False
             print("closed")

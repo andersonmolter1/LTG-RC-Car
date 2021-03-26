@@ -36,17 +36,21 @@ class AutoPhatMD:
 
     def ManualLeft(self):
         self.myMotor.set_drive(0, 1, 150)
+        self.myMotor.set_drive(1, 1, 0)
         time.sleep(0.05)
     def ManualRight(self):
         self.myMotor.set_drive(0, 0, 150)
+        self.myMotor.set_drive(1, 1, 0)
         time.sleep(0.05)
     def ManualSteerStop(self):
         self.myMotor.set_drive(0, 1, 0)
         time.sleep(0.05)
     def ManualForward(self):
+        self.myMotor.set_drive(0, 1, 0)
         self.myMotor.set_drive(1, 1, 150)
         time.sleep(0.05)
     def ManualReverse(self):
+        self.myMotor.set_drive(0, 1, 0)
         self.myMotor.set_drive(1, 0, 150)
         time.sleep(0.05)
     def ManualDriveStop(self):

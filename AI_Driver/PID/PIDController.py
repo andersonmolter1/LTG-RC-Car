@@ -18,6 +18,7 @@ class PIDController:
     J_D = 0  # Derivative Step Value
     error = 0  # amount of error on the line the car is experiencing
     isManual = 0
+    speed = 0
     maxSpeed = 100
     pauseCar = False
     PV = 0  # list of all values errors that the car has experienced
@@ -57,13 +58,13 @@ class PIDController:
             self.motorDriver.TurnLeft(tempE)
 
     def modifyPID(self, newConstants):
-        self.J_P = newConstants[2]
-        self.J_I = newConstants[3]
-        self.J_D = newConstants[4]
-        self.pauseCar = newConstants[5]
-        self.isManual = newConstants[6]
-        self.steeringM = newConstants[7]
-        self.drivingM = newConstants[8]
+        self.J_P = newConstants[0]
+        self.J_I = newConstants[1]
+        self.J_D = newConstants[1]
+        self.pauseCar = newConstants[2]
+        self.isManual = newConstants[3]
+        self.steeringM = newConstants[4]
+        self.drivingM = newConstants[5]
     def DisconnectCar(self):
         self.motorDriver.Stop()
         os._exit(0)

@@ -41,12 +41,12 @@ class ModelController:
             speed = 200 - error
 
     def modifyPID(self, newConstants):
-        self.turningDegree = newConstants[2]
-        self.drivingDegree = newConstants[3]
-        self.pauseCar = newConstants[4]
-        self.isManual = newConstants[5]
-        self.steeringM = newConstants[6]
-        self.drivingM = newConstants[7]
+        self.turningDegree = newConstants[0]
+        self.drivingDegree = newConstants[1]
+        self.pauseCar = newConstants[2]
+        self.isManual = newConstants[3]
+        self.steeringM = newConstants[4]
+        self.drivingM = newConstants[5]
     def DisconnectCar(self):
         self.motorDriver.Stop()
         os._exit(0)
@@ -58,18 +58,22 @@ class ModelController:
             noLine = 1
         while (True):
             if (self.isConnected):
-                if (self.isManual == '1'):
-                    if (self.steeringM == '2'):
+                if (self.isManual == 0):
+                    print(self.steeringM == 2)
+                    if (self.steeringM == 2):
+                        print("left")
                         self.motorDriver.ManualLeft()
-                    elif (self.steeringM == '1'): 
+                    elif (self.steeringM == 1): 
+                        print("right")
                         self.motorDriver.ManualRight()
-                    elif (self.steeringM == '0'):
+                    elif (self.steeringM == 0):
+                        print("right")
                         self.motorDriver.ManualSteerStop()
-                    if (self.drivingM == '1'):
+                    if (self.drivingM == 1):
                         self.motorDriver.ManualForward()
-                    elif (self.drivingM == '2'):
+                    elif (self.drivingM == 2):
                         self.motorDriver.ManualReverse()
-                    elif (self.drivingM == '0'):
+                    elif (self.drivingM == 0):
                         self.motorDriver.ManualDriveStop()
                 else:
                     RR = GPIO.input(29)  # Right Right Sensor
