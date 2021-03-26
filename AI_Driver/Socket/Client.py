@@ -17,7 +17,6 @@ def TCP (car):
     ip = GetServerIP()
     print(ip)
     server_address = (ip, 50005)
-    print("here")
     try:
         sock.connect(server_address)
     except Exception as e:
@@ -30,6 +29,7 @@ def TCP (car):
     # Send data
     while isConnected:
         try:
+            print("here")
             data = sock.recv(20)
         except socket.timeout as e:
             print(e)
@@ -39,7 +39,8 @@ def TCP (car):
             print(newConstants)
             car.modifyPID(newConstants)
         try:
-            sock.sendall(str(car.error).encode('utf-8'))
+            message = str(car.error) + " " + str(car.speed)
+            sock.sendall(message.encode('utf-8'))
         except BrokenPipeError as e:
             car.isConnected = False
             print("closed")
@@ -53,4 +54,5 @@ def GetServerIP():
     server_address = ('', 40005)
     sock.bind(server_address)
     data, address = sock.recvfrom(4096)
+    sock.close()
     return address[0]

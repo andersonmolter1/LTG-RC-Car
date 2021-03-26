@@ -7,11 +7,12 @@ from AutoPhat.AutoPhatMD import AutoPhatMD
 import os
 
 
-class PIDController:
+class ModelController:
     isConnected = False
     motorDriver = AutoPhatMD()
     steeringM = 0
     drivingM = 0
+    speed = 0
     socket = 0
     error = 0  # amount of error on the line the car is experiencing
     isManual = 0
@@ -33,9 +34,11 @@ class PIDController:
         if (turning > 0):
             tempE = abs(self.error * 40)
             self.motorDriver.TurnRight(tempE)
+            speed = 200 - error
         if (turning < 0):
             tempE = abs(self.error * 40)
             self.motorDriver.TurnLeft(tempE)
+            speed = 200 - error
 
     def modifyPID(self, newConstants):
         self.turningDegree = newConstants[2]
