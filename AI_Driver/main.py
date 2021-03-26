@@ -2,19 +2,17 @@ import sys
 from _thread import *
 import threading
 import time
-from PID.PIDController import PIDController
-from PID.ModelController import ModelController
+#from PID.PIDController import PIDController
+#from PID.ModelController import ModelController
 import Socket.Client
 car = []
 # if (sys.argv[1] == 'PID'):
 #     car = PIDController()
-
+#car = ModelController()
 
 def drive(thread):
-    if (sys.argv[1] == 'ML'):
-        print("here")
-        car = ModelController()
-    car.driveCar()
+   print("car")    
+    #car.driveCar()
 
 
 def comm(thread):

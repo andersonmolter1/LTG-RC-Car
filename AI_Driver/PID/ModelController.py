@@ -58,22 +58,18 @@ class ModelController:
             noLine = 1
         while (True):
             if (self.isConnected):
-                if (self.isManual == 0):
-                    print(self.steeringM == 2)
-                    if (self.steeringM == 2):
-                        print("left")
+                if (self.isManual == '1'):
+                    if (self.steeringM == '2'):
                         self.motorDriver.ManualLeft()
-                    elif (self.steeringM == 1): 
-                        print("right")
+                    elif (self.steeringM == '1'): 
                         self.motorDriver.ManualRight()
-                    elif (self.steeringM == 0):
-                        print("right")
+                    elif (self.steeringM == '0'):
                         self.motorDriver.ManualSteerStop()
-                    if (self.drivingM == 1):
+                    if (self.drivingM == '1'):
                         self.motorDriver.ManualForward()
-                    elif (self.drivingM == 2):
+                    elif (self.drivingM == '2'):
                         self.motorDriver.ManualReverse()
-                    elif (self.drivingM == 0):
+                    elif (self.drivingM == '0'):
                         self.motorDriver.ManualDriveStop()
                 else:
                     RR = GPIO.input(29)  # Right Right Sensor

@@ -57,6 +57,7 @@ class AutoPhatMD:
         self.myMotor.set_drive(0, 0, 0)
         time.sleep(0.05)
     def __init__(self):
+        print("here")
         R_MTR = 0
         L_MTR = 1
         FWD = 0
