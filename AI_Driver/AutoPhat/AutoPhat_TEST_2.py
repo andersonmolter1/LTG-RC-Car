@@ -29,19 +29,23 @@ def runExample():
 	print("Motor enabled")
 	time.sleep(.250)
 
-
+	first = True
 	while True:
-		speed = 20
+		speed = 150
+		
 		for speed in range(50,250, 25):
-			print(speed)
-			myMotor.set_drive(R_MTR,FWD,speed)
-			myMotor.set_drive(L_MTR,BWD,speed)
-			time.sleep(.05)
-		for speed in range(250,50, -25):
-			print(speed)
-			myMotor.set_drive(R_MTR,FWD,speed)
-			myMotor.set_drive(L_MTR,BWD,speed)
-			time.sleep(.05)
+			#print(speed)
+			if (first):
+				print("here")
+				myMotor.set_drive(R_MTR,FWD,speed)
+				myMotor.set_drive(L_MTR,BWD,speed)
+				time.sleep(.05)
+				first = False
+		# for speed in range(250,50, -25):
+		# 	print(speed)
+		# 	myMotor.set_drive(R_MTR,FWD,speed)
+		# 	myMotor.set_drive(L_MTR,BWD,speed)
+		# 	time.sleep(.05)
 
 if __name__ == '__main__':
 	try:

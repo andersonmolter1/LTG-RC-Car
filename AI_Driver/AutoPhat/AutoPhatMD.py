@@ -8,6 +8,8 @@ import math
 # MOTOR 1 DRIVE
 class AutoPhatMD:
     pastError = 0
+    prevSteer = 0
+    prevDrive = 0
     myMotor = qwiic_scmd.QwiicScmd()
     def TurnLeft(self, error):
         time.sleep(0.05)
