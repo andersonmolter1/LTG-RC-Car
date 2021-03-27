@@ -2,17 +2,15 @@ import sys
 from _thread import *
 import threading
 import time
-#from PID.PIDController import PIDController
-#from PID.ModelController import ModelController
+from PID.ModelController import ModelController
 import Socket.Client
 car = []
 # if (sys.argv[1] == 'PID'):
 #     car = PIDController()
-#car = ModelController()
+car = ModelController()
 
 def drive(thread):
-   print("car")    
-    #car.driveCar()
+    car.driveCar()
 
 
 def comm(thread):
@@ -29,11 +27,6 @@ if __name__ == "__main__":
         t1.start()
         # starting thread 2
         t2.start()
-
-        # wait until thread 1 is completely executed
-        t1.join()
-        # wait until thread 2 is completely executed
-        t2.join()
         print("here")
     except Exception as e:
         print(e)

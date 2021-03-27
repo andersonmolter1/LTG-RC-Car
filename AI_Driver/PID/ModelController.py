@@ -28,17 +28,17 @@ class ModelController:
     def Speed(self):  # Gets speed proportional to error term
         return (200 - (abs(self.error) * 8))
 
-    def getMotion(self, turning, driving):
+    def getMotion(self):
         if (self.error == -5):
             self.motorDriver.Stop()
-        if (turning > 0):
+        if (self.error == 0):
+            self.motorDriver.NoError()
+        if (self.error > 0):
             tempE = abs(self.error * 40)
             self.motorDriver.TurnRight(tempE)
-            speed = 200 - error
-        if (turning < 0):
+        if (self.error < 0):
             tempE = abs(self.error * 40)
             self.motorDriver.TurnLeft(tempE)
-            speed = 200 - error
 
     def modifyPID(self, newConstants):
         self.turningDegree = newConstants[0]
@@ -58,18 +58,23 @@ class ModelController:
             noLine = 1
         while (True):
             if (self.isConnected):
-                if (self.isManual == '1'):
-                    if (self.steeringM == '2'):
+                if (self.isManual == 1):
+                    if (self.steeringM == 2):
+                        self.motorDriver.myMotor.enable()
                         self.motorDriver.ManualLeft()
-                    elif (self.steeringM == '1'): 
+                    if (self.steeringM == 1): 
+                        self.motorDriver.myMotor.enable()
                         self.motorDriver.ManualRight()
-                    elif (self.steeringM == '0'):
-                        self.motorDriver.ManualSteerStop()
-                    if (self.drivingM == '1'):
+                    if (self.steeringM == 0):
+                        self.motorDriver.myMotor.disable()
+                    if (self.drivingM == 1):
+                        self.motorDriver.myMotor.enable()
                         self.motorDriver.ManualForward()
-                    elif (self.drivingM == '2'):
+                    if (self.drivingM == 2):
+                        self.motorDriver.myMotor.enable()
                         self.motorDriver.ManualReverse()
-                    elif (self.drivingM == '0'):
+                    if (self.drivingM == 0):
+                        self.motorDriver.myMotor.disable()
                         self.motorDriver.ManualDriveStop()
                 else:
                     RR = GPIO.input(29)  # Right Right Sensor

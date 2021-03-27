@@ -28,10 +28,8 @@ def TCP (car):
     print("Connected")
     # Send data
     while isConnected:
-        try:
-            data = sock.recv(6, socket.MSG_WAITALL)
-        except socket.timeout as e:
-            print(e)
+        data = sock.recv(6, socket.MSG_WAITALL)
+        if not data: break
         message = str(car.error)
         car.modifyPID(data)
         try:
@@ -43,7 +41,8 @@ def TCP (car):
             print("closed")
             sock.close()
             os._exit(0)
-
+    print("exit")
+    os._exit(0)
 def GetServerIP():
         # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

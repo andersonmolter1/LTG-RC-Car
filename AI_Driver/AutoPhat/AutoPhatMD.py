@@ -12,17 +12,11 @@ class AutoPhatMD:
     def TurnLeft(self, error):
         time.sleep(0.05)
         self.myMotor.set_drive(0, 1, error)
-        self.myMotor.set_drive(1, 0, 200 - error)
+        #self.myMotor.set_drive(1, 0, 200 - error)
         time.sleep(0.05)
     def TurnRight(self, error):
         self.myMotor.set_drive(0, 0, error)
-        self.myMotor.set_drive(1, 0, 200 - error)
-        time.sleep(0.05)
-    def DriveForward(self, amount):
-        self.myMotor.set_drive(1, 0, 255)
-        time.sleep(0.05)
-    def DriveBackwards(self, amount):
-        self.myMotor.set_drive(1, 1, 255)
+        #self.myMotor.set_drive(1, 0, 200 - error)
         time.sleep(0.05)
     def Stop(self):
         self.myMotor.set_drive(0, 0, 0)
@@ -35,29 +29,24 @@ class AutoPhatMD:
                 #self.myMotor.set_drive(1, 0, i)
 
     def ManualLeft(self):
-        self.myMotor.set_drive(0, 1, 150)
-        self.myMotor.set_drive(1, 1, 0)
+        self.myMotor.set_drive(0, 1, 200)
         time.sleep(0.05)
     def ManualRight(self):
-        self.myMotor.set_drive(0, 0, 150)
-        self.myMotor.set_drive(1, 1, 0)
+        self.myMotor.set_drive(0, 0, 200)
         time.sleep(0.05)
     def ManualSteerStop(self):
         self.myMotor.set_drive(0, 1, 0)
         time.sleep(0.05)
     def ManualForward(self):
-        self.myMotor.set_drive(0, 1, 0)
-        self.myMotor.set_drive(1, 1, 150)
+        self.myMotor.set_drive(1, 1, 200)
         time.sleep(0.05)
     def ManualReverse(self):
-        self.myMotor.set_drive(0, 1, 0)
-        self.myMotor.set_drive(1, 0, 150)
+        self.myMotor.set_drive(1, 0, 200)
         time.sleep(0.05)
     def ManualDriveStop(self):
         self.myMotor.set_drive(0, 0, 0)
         time.sleep(0.05)
     def __init__(self):
-        print("here")
         R_MTR = 0
         L_MTR = 1
         FWD = 0
