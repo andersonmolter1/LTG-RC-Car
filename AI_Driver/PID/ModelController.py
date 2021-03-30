@@ -12,12 +12,13 @@ class ModelController:
     motorDriver = AutoPhatMD()
     steeringM = 0
     drivingM = 0
+    prevSteer = 0
+    prevDrive = 0
     speed = 0
     socket = 0
     error = 0  # amount of error on the line the car is experiencing
     isManual = 0
-    prevSteer = 0
-    prevDrive = 0
+    
     maxSpeed = 100
     pauseCar = False
     GPIO.setmode(GPIO.BOARD)
@@ -31,10 +32,10 @@ class ModelController:
     def modifyPID(self, newConstants):
         self.turningDegree = newConstants[0]
         self.drivingDegree = newConstants[1]
-        self.pauseCar = newConstants[2]
-        self.isManual = newConstants[3]
-        self.steeringM = newConstants[4]
-        self.drivingM = newConstants[5]
+        self.pauseCar = newConstants[5]
+        self.isManual = newConstants[6]
+        self.steeringM = newConstants[7]
+        self.drivingM = newConstants[8]
     def DisconnectCar(self):
         self.motorDriver.Stop()
         os._exit(0)
@@ -49,9 +50,9 @@ class ModelController:
             driving = self.drivingM
             if (self.isConnected):
                 if (self.isManual == 1):
-                    
                     if (self.prevSteer != steering):
                         self.prevSteer = steering
+                        print(steering)
                         if (steering == 2):
                             self.motorDriver.myMotor.enable()
                             self.motorDriver.ManualLeft()
@@ -64,15 +65,15 @@ class ModelController:
                     if (self.prevDrive != driving):
                         self.prevDrive = driving
                         print(driving)
-                        if (driving == 1):
-                            self.motorDriver.myMotor.enable()
-                            self.motorDriver.ManualForward()
-                        elif (driving == 2):
-                            self.motorDriver.myMotor.enable()
+                        if (driving == 2):
+                            #self.motorDriver.myMotor.enable()
                             self.motorDriver.ManualReverse()
+                        elif (driving == 1):
+                            #self.motorDriver.myMotor.enable()
+                            self.motorDriver.ManualForward()
                         elif (driving  == 0):
                             self.motorDriver.ManualDriveStop()
-                            self.motorDriver.myMotor.disable()
+                            #self.motorDriver.myMotor.disable()
                             
                 else:
                     RR = GPIO.input(29)  # Right Right Sensor

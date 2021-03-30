@@ -3,11 +3,13 @@ from _thread import *
 import threading
 import time
 from PID.ModelController import ModelController
+from PID.PIDController import PIDController
 import Socket.Client
 car = []
-# if (sys.argv[1] == 'PID'):
-#     car = PIDController()
-car = ModelController()
+if (sys.argv[1] == 'PID'):
+    car = PIDController()
+else:
+    car = ModelController()
 
 def drive(thread):
     car.driveCar()

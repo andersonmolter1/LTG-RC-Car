@@ -12,6 +12,8 @@ class PIDController:
     motorDriver = AutoPhatMD()
     steeringM = 0
     drivingM = 0
+    prevSteer = 0
+    prevDrive = 0
     socket = 0
     J_P = 25  # Proportion value
     J_I = 0  # Integral Step value
@@ -44,27 +46,30 @@ class PIDController:
 
     def PID(self):  # Returns PID model
         return abs(self.Proportion() - self.Derivative() - self.Integral())
-
     def getMotion(self):
         if (self.error == -5):
             self.motorDriver.Stop()
+            self.motorDriver.myMotor.disable()
         if (self.error == 0):
+            self.motorDriver.myMotor.enable()
             self.motorDriver.NoError()
         if (self.error > 0):
+            self.motorDriver.myMotor.enable()
             tempE = abs(self.error * 40)
             self.motorDriver.TurnRight(tempE)
         if (self.error < 0):
+            self.motorDriver.myMotor.enable()
             tempE = abs(self.error * 40)
             self.motorDriver.TurnLeft(tempE)
 
     def modifyPID(self, newConstants):
-        self.J_P = newConstants[0]
-        self.J_I = newConstants[1]
-        self.J_D = newConstants[1]
-        self.pauseCar = newConstants[2]
-        self.isManual = newConstants[3]
-        self.steeringM = newConstants[4]
-        self.drivingM = newConstants[5]
+        self.J_P = newConstants[2]
+        self.J_I = newConstants[3]
+        self.J_D = newConstants[4]
+        self.pauseCar = newConstants[5]
+        self.isManual = newConstants[6]
+        self.steeringM = newConstants[7]
+        self.drivingM = newConstants[8]
     def DisconnectCar(self):
         self.motorDriver.Stop()
         os._exit(0)
@@ -76,22 +81,34 @@ class PIDController:
             line = 0
             noLine = 1
         while (True):
-            if (self.isConnected):
-                if (self.isManual == '1'):
-                    if (self.steeringM == '2'):
-                        print("left")
-                        self.motorDriver.ManualLeft()
-                    elif (self.steeringM == '1'): 
-                        print("right")
-                        self.motorDriver.ManualRight()
-                    elif (self.steeringM == '0'):
-                        self.motorDriver.ManualSteerStop()
-                    if (self.drivingM == '1'):
-                        self.motorDriver.ManualForward()
-                    elif (self.drivingM == '2'):
-                        self.motorDriver.ManualReverse()
-                    elif (self.drivingM == '0'):
-                        self.motorDriver.ManualDriveStop()
+            if (self.isConnected and self.pauseCar != 1):
+                if (self.isManual == 1):
+                    steering = self.steeringM
+                    driving = self.drivingM
+                    if (self.prevSteer != steering):
+                        self.prevSteer = steering
+                        print(steering)
+                        if (steering == 2):
+                            self.motorDriver.myMotor.enable()
+                            self.motorDriver.ManualLeft()
+                        elif (steering == 1):      
+                            self.motorDriver.myMotor.enable()
+                            self.motorDriver.ManualRight()
+                        elif (steering == 0):
+                            self.motorDriver.ManualSteerStop()
+                            self.motorDriver.myMotor.disable()
+                    if (self.prevDrive != driving):
+                        self.prevDrive = driving
+                        print(driving)
+                        if (driving == 2):
+                            self.motorDriver.myMotor.enable()
+                            self.motorDriver.ManualReverse()
+                        elif (driving == 1):
+                            self.motorDriver.myMotor.enable()
+                            self.motorDriver.ManualForward()
+                        elif (driving  == 0):
+                            self.motorDriver.ManualDriveStop()
+                            self.motorDriver.myMotor.disable()
                 else:
                     RR = GPIO.input(29)  # Right Right Sensor
                     RM = GPIO.input(31)  # Right Middle Sensor

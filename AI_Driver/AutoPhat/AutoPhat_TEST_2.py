@@ -32,15 +32,11 @@ def runExample():
 	first = True
 	while True:
 		speed = 150
-		
 		for speed in range(50,250, 25):
-			#print(speed)
-			if (first):
-				print("here")
-				myMotor.set_drive(R_MTR,FWD,speed)
-				myMotor.set_drive(L_MTR,BWD,speed)
-				time.sleep(.05)
-				first = False
+			myMotor.set_drive(R_MTR,FWD,speed)
+			myMotor.set_drive(L_MTR,BWD,speed)
+			time.sleep(.05)
+			first = False
 		# for speed in range(250,50, -25):
 		# 	print(speed)
 		# 	myMotor.set_drive(R_MTR,FWD,speed)

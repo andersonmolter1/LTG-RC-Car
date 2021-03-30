@@ -7,28 +7,25 @@ import math
 # MOTOR 0 STEERING
 # MOTOR 1 DRIVE
 class AutoPhatMD:
+    TEST= 0
     pastError = 0
     prevSteer = 0
     prevDrive = 0
     myMotor = qwiic_scmd.QwiicScmd()
     def TurnLeft(self, error):
-        time.sleep(0.05)
         self.myMotor.set_drive(0, 1, error)
-        #self.myMotor.set_drive(1, 0, 200 - error)
+        self.myMotor.set_drive(1, 0, 200 - error)
         time.sleep(0.05)
     def TurnRight(self, error):
         self.myMotor.set_drive(0, 0, error)
-        #self.myMotor.set_drive(1, 0, 200 - error)
+        self.myMotor.set_drive(1, 0, 200 - error)
         time.sleep(0.05)
     def Stop(self):
         self.myMotor.set_drive(0, 0, 0)
         time.sleep(0.05)
-        #self.myMotor.set_drive(1, 0, 0)
     def NoError(self):
         self.myMotor.set_drive(0, 0, 0)
         time.sleep(0.05)
-        #for i in range (100, 200, 25):
-                #self.myMotor.set_drive(1, 0, i)
 
     def ManualLeft(self):
         self.myMotor.set_drive(0, 1, 200)
@@ -40,13 +37,21 @@ class AutoPhatMD:
         self.myMotor.set_drive(0, 1, 0)
         time.sleep(0.05)
     def ManualForward(self):
-        self.myMotor.set_drive(1, 1, 200)
-        time.sleep(0.05)
+        # for i in range (50, 150, 1):
+        #     print(i)
+        #     self.myMotor.set_drive(1, 0, i)
+        #     time.sleep(0.01)
+        self.myMotor.set_drive(1, 1, 150)
+
+            
     def ManualReverse(self):
-        self.myMotor.set_drive(1, 0, 200)
-        time.sleep(0.05)
+        # for i in range (50, 150, 1):
+        #     print(i)
+        #     self.myMotor.set_drive(1, 1, i)
+        #     time.sleep(0.01)
+        self.myMotor.set_drive(1, 0, 150)
     def ManualDriveStop(self):
-        self.myMotor.set_drive(0, 0, 0)
+        self.myMotor.set_drive(1, 0, 0)
         time.sleep(0.05)
     def __init__(self):
         R_MTR = 0
