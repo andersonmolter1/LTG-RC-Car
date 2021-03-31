@@ -54,23 +54,23 @@ class ModelController:
                         self.prevSteer = steering
                         print(steering)
                         if (steering == 2):
-                            self.motorDriver.myMotor.enable()
+                            #self.motorDriver.myMotor.enable()
                             self.motorDriver.ManualLeft()
                         elif (steering == 1):      
-                            self.motorDriver.myMotor.enable()
+                            #self.motorDriver.myMotor.enable()
                             self.motorDriver.ManualRight()
                         elif (steering == 0):
                             self.motorDriver.ManualSteerStop()
-                            self.motorDriver.myMotor.disable()
+                           #self.motorDriver.myMotor.disable()
                     if (self.prevDrive != driving):
                         self.prevDrive = driving
                         print(driving)
                         if (driving == 2):
                             #self.motorDriver.myMotor.enable()
-                            self.motorDriver.ManualReverse()
+                            self.motorDriver.ManualForward()
                         elif (driving == 1):
                             #self.motorDriver.myMotor.enable()
-                            self.motorDriver.ManualForward()
+                            self.motorDriver.ManualReverse()
                         elif (driving  == 0):
                             self.motorDriver.ManualDriveStop()
                             #self.motorDriver.myMotor.disable()

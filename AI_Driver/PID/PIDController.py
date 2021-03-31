@@ -46,19 +46,16 @@ class PIDController:
 
     def PID(self):  # Returns PID model
         return abs(self.Proportion() - self.Derivative() - self.Integral())
+        
     def getMotion(self):
         if (self.error == -5):
             self.motorDriver.Stop()
-            self.motorDriver.myMotor.disable()
         if (self.error == 0):
-            self.motorDriver.myMotor.enable()
             self.motorDriver.NoError()
         if (self.error > 0):
-            self.motorDriver.myMotor.enable()
             tempE = abs(self.error * 40)
             self.motorDriver.TurnRight(tempE)
         if (self.error < 0):
-            self.motorDriver.myMotor.enable()
             tempE = abs(self.error * 40)
             self.motorDriver.TurnLeft(tempE)
 
@@ -81,79 +78,62 @@ class PIDController:
             line = 0
             noLine = 1
         while (True):
-            if (self.isConnected and self.pauseCar != 1):
+            steering = self.steeringM
+            driving = self.drivingM
+            RR = GPIO.input(29)  # Right Right Sensor
+            RM = GPIO.input(31)  # Right Middle Sensor
+            MM = GPIO.input(33)  # Middle Middle Sensor
+            LM = GPIO.input(35)  # Left Middle Sensor
+            LL = GPIO.input(37)  # Left Left Sensor
+            # 0 0 0 0 1 ==> Error = 4
+            # 0 0 0 1 1 ==> Error = 3
+            # 0 0 0 1 0 ==> Error = 2
+            # 0 0 1 1 0 ==> Error = 1
+            # 0 0 1 0 0 ==> Error = 0
+            # 0 1 1 0 0 ==> Error = -1
+            # 0 1 0 0 0 ==> Error = -2
+            # 1 1 0 0 0 ==> Error = -3
+            # 1 0 0 0 0 ==> Error = -4
+            
+            if (LL == noLine and LM == noLine and MM == noLine and RM == noLine and RR == line):
+                self.error = 4
+            elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == line):
+                self.error = 3
+            elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == noLine):
+                self.error = 2
+            elif (LL == noLine and LM == noLine and MM == line and RM == line and RR == noLine):
+                self.error = 1
+            elif (LL == noLine and LM == noLine and MM == line and RM == noLine and RR == noLine):
+                self.error = 0
+            elif (LL == noLine and LM == line and MM == line and RM == noLine and RR == noLine):
+                self.error = -1
+            elif (LL == noLine and LM == line and MM == noLine and RM == noLine and RR == noLine):
+                self.error = -2
+            elif (LL == line and LM == line and MM == noLine and RM == noLine and RR == noLine):
+                self.error = -3
+            elif (LL == line and LM == noLine and MM == noLine and RM == noLine and RR == noLine):
+                self.error = -4
+            else:
+                self.error = -5
+            if (self.isConnected):
                 if (self.isManual == 1):
-                    steering = self.steeringM
-                    driving = self.drivingM
                     if (self.prevSteer != steering):
                         self.prevSteer = steering
                         print(steering)
                         if (steering == 2):
-                            self.motorDriver.myMotor.enable()
                             self.motorDriver.ManualLeft()
                         elif (steering == 1):      
-                            self.motorDriver.myMotor.enable()
                             self.motorDriver.ManualRight()
                         elif (steering == 0):
                             self.motorDriver.ManualSteerStop()
-                            self.motorDriver.myMotor.disable()
                     if (self.prevDrive != driving):
                         self.prevDrive = driving
                         print(driving)
                         if (driving == 2):
-                            self.motorDriver.myMotor.enable()
-                            self.motorDriver.ManualReverse()
-                        elif (driving == 1):
-                            self.motorDriver.myMotor.enable()
                             self.motorDriver.ManualForward()
+                        elif (driving == 1):
+                            self.motorDriver.ManualReverse()
                         elif (driving  == 0):
                             self.motorDriver.ManualDriveStop()
-                            self.motorDriver.myMotor.disable()
                 else:
-                    RR = GPIO.input(29)  # Right Right Sensor
-                    RM = GPIO.input(31)  # Right Middle Sensor
-                    MM = GPIO.input(33)  # Middle Middle Sensor
-                    LM = GPIO.input(35)  # Left Middle Sensor
-                    LL = GPIO.input(37)  # Left Left Sensor
-                    # 0 0 0 0 1 ==> Error = 4
-                    # 0 0 0 1 1 ==> Error = 3
-                    # 0 0 0 1 0 ==> Error = 2
-                    # 0 0 1 1 0 ==> Error = 1
-                    # 0 0 1 0 0 ==> Error = 0
-                    # 0 1 1 0 0 ==> Error = -1
-                    # 0 1 0 0 0 ==> Error = -2
-                    # 1 1 0 0 0 ==> Error = -3
-                    # 1 0 0 0 0 ==> Error = -4
-                    if (LL == noLine and LM == noLine and MM == noLine and RM == noLine and RR == noLine):
-                        self.error = -5
-                        self.motorDriver.Stop()
-                    elif (LL == noLine and LM == noLine and MM == noLine and RM == noLine and RR == line):
-                        self.error = 4
-                        self.getMotion()
-                    elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == line):
-                        self.error = 3
-                        self.getMotion()
-                    elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == noLine):
-                        self.error = 2
-                        self.getMotion()
-                    elif (LL == noLine and LM == noLine and MM == line and RM == line and RR == noLine):
-                        self.error = 1
-                        self.getMotion()
-                    elif (LL == noLine and LM == noLine and MM == line and RM == noLine and RR == noLine):
-                        self.error = 0
-                        self.getMotion()
-                    elif (LL == noLine and LM == line and MM == line and RM == noLine and RR == noLine):
-                        self.error = -1
-                        self.getMotion()
-                    elif (LL == noLine and LM == line and MM == noLine and RM == noLine and RR == noLine):
-                        self.error = -2
-                        self.getMotion()
-                    elif (LL == line and LM == line and MM == noLine and RM == noLine and RR == noLine):
-                        self.error = -3
-                        self.getMotion()
-                    elif (LL == line and LM == noLine and MM == noLine and RM == noLine and RR == noLine):
-                        self.error = -4
-                        self.getMotion()
-                    else:
-                        self.error = -5
-                        self.getMotion()
+                    self.getMotion()    
