@@ -28,9 +28,9 @@ def TCP (car):
     print("Connected")
     # Send data
     while isConnected:
-        data = sock.recv(9, socket.MSG_WAITALL)
+        data = sock.recv(11, socket.MSG_WAITALL)
+        print(data)
         if not data: break
-        message = str(car.error)
         car.modifyPID(data)
         try:
             rList = [car.error + 10, car.speed]
