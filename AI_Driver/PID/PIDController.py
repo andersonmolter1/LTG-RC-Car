@@ -22,6 +22,7 @@ class PIDController:
     isManual = 0
     speed = 0
     maxSpeed = 100
+    speed = 0
     pauseCar = False
     PV = 0  # list of all values errors that the car has experienced
     prevError = 0  # error of last calculation used for Derivative calc
@@ -31,7 +32,7 @@ class PIDController:
     GPIO.setup(33, GPIO.IN)  # MM IR Sensor
     GPIO.setup(35, GPIO.IN)  # LM IR Sensor
     GPIO.setup(37, GPIO.IN)  # LL IR Sensor
-
+    
     def Speed(self):  # Gets speed proportional to error term
         return (200 - (abs(self.error) * 8))
 
@@ -49,14 +50,21 @@ class PIDController:
         
     def getMotion(self):
         if (self.error == -5):
+            if (speed != 0):
+                speed = speed - 50
+            else:
+                speed = 0
             self.motorDriver.Stop()
         if (self.error == 0):
+            speed = 200
             self.motorDriver.NoError()
         if (self.error > 0):
             tempE = abs(self.error * 40)
+            speed = tempE
             self.motorDriver.TurnRight(tempE)
         if (self.error < 0):
             tempE = abs(self.error * 40)
+            speed = tempE
             self.motorDriver.TurnLeft(tempE)
 
     def modifyPID(self, newConstants):
