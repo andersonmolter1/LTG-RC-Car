@@ -5,12 +5,16 @@ import socket
 from datetime import datetime
 from AutoPhat.AutoPhatMD import AutoPhatMD
 import os
-
+import sys
+from _thread import *
+import threading
+import time
 
 class PIDController:
     isConnected = False
     motorDriver = AutoPhatMD()
     steeringM = 0
+    lineColor = 0
     drivingM = 0
     prevSteer = 0
     prevDrive = 0
@@ -50,16 +54,17 @@ class PIDController:
     def getMotion(self):
         if (self.error == -5):
             self.motorDriver.Stop()
-        if (self.error == 0):
+        elif (self.error == 0):
             self.motorDriver.NoError()
-        if (self.error > 0):
+        elif (self.error < 0):
             tempE = abs(self.error * 40)
             self.motorDriver.TurnRight(tempE)
-        if (self.error < 0):
+        elif (self.error > 0):
             tempE = abs(self.error * 40)
             self.motorDriver.TurnLeft(tempE)
 
     def modifyPID(self, newConstants):
+        
         self.J_P = newConstants[2]
         self.J_I = newConstants[3]
         self.J_D = newConstants[4]
@@ -67,16 +72,20 @@ class PIDController:
         self.isManual = newConstants[6]
         self.steeringM = newConstants[7]
         self.drivingM = newConstants[8]
+        self.maxSpeed = newConstants[9]
+        self.lineColor = newConstants[10]
     def DisconnectCar(self):
         self.motorDriver.Stop()
         os._exit(0)
         
     def driveCar(self):
-        line = 1  # if no argument given, will default to line being black with a white background
-        noLine = 0
-        if (len(sys.argv) > 1 and sys.argv[1] == 2):
+        
+        if (self.lineColor == 0):
             line = 0
             noLine = 1
+        else:
+            line = 1  # if no argument given, will default to line being black with a white background
+            noLine = 0
         while (True):
             steering = self.steeringM
             driving = self.drivingM
@@ -94,7 +103,8 @@ class PIDController:
             # 0 1 0 0 0 ==> Error = -2
             # 1 1 0 0 0 ==> Error = -3
             # 1 0 0 0 0 ==> Error = -4
-            
+           
+            self.prevError = self.error
             if (LL == noLine and LM == noLine and MM == noLine and RM == noLine and RR == line):
                 self.error = 4
             elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == line):
@@ -115,6 +125,8 @@ class PIDController:
                 self.error = -4
             else:
                 self.error = -5
+            #print(str(LL) + " " + str(LM) + " " + str(MM) + " " + str(RM) + " " + str(RR) + " " + str(self.error))
+             
             if (self.isConnected):
                 if (self.isManual == 1):
                     if (self.prevSteer != steering):
@@ -136,4 +148,5 @@ class PIDController:
                         elif (driving  == 0):
                             self.motorDriver.ManualDriveStop()
                 else:
-                    self.getMotion()    
+                    self.getMotion()   
+                    

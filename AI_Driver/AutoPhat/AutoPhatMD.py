@@ -13,18 +13,19 @@ class AutoPhatMD:
     prevDrive = 0
     myMotor = qwiic_scmd.QwiicScmd()
     def TurnLeft(self, error):
+        self.myMotor.enable()
         self.myMotor.set_drive(0, 1, error)
-        self.myMotor.set_drive(1, 0, 200 - error)
-        time.sleep(0.05)
+        self.myMotor.set_drive(1, 1, abs(100 - error))
     def TurnRight(self, error):
+        self.myMotor.enable()
         self.myMotor.set_drive(0, 0, error)
-        self.myMotor.set_drive(1, 0, 200 - error)
-        time.sleep(0.05)
+        self.myMotor.set_drive(1, 1, abs(100 - error))
     def Stop(self):
-        self.myMotor.set_drive(0, 0, 0)
-        time.sleep(0.05)
+        self.myMotor.disable()
     def NoError(self):
+        self.myMotor.enable()
         self.myMotor.set_drive(0, 0, 0)
+        self.myMotor.set_drive(1, 1, 150)
         time.sleep(0.05)
 
     def ManualLeft(self):
