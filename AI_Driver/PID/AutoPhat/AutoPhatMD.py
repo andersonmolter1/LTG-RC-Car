@@ -20,11 +20,13 @@ class AutoPhatMD:
         if (steer < 0):
             self.myMotor.set_drive(0, 0, abs(steer))
         else:
+            print(steer)
             self.myMotor.set_drive(0, 1, abs(steer))
     def Drive(self, speed):
+        if (speed > 200):
+            speed = 2
         if (speed > 25):
-            for i in range (speed - 25, speed, 1):
-                print(i)
+            for i in range (speed - 15, speed, 1):
                 self.myMotor.set_drive(1, 1, i)
                 time.sleep(0.01)
         else:
@@ -35,7 +37,6 @@ class AutoPhatMD:
         self.myMotor.set_drive(1,1,150)
     def Stop(self):
         self.myMotor.set_drive(0, 0, 0)
-        time.sleep(0.05)
         self.myMotor.set_drive(1, 0, 0)
         time.sleep(0.05)
     def ManualLeft(self):

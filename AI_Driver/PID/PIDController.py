@@ -1,5 +1,3 @@
-
-
 import RPi.GPIO as GPIO
 from time import sleep
 import sys
@@ -20,16 +18,16 @@ class PIDController:
     maxSpeed = 100
     carStopped = True
     lineColor = 0
-    J_P = 25  # Proportion value
-    J_I = 1  # Integral Step value
-    J_D = 1  # Derivative Step Value
+    J_P = 40  # Proportion value
+    J_I = 0  # Integral Step value
+    J_D = 15  # Derivative Step Value
     error = 0  # amount of error on the line the car is experiencing
     isManual = 0
     speed = 0
-    maxSpeed = 100
+    maxSpeed = 200
     speed = 0
     pauseCar = False
-    PV = []  # list of all values errors that the car has experienced
+    PV = 0  # list of all values errors that the car has experienced
     prevError = 0  # error of last calculation used for Derivative calc
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(29, GPIO.IN)  # RR IR Sensor
@@ -39,10 +37,12 @@ class PIDController:
     GPIO.setup(37, GPIO.IN)  # LL IR Sensor
     
     def Speed(self):  # Gets speed proportional to error term
-        return int(160 - abs(self.error * self.maxSpeed/4))
+        print(abs(self.error * self.maxSpeed/4))
+        return int( 100)
+
 
     def Proportion(self):  # Calculates P of PID multiplied by the its constant
-        return (self.error * self.J_P * 10)
+        return (self.error * self.J_P)
 
     def Integral(self):  # Calculates I of PID multiplied by the its constant
         return (self.PV * self.J_I)
@@ -51,7 +51,7 @@ class PIDController:
         return ((self.error - self.prevError) * self.J_D)
 
     def PID(self):  # Returns PID model
-        return (self.Proportion() - self.Derivative() - self.Integral())
+        return (self.Proportion() - self.Derivative())
         
     
     def modifyPID(self, newConstants):
@@ -69,7 +69,8 @@ class PIDController:
         os._exit(0)
     def getError(self):
         self.lineColor = 1
-        self.prevError = self.error
+        if (self.error != -5):
+            self.prevError = self.error
         if (self.lineColor == 0):
             line = 0
             noLine = 1
@@ -112,15 +113,15 @@ class PIDController:
             self.error = -4
         else:
             self.error = -5
-        PV = PV + self.error
+        if (self.error == -5):
+            self.PV = self.PV + self.error
         return self.error
         print(str(LL) + " " + str(LM) + " " + str(MM) + " " + str(RM) + " " + str(RR))
 
-
     def driveCar(self, motor):
-        while(self.isConnected):
+        while(True):
             if (motor == 0):
-                self.error = self.getError(motor)
+                self.error = self.getError()
             if (self.isManual == 1):
                 if (self.prevSteer != steering and motor == 0):
                     self.prevSteer = steering
@@ -146,14 +147,15 @@ class PIDController:
                             self.speed = self.speed - 50
                         else:
                             self.speed = 0
+                        print("here")
                         self.motorDriver.Stop()
-                        return
-                    if (motor == 0):
+                    elif (motor == 0):
                         self.motorDriver.Turn(self.PID())
                     else:
                         self.motorDriver.Drive(self.Speed())  
-def StartCar():
 
+car = PIDController()
+if __name__ == "__main__":
     try:
         # creating thread
         t1 = threading.Thread(target=car.driveCar, args=(0,))
