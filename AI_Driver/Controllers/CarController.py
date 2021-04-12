@@ -16,7 +16,7 @@ class CarController:
     prevSteer = 0
     prevDrive = 0
     socket = 0
-    maxSpeed = 150
+    maxSpeed = 125
     carStopped = True
     lineColor = 0
     J_P = 43 # Proportion value
@@ -37,7 +37,7 @@ class CarController:
     GPIO.setup(37, GPIO.IN)  # LL IR Sensor
     
     def Speed(self):  # Gets speed proportional to error term
-        speed = int(abs(self.error) *self.maxSpeed /4) + 75
+        speed = int(abs(self.error) *self.maxSpeed /4) + 50
         if (speed > self.maxSpeed):
             return self.maxSpeed
         return speed
@@ -68,7 +68,7 @@ class CarController:
         self.steeringM = newConstants[7]
         self.drivingM = newConstants[8]
         self.lineColor = newConstants[9]
-        #self.maxSpeed = newConstants[10]
+        self.maxSpeed = newConstants[10]
     def DisconnectCar(self):
         self.motorDriver.Stop()
         os._exit(0)
@@ -138,6 +138,7 @@ class CarController:
                         elif (motor == 0):
                             self.motorDriver.Turn(self.PID())
                         else:
+                            print(self.Speed())
                             self.motorDriver.Drive(self.Speed())
                 elif (self.controlType == 1):
                     if (self.prevSteer != self.steeringM and motor == 0):
@@ -156,22 +157,22 @@ class CarController:
                             self.motorDriver.ManualReverse()
                         elif (self.drivingM  == 0):
                             self.motorDriver.ManualDriveStop()
-                elif (self.controlType == 2):
-                    if (self.prevError != self.error):
-                        self.prevError = self.error
-                        if (self.error == -5):
-                            if (self.speed != 0):
-                                self.speed = self.speed - 50
-                            else:
-                                self.speed = 0
-                            self.motorDriver.Stop()
-                        elif (motor == 0):
-                            if (self.turningDegree > 0):
-                                self.motorDriver.Turn(self.turningDegree * 100 + 100)
-                            else:
-                                self.motorDriver.Turn(self.turningDegree * 100 + -100)
-                        else:
-                            self.motorDriver.Drive(self.drivingDegree * 8)
+                # elif (self.controlType == 2):
+                #     if (self.prevError != self.error):
+                #         self.prevError = self.error
+                #         if (self.error == -5):
+                #             if (self.speed != 0):
+                #                 self.speed = self.speed - 50
+                #             else:
+                #                 self.speed = 0
+                #             self.motorDriver.Stop()
+                #         elif (motor == 0):
+                #             if (self.turningDegree > 0):
+                #                 self.motorDriver.Turn(self.turningDegree * 100 + 100)
+                #             else:
+                #                 self.motorDriver.Turn(self.turningDegree * 100 + -100)
+                #         else:
+                #             self.motorDriver.Drive(self.drivingDegree * 8)
                     
     def StartCar(self):
         try:
