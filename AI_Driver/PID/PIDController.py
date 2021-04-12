@@ -148,18 +148,16 @@ class PIDController:
                         self.motorDriver.Turn(self.PID())
                     else:
                         self.motorDriver.Drive(self.Speed())  
+    def StartCar(car):
+        try:
+            # creating thread
+            t1 = threading.Thread(target=driveCar, args=(0,))
+            t2 = threading.Thread(target=driveCar, args=(1,))
 
-car = PIDController()
-if __name__ == "__main__":
-    try:
-        # creating thread
-        t1 = threading.Thread(target=car.driveCar, args=(0,))
-        t2 = threading.Thread(target=car.driveCar, args=(1,))
-
-        # starting thread 1
-        t1.start()
-        # starting thread 2
-        t2.start()
-    except Exception as e:
-        print(e)
-        sys.exit()
+            # starting thread 1
+            t1.start()
+            # starting thread 2
+            t2.start()
+        except Exception as e:
+            print(e)
+            sys.exit()
