@@ -20,13 +20,13 @@ class AutoPhatMD:
         if (steer < 0):
             self.myMotor.set_drive(0, 0, abs(steer))
         else:
-            print(steer)
             self.myMotor.set_drive(0, 1, abs(steer))
     def Drive(self, speed):
-        if (speed > 200):
-            speed = 2
-        if (speed > 25):
-            for i in range (speed - 15, speed, 1):
+        print(speed)
+        if (speed > 175):
+            speed = 175
+        if (speed > 30):
+            for i in range (speed - 7, speed, 1):
                 self.myMotor.set_drive(1, 1, i)
                 time.sleep(0.01)
         else:

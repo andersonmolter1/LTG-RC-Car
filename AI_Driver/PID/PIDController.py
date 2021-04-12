@@ -15,16 +15,15 @@ class PIDController:
     prevSteer = 0
     prevDrive = 0
     socket = 0
-    maxSpeed = 100
+    maxSpeed = 150
     carStopped = True
     lineColor = 0
-    J_P = 40  # Proportion value
+    J_P = 43 # Proportion value
     J_I = 0  # Integral Step value
-    J_D = 15  # Derivative Step Value
+    J_D = 13  # Derivative Step Value
     error = 0  # amount of error on the line the car is experiencing
     isManual = 0
     speed = 0
-    maxSpeed = 200
     speed = 0
     pauseCar = False
     PV = 0  # list of all values errors that the car has experienced
@@ -37,10 +36,7 @@ class PIDController:
     GPIO.setup(37, GPIO.IN)  # LL IR Sensor
     
     def Speed(self):  # Gets speed proportional to error term
-        print(abs(self.error * self.maxSpeed/4))
-        return int( 100)
-
-
+        return int(abs(self.PID()) *.5) + 79
     def Proportion(self):  # Calculates P of PID multiplied by the its constant
         return (self.error * self.J_P)
 
@@ -147,7 +143,6 @@ class PIDController:
                             self.speed = self.speed - 50
                         else:
                             self.speed = 0
-                        print("here")
                         self.motorDriver.Stop()
                     elif (motor == 0):
                         self.motorDriver.Turn(self.PID())
