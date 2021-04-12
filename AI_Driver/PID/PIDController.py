@@ -36,7 +36,10 @@ class PIDController:
     GPIO.setup(37, GPIO.IN)  # LL IR Sensor
     
     def Speed(self):  # Gets speed proportional to error term
-        return int(abs(self.PID()) *.5) + 79
+        speed = int(abs(self.PID()) *.5) + 79
+        if (speed > self.maxSpeed):
+            return self.maxSpeed
+        return speed
     def Proportion(self):  # Calculates P of PID multiplied by the its constant
         return (self.error * self.J_P)
 
@@ -64,7 +67,6 @@ class PIDController:
         self.motorDriver.Stop()
         os._exit(0)
     def getError(self):
-        self.lineColor = 1
         if (self.error != -5):
             self.prevError = self.error
         if (self.lineColor == 0):
@@ -73,8 +75,7 @@ class PIDController:
         else:
             line = 1
             noLine = 0
-        steering = self.steeringM
-        driving = self.drivingM
+        
         RR = GPIO.input(29)  # Right Right Sensor
         RM = GPIO.input(31)  # Right Middle Sensor
         MM = GPIO.input(33)  # Middle Middle Sensor
@@ -111,48 +112,52 @@ class PIDController:
             self.error = -5
         if (self.error == -5):
             self.PV = self.PV + self.error
+        #print(str(LL) + " " + str(LM) + " " + str(MM) + " " + str(RM) + " " + str(RR))
         return self.error
-        print(str(LL) + " " + str(LM) + " " + str(MM) + " " + str(RM) + " " + str(RR))
+        
 
     def driveCar(self, motor):
-        while(True):
-            if (motor == 0):
-                self.error = self.getError()
-            if (self.isManual == 1):
-                if (self.prevSteer != steering and motor == 0):
-                    self.prevSteer = steering
-                    if (steering == 2):
-                        self.motorDriver.ManualLeft()
-                    elif (steering == 1):      
-                        self.motorDriver.ManualRight()
-                    elif (steering == 0):
-                        self.motorDriver.ManualSteerStop()
-                elif (self.prevDrive != driving and motor == 0):
-                    self.prevDrive = driving
-                    if (driving == 2):
-                        self.motorDriver.ManualForward()
-                    elif (driving == 1):
-                        self.motorDriver.ManualReverse()
-                    elif (driving  == 0):
-                        self.motorDriver.ManualDriveStop()
-            else:
-                if (self.prevError != self.error):
-                    self.prevError = self.error
-                    if (self.error == -5):
-                        if (self.speed != 0):
-                            self.speed = self.speed - 50
+        while (True):
+            if (self.isConnected):
+                if (motor == 0):
+                    self.error = self.getError()
+                if (self.isManual == 1):
+                    steering = self.steeringM
+                    driving = self.drivingM
+                    if (self.prevSteer != steering and motor == 0):
+                        self.prevSteer = steering
+                        if (steering == 2):
+                            self.motorDriver.ManualLeft()
+                        elif (steering == 1):      
+                            self.motorDriver.ManualRight()
+                        elif (steering == 0):
+                            self.motorDriver.ManualSteerStop()
+                    elif (self.prevDrive != driving and motor == 0):
+                        self.prevDrive = driving
+                        if (driving == 2):
+                            self.motorDriver.ManualForward()
+                        elif (driving == 1):
+                            self.motorDriver.ManualReverse()
+                        elif (driving  == 0):
+                            self.motorDriver.ManualDriveStop()
+                else:
+                   if (self.prevError != self.error):
+                        self.prevError = self.error
+                        if (self.error == -5):
+                            if (self.speed != 0):
+                                self.speed = self.speed - 50
+                            else:
+                                self.speed = 0
+                            self.motorDriver.Stop()
+                        elif (motor == 0):
+                            self.motorDriver.Turn(self.PID())
                         else:
-                            self.speed = 0
-                        self.motorDriver.Stop()
-                    elif (motor == 0):
-                        self.motorDriver.Turn(self.PID())
-                    else:
-                        self.motorDriver.Drive(self.Speed())  
-    def StartCar(car):
+                            self.motorDriver.Drive(self.Speed())  
+    def StartCar(self):
         try:
             # creating thread
-            t1 = threading.Thread(target=driveCar, args=(0,))
-            t2 = threading.Thread(target=driveCar, args=(1,))
+            t1 = threading.Thread(target=self.driveCar, args=(0,))
+            t2 = threading.Thread(target=self.driveCar, args=(1,))
 
             # starting thread 1
             t1.start()
