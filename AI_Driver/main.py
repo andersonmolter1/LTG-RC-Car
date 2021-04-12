@@ -2,17 +2,14 @@ import sys
 from _thread import *
 import threading
 import time
-from PID.ModelController import ModelController
 from PID.PIDController import PIDController
 import Socket.Client
-car = []
-if (sys.argv[1] == 'PID'):
-    car = PIDController()
-else:
-    car = ModelController()
+
+car = PIDController()
+
 
 def drive(thread):
-    car.driveCar()
+    car.StartCar()
 
 
 def comm(thread):
@@ -29,9 +26,6 @@ if __name__ == "__main__":
         t1.start()
         # starting thread 2
         t2.start()
-        print("here")
     except Exception as e:
         print(e)
         sys.exit()
-    # both threads completely executed
-    print("Done!")

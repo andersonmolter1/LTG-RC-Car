@@ -1,3 +1,5 @@
+
+
 import RPi.GPIO as GPIO
 from time import sleep
 import sys
@@ -5,7 +7,7 @@ import socket
 from datetime import datetime
 from AutoPhat.AutoPhatMD import AutoPhatMD
 import os
-
+import threading
 
 class PIDController:
     isConnected = False
@@ -15,16 +17,19 @@ class PIDController:
     prevSteer = 0
     prevDrive = 0
     socket = 0
+    maxSpeed = 100
+    carStopped = True
+    lineColor = 0
     J_P = 25  # Proportion value
-    J_I = 0  # Integral Step value
-    J_D = 0  # Derivative Step Value
+    J_I = 1  # Integral Step value
+    J_D = 1  # Derivative Step Value
     error = 0  # amount of error on the line the car is experiencing
     isManual = 0
     speed = 0
     maxSpeed = 100
     speed = 0
     pauseCar = False
-    PV = 0  # list of all values errors that the car has experienced
+    PV = []  # list of all values errors that the car has experienced
     prevError = 0  # error of last calculation used for Derivative calc
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(29, GPIO.IN)  # RR IR Sensor
@@ -34,10 +39,10 @@ class PIDController:
     GPIO.setup(37, GPIO.IN)  # LL IR Sensor
     
     def Speed(self):  # Gets speed proportional to error term
-        return (200 - (abs(self.error) * 8))
+        return int(160 - abs(self.error * self.maxSpeed/4))
 
     def Proportion(self):  # Calculates P of PID multiplied by the its constant
-        return (self.error * self.J_P)
+        return (self.error * self.J_P * 10)
 
     def Integral(self):  # Calculates I of PID multiplied by the its constant
         return (self.PV * self.J_I)
@@ -46,27 +51,9 @@ class PIDController:
         return ((self.error - self.prevError) * self.J_D)
 
     def PID(self):  # Returns PID model
-        return abs(self.Proportion() - self.Derivative() - self.Integral())
+        return (self.Proportion() - self.Derivative() - self.Integral())
         
-    def getMotion(self):
-        if (self.error == -5):
-            if (speed != 0):
-                speed = speed - 50
-            else:
-                speed = 0
-            self.motorDriver.Stop()
-        if (self.error == 0):
-            speed = 200
-            self.motorDriver.NoError()
-        if (self.error > 0):
-            tempE = abs(self.error * 40)
-            speed = tempE
-            self.motorDriver.TurnRight(tempE)
-        if (self.error < 0):
-            tempE = abs(self.error * 40)
-            speed = tempE
-            self.motorDriver.TurnLeft(tempE)
-
+    
     def modifyPID(self, newConstants):
         self.J_P = newConstants[2]
         self.J_I = newConstants[3]
@@ -75,73 +62,107 @@ class PIDController:
         self.isManual = newConstants[6]
         self.steeringM = newConstants[7]
         self.drivingM = newConstants[8]
+        self.lineColor = newConstants[9]
+        self.maxSpeed = newConstants[10]
     def DisconnectCar(self):
         self.motorDriver.Stop()
         os._exit(0)
-        
-    def driveCar(self):
-        line = 1  # if no argument given, will default to line being black with a white background
-        noLine = 0
-        if (len(sys.argv) > 1 and sys.argv[1] == 2):
+    def getError(self):
+        self.lineColor = 1
+        self.prevError = self.error
+        if (self.lineColor == 0):
             line = 0
             noLine = 1
-        while (True):
-            steering = self.steeringM
-            driving = self.drivingM
-            RR = GPIO.input(29)  # Right Right Sensor
-            RM = GPIO.input(31)  # Right Middle Sensor
-            MM = GPIO.input(33)  # Middle Middle Sensor
-            LM = GPIO.input(35)  # Left Middle Sensor
-            LL = GPIO.input(37)  # Left Left Sensor
-            # 0 0 0 0 1 ==> Error = 4
-            # 0 0 0 1 1 ==> Error = 3
-            # 0 0 0 1 0 ==> Error = 2
-            # 0 0 1 1 0 ==> Error = 1
-            # 0 0 1 0 0 ==> Error = 0
-            # 0 1 1 0 0 ==> Error = -1
-            # 0 1 0 0 0 ==> Error = -2
-            # 1 1 0 0 0 ==> Error = -3
-            # 1 0 0 0 0 ==> Error = -4
-            
-            if (LL == noLine and LM == noLine and MM == noLine and RM == noLine and RR == line):
-                self.error = 4
-            elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == line):
-                self.error = 3
-            elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == noLine):
-                self.error = 2
-            elif (LL == noLine and LM == noLine and MM == line and RM == line and RR == noLine):
-                self.error = 1
-            elif (LL == noLine and LM == noLine and MM == line and RM == noLine and RR == noLine):
-                self.error = 0
-            elif (LL == noLine and LM == line and MM == line and RM == noLine and RR == noLine):
-                self.error = -1
-            elif (LL == noLine and LM == line and MM == noLine and RM == noLine and RR == noLine):
-                self.error = -2
-            elif (LL == line and LM == line and MM == noLine and RM == noLine and RR == noLine):
-                self.error = -3
-            elif (LL == line and LM == noLine and MM == noLine and RM == noLine and RR == noLine):
-                self.error = -4
+        else:
+            line = 1
+            noLine = 0
+        steering = self.steeringM
+        driving = self.drivingM
+        RR = GPIO.input(29)  # Right Right Sensor
+        RM = GPIO.input(31)  # Right Middle Sensor
+        MM = GPIO.input(33)  # Middle Middle Sensor
+        LM = GPIO.input(35)  # Left Middle Sensor
+        LL = GPIO.input(37)  # Left Left Sensor
+        # 0 0 0 0 1 ==> Error = 4
+        # 0 0 0 1 1 ==> Error = 3
+        # 0 0 0 1 0 ==> Error = 2
+        # 0 0 1 1 0 ==> Error = 1
+        # 0 0 1 0 0 ==> Error = 0
+        # 0 1 1 0 0 ==> Error = -1
+        # 0 1 0 0 0 ==> Error = -2
+        # 1 1 0 0 0 ==> Error = -3
+        # 1 0 0 0 0 ==> Error = -4
+        if (LL == noLine and LM == noLine and MM == noLine and RM == noLine and RR == line):
+            self.error = 4
+        elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == line):
+            self.error = 3
+        elif (LL == noLine and LM == noLine and MM == noLine and RM == line and RR == noLine):
+            self.error = 2
+        elif (LL == noLine and LM == noLine and MM == line and RM == line and RR == noLine):
+            self.error = 1
+        elif (LL == noLine and LM == noLine and MM == line and RM == noLine and RR == noLine):
+            self.error = 0
+        elif (LL == noLine and LM == line and MM == line and RM == noLine and RR == noLine):
+            self.error = -1
+        elif (LL == noLine and LM == line and MM == noLine and RM == noLine and RR == noLine):
+            self.error = -2
+        elif (LL == line and LM == line and MM == noLine and RM == noLine and RR == noLine):
+            self.error = -3
+        elif (LL == line and LM == noLine and MM == noLine and RM == noLine and RR == noLine):
+            self.error = -4
+        else:
+            self.error = -5
+        PV = PV + self.error
+        return self.error
+        print(str(LL) + " " + str(LM) + " " + str(MM) + " " + str(RM) + " " + str(RR))
+
+
+    def driveCar(self, motor):
+        while(self.isConnected):
+            if (motor == 0):
+                self.error = self.getError(motor)
+            if (self.isManual == 1):
+                if (self.prevSteer != steering and motor == 0):
+                    self.prevSteer = steering
+                    if (steering == 2):
+                        self.motorDriver.ManualLeft()
+                    elif (steering == 1):      
+                        self.motorDriver.ManualRight()
+                    elif (steering == 0):
+                        self.motorDriver.ManualSteerStop()
+                elif (self.prevDrive != driving and motor == 0):
+                    self.prevDrive = driving
+                    if (driving == 2):
+                        self.motorDriver.ManualForward()
+                    elif (driving == 1):
+                        self.motorDriver.ManualReverse()
+                    elif (driving  == 0):
+                        self.motorDriver.ManualDriveStop()
             else:
-                self.error = -5
-            if (self.isConnected):
-                if (self.isManual == 1):
-                    if (self.prevSteer != steering):
-                        self.prevSteer = steering
-                        print(steering)
-                        if (steering == 2):
-                            self.motorDriver.ManualLeft()
-                        elif (steering == 1):      
-                            self.motorDriver.ManualRight()
-                        elif (steering == 0):
-                            self.motorDriver.ManualSteerStop()
-                    if (self.prevDrive != driving):
-                        self.prevDrive = driving
-                        print(driving)
-                        if (driving == 2):
-                            self.motorDriver.ManualForward()
-                        elif (driving == 1):
-                            self.motorDriver.ManualReverse()
-                        elif (driving  == 0):
-                            self.motorDriver.ManualDriveStop()
-                else:
-                    self.getMotion()    
+                if (self.prevError != self.error):
+                    self.prevError = self.error
+                    if (self.error == -5):
+                        if (self.speed != 0):
+                            self.speed = self.speed - 50
+                        else:
+                            self.speed = 0
+                        self.motorDriver.Stop()
+                        return
+                    if (motor == 0):
+                        self.motorDriver.Turn(self.PID())
+                    else:
+                        self.motorDriver.Drive(self.Speed())  
+def StartCar():
+
+    try:
+        # creating thread
+        t1 = threading.Thread(target=car.driveCar, args=(0,))
+        t2 = threading.Thread(target=car.driveCar, args=(1,))
+
+        # starting thread 1
+        t1.start()
+        # starting thread 2
+        t2.start()
+    except Exception as e:
+        print(e)
+        sys.exit()

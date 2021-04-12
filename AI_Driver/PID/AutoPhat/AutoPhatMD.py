@@ -12,22 +12,32 @@ class AutoPhatMD:
     prevSteer = 0
     prevDrive = 0
     myMotor = qwiic_scmd.QwiicScmd()
-    def TurnLeft(self, error):
-        self.myMotor.enable()
-        self.myMotor.set_drive(0, 1, error)
-        self.myMotor.set_drive(1, 1, abs(100 - error))
-    def TurnRight(self, error):
-        self.myMotor.enable()
-        self.myMotor.set_drive(0, 0, error)
-        self.myMotor.set_drive(1, 1, abs(100 - error))
-    def Stop(self):
-        self.myMotor.disable()
+    def Turn(self, steer):
+        if (steer > 200):
+            steer = 200
+        elif (steer < -200):
+            steer = -200
+        if (steer < 0):
+            self.myMotor.set_drive(0, 0, abs(steer))
+        else:
+            self.myMotor.set_drive(0, 1, abs(steer))
+    def Drive(self, speed):
+        if (speed > 25):
+            for i in range (speed - 25, speed, 1):
+                print(i)
+                self.myMotor.set_drive(1, 1, i)
+                time.sleep(0.01)
+        else:
+            self.myMotor.set_drive(1, 1, speed)
+        self.prevDrive = speed
     def NoError(self):
-        self.myMotor.enable()
+        self.myMotor.set_drive(0,0,0)
+        self.myMotor.set_drive(1,1,150)
+    def Stop(self):
         self.myMotor.set_drive(0, 0, 0)
-        self.myMotor.set_drive(1, 1, 150)
         time.sleep(0.05)
-
+        self.myMotor.set_drive(1, 0, 0)
+        time.sleep(0.05)
     def ManualLeft(self):
         self.myMotor.set_drive(0, 1, 200)
         time.sleep(0.05)
@@ -38,14 +48,12 @@ class AutoPhatMD:
         self.myMotor.set_drive(0, 1, 0)
         time.sleep(0.05)
     def ManualForward(self):
-        for i in range (125, 150, 1):
+        for i in range (140, 150, 1):
             print(i)
             self.myMotor.set_drive(1, 1, i)
             time.sleep(0.01)
-
-            
     def ManualReverse(self):
-        for i in range (125, 150, 1):
+        for i in range (140, 150, 1):
             print(i)
             self.myMotor.set_drive(1, 0, i)
             time.sleep(0.01)

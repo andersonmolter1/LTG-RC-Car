@@ -29,7 +29,7 @@ def TCP (car):
     # Send data
     while isConnected:
         data = sock.recv(11, socket.MSG_WAITALL)
-        print(data)
+        #print(data)
         if not data: break
         car.modifyPID(data)
         try:
