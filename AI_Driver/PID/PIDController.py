@@ -147,7 +147,13 @@ class PIDController:
                     elif (motor == 0):
                         self.motorDriver.Turn(self.PID())
                     else:
-                        self.motorDriver.Drive(self.Speed())  
+                        if (self.error != -5 and self.accel == 0):
+                            self.motorDriver.ManualForward()
+                            sleep(0.05)
+                            self.motorDriver.Drive(self.Speed())
+                        else:
+                            self.motorDriver.Drive(self.Speed())
+
     def StartCar(car):
         try:
             # creating thread
