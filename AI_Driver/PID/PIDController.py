@@ -19,7 +19,7 @@ class PIDController:
     carStopped = True
     lineColor = 0
     J_P = 43 # Proportion value
-    J_I = 1 # Integral Step value
+    J_I = 0 # Integral Step value
     J_D = 13  # Derivative Step Value
     error = 0  # amount of error on the line the car is experiencing
     isManual = 0
@@ -54,10 +54,12 @@ class PIDController:
         return ((self.error - self.prevError) * self.J_D)
 
     def PID(self):  # Returns PID model
-        return (self.Proportion() -  self.Derivative())
+        return (self.Proportion() - self.Integral() -  self.Derivative())
         
     
     def modifyPID(self, newConstants):
+        self.turningDegree = newConstants[0]
+        self.drivingDegree = newConstants[1]
         self.J_P = newConstants[2]
         self.J_I = newConstants[3]
         self.J_D = newConstants[4]

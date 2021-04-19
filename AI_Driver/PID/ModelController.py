@@ -30,8 +30,7 @@ class ModelController:
 
 
     def modifyPID(self, newConstants):
-        self.turningDegree = newConstants[0]
-        self.drivingDegree = newConstants[1]
+        
         self.pauseCar = newConstants[5]
         self.isManual = newConstants[6]
         self.steeringM = newConstants[7]
