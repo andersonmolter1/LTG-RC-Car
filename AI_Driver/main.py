@@ -2,10 +2,10 @@ import sys
 from _thread import *
 import threading
 import time
-from PID.PIDController import PIDController
+from Controllers.CarController import CarController
 import Socket.Client
 
-car = PIDController()
+car = CarController()
 
 
 def drive(thread):
