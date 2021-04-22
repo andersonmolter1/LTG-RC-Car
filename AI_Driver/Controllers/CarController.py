@@ -58,8 +58,9 @@ class CarController:
         
     
     def modifyPID(self, newConstants):
-        self.turningDegree = newConstants[0]
-        self.drivingDegree = newConstants[1]
+        print(newConstants)
+        #self.turningDegree = newConstants[0]
+        #self.drivingDegree = newConstants[1]
         self.J_P = newConstants[2]
         self.J_I = newConstants[3]
         self.J_D = newConstants[4]
@@ -69,7 +70,7 @@ class CarController:
         self.drivingM = newConstants[8]
         self.lineColor = newConstants[9]
         self.maxSpeed = newConstants[10]
-        self.isPID = newConstants[11]
+        #self.isPID = newConstants[11]
     def DisconnectCar(self):
         self.motorDriver.Stop()
         os._exit(0)
@@ -126,6 +127,7 @@ class CarController:
     def driveCar(self, motor):
         while (True):
             if (self.isConnected):
+              if (self.pauseCar == 0):
                 if (motor == 0):
                     self.error = self.getError()
                 if (self.isManual == 1):
@@ -147,7 +149,8 @@ class CarController:
                             self.motorDriver.ManualReverse()
                         elif (driving  == 0):
                             self.motorDriver.ManualDriveStop()
-                elif (self.isPID == 1):
+                # elif (self.isPID == 0):
+                else:
                     if (self.prevError != self.error):
                         self.prevError = self.error
                         if (self.error == -5):
@@ -163,19 +166,19 @@ class CarController:
                                 self.motorDriver.Turn(self.turningDegree * 100 + -100)
                         else:
                             self.motorDriver.Drive(self.drivingDegree * 8)        
-                else:
-                    if (self.prevError != self.error):
-                        self.prevError = self.error
-                        if (self.error == -5):
-                            if (self.speed != 0):
-                                self.speed = self.speed - 50
-                            else:
-                                self.speed = 0
-                            self.motorDriver.Stop()
-                        elif (motor == 0):
-                            self.motorDriver.Turn(self.PID())
-                        else:
-                            self.motorDriver.Drive(self.Speed())
+                # else:
+                #     if (self.prevError != self.error):
+                #         self.prevError = self.error
+                #         if (self.error == -5):
+                #             if (self.speed != 0):
+                #                 self.speed = self.speed - 50
+                #             else:
+                #                 self.speed = 0
+                #             self.motorDriver.Stop()
+                #         elif (motor == 0):
+                #             self.motorDriver.Turn(self.PID())
+                #         else:
+                #             self.motorDriver.Drive(self.Speed())
     def StartCar(self):
         try:
             # creating thread
@@ -188,4 +191,4 @@ class CarController:
             t2.start()
         except Exception as e:
             print(e)
-            sys.exit()
+            sys.exit(0)
