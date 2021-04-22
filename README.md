@@ -18,15 +18,15 @@ git clone https://github.com/andersonmolter1/LTG-RC-Car-AI/
 ```
 To run the installation script run this chmod command to run the .sh script.
 ```
-chmod u=rwx ./Install 
+chmod u=rwx ./LTG-RC-Car/Setup/Install.sh
 ```
 ```
-./Install 
+./LTG-RC-Car/Setup/Install.sh
 ```
 ## How to run? 
 To run the AI to follow a line. Enter the command below in the terminal.
 ```
-python3 LTG-RC-Car\Movement_Controller\Motor_Driver.py
+python3 LTG-RC-Car\AI_Driver\main.py
 ```
 ## Error? What's an Error?
 
