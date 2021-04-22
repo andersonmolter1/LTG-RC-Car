@@ -58,9 +58,8 @@ class CarController:
         
     
     def modifyPID(self, newConstants):
-        print(newConstants)
-        #self.turningDegree = newConstants[0]
-        #self.drivingDegree = newConstants[1]
+        self.turningDegree = newConstants[0]
+        self.drivingDegree = newConstants[1]
         self.J_P = newConstants[2]
         self.J_I = newConstants[3]
         self.J_D = newConstants[4]
@@ -150,22 +149,6 @@ class CarController:
                         elif (driving  == 0):
                             self.motorDriver.ManualDriveStop()
                 # elif (self.isPID == 0):
-                else:
-                    if (self.prevError != self.error):
-                        self.prevError = self.error
-                        if (self.error == -5):
-                            if (self.speed != 0):
-                                self.speed = self.speed - 50
-                            else:
-                                self.speed = 0
-                            self.motorDriver.Stop()
-                        elif (motor == 0):
-                            if (self.turningDegree > 0):
-                                self.motorDriver.Turn(self.turningDegree * 100 + 100)
-                            else:
-                                self.motorDriver.Turn(self.turningDegree * 100 + -100)
-                        else:
-                            self.motorDriver.Drive(self.drivingDegree * 8)        
                 # else:
                 #     if (self.prevError != self.error):
                 #         self.prevError = self.error
@@ -176,9 +159,25 @@ class CarController:
                 #                 self.speed = 0
                 #             self.motorDriver.Stop()
                 #         elif (motor == 0):
-                #             self.motorDriver.Turn(self.PID())
+                #             if (self.turningDegree > 0):
+                #                 self.motorDriver.Turn(self.turningDegree * 100 + 100)
+                #             else:
+                #                 self.motorDriver.Turn(self.turningDegree * 100 + -100)
                 #         else:
-                #             self.motorDriver.Drive(self.Speed())
+                #             self.motorDriver.Drive(self.drivingDegree * 8)        
+                else:
+                    if (self.prevError != self.error):
+                        self.prevError = self.error
+                        if (self.error == -5):
+                            if (self.speed != 0):
+                                self.speed = self.speed - 50
+                            else:
+                                self.speed = 0
+                            self.motorDriver.Stop()
+                        elif (motor == 0):
+                            self.motorDriver.Turn(self.PID())
+                        else:
+                            self.motorDriver.Drive(self.Speed())
     def StartCar(self):
         try:
             # creating thread
