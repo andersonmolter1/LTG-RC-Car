@@ -20,11 +20,29 @@ To run the installation script run this chmod command to run the .sh script.
 ```
 chmod u=rwx ./LTG-RC-Car/Setup/Install.sh
 ```
+The script we will be running below will prompt ask for what you would like the static ip of the raspberry pi to be, enter it and hit enter and allow the installation to proceed. The command to run this script is below.
 ```
 ./LTG-RC-Car/Setup/Install.sh
 ```
+For the camera system, we must install RPI-Web-Cam-Interface. The link to the documentation will be below but I am going to walk you through the installation.
+First clone and enter into the directory with the commands
+```
+git clone https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git
+cd RPi_Cam_Web_Interface
+```
+After that, we will need to install the software with this command
+```
+./install.sh
+```
+A prompt will open up with different options, just hit enter and let the installation proceed.
+Once it is over, you will be prompted with a decision if you want to Auto-Start the cam stream when the pi is turned on, hit enter at this option selecting Yes.
+
 ## How to run? 
-To run the AI to follow a line. Enter the command below in the terminal.
+Guess what, the script is already running. All operations that the car requires are now running as a service, which means they run at boot of the pi. If the car cannot be connected to, first check to see if the service named LTG is running with the command below.
+```
+systemctl status LTG.service
+```
+If this comes back that is not running, you can re-create the service by running the ServiceMaker.sh script and this will re-create the service. If that fails as well, you can manually run the script for car operations with the command below.
 ```
 python3 LTG-RC-Car\AI_Driver\main.py
 ```
