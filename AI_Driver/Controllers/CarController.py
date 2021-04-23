@@ -37,7 +37,7 @@ class CarController:
     GPIO.setup(37, GPIO.IN)  # LL IR Sensor
     
     def Speed(self):  # Gets speed proportional to error term
-        speed = int(abs(self.error) *self.maxSpeed /4) + 75
+        speed = int(abs(self.error) *self.maxSpeed /4) + 70
         if (speed > self.maxSpeed):
             return self.maxSpeed
         return speed
@@ -68,7 +68,7 @@ class CarController:
         self.steeringM = newConstants[7]
         self.drivingM = newConstants[8]
         self.lineColor = newConstants[9]
-        #self.maxSpeed = newConstants[10]
+        self.maxSpeed = newConstants[10]
     def DisconnectCar(self):
         self.motorDriver.Stop()
         os._exit(0)
