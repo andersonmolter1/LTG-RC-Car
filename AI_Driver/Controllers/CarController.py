@@ -138,7 +138,8 @@ class CarController:
                         elif (motor == 0):
                             self.motorDriver.Turn(self.PID())
                         else:
-                            self.motorDriver.Drive(self.Speed())
+                            self.speed = self.Speed()
+                            self.motorDriver.Drive(self.speed)
                 elif (self.controlType == 1):
                     if (self.prevSteer != self.steeringM and motor == 0):
                         self.prevSteer = self.steeringM
