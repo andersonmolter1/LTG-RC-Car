@@ -22,13 +22,20 @@ def TCP (car):
     except Exception as e:
         print(e)
         os._exit(0)
-    
+    sock.settimeout(3)
     isConnected = True
     car.isConnected = True
     print("Connected")
     # Send data
     while isConnected:
-        data = sock.recv(11, socket.MSG_WAITALL)
+        try:
+            data = sock.recv(11, socket.MSG_WAITALL)
+        except socket.timeout as e:
+            car.isConnected = False
+            isConnected = False
+            print("closed")
+            sock.close()
+            os._exit(0)
         if not data: break
         car.modifyPID(data)
         try:
@@ -37,6 +44,7 @@ def TCP (car):
             sock.sendall(arr)
         except BrokenPipeError as e:
             car.isConnected = False
+            isConnected = False
             print("closed")
             sock.close()
             os._exit(0)
