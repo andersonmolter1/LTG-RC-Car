@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 from time import sleep
 import sys
 import socket
+import qwiic_icm20948
 from datetime import datetime
 from AutoPhat.AutoPhatMD import AutoPhatMD
 import os
@@ -72,6 +73,11 @@ class CarController:
     def DisconnectCar(self):
         self.motorDriver.Stop()
         os._exit(0)
+    def getSpeed():
+        IMU = qwiic_icm20948.QwiicIcm20948()
+        IMU.begin()
+        IMU.getAgmt() # read all axis and temp from sensor, note this also updates all instance variables
+        return IMU.ayRaw
     def getError(self):
         if (self.error != -5):
             self.prevError = self.error
@@ -157,6 +163,8 @@ class CarController:
                             self.motorDriver.ManualReverse()
                         elif (self.drivingM  == 0):
                             self.motorDriver.ManualDriveStop()
+                if (motor == 1 and self.getSpeed() > 1 and self.error != -5):
+                    self.motorDriver.ManualForward()
                 # elif (self.controlType == 2):
                 #     if (self.prevError != self.error):
                 #         self.prevError = self.error
