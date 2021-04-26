@@ -16,7 +16,7 @@ def TCP (car):
     # Connect the socket to the port where the server is listening
     ip = GetServerIP()
     print(ip)
-    server_address = (ip, 50005)
+    server_address = (ip, 60005)
     try:
         sock.connect(server_address)
     except Exception as e:
@@ -39,7 +39,7 @@ def TCP (car):
         if not data: break
         car.modifyPID(data)
         try:
-            rList = [car.error + 10, car.speed]
+            rList = [car.error + 10, 0]
             arr = bytearray(rList)
             sock.sendall(arr)
         except BrokenPipeError as e:
@@ -54,7 +54,7 @@ def GetServerIP():
         # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     # Bind the socket to the port
-    server_address = ('', 40005)
+    server_address = ('', 50006)
     sock.bind(server_address)
     data, address = sock.recvfrom(4096)
     sock.close()
