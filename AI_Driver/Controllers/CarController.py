@@ -9,6 +9,7 @@ import os
 import threading
 
 class CarController:
+    IMU = qwiic_icm20948.QwiicIcm20948()
     isConnected = False
     motorDriver = AutoPhatMD()
     steeringM = 0
@@ -74,8 +75,6 @@ class CarController:
         self.motorDriver.Stop()
         os._exit(0)
     def getSpeed():
-        IMU = qwiic_icm20948.QwiicIcm20948()
-        IMU.begin()
         IMU.getAgmt() # read all axis and temp from sensor, note this also updates all instance variables
         return IMU.ayRaw
     def getError(self):
@@ -146,6 +145,8 @@ class CarController:
                         else:
                             print(self.Speed())
                             self.motorDriver.Drive(self.Speed())
+                    if (motor == 1 and self.getSpeed() > 1 and self.error != -5):
+                        self.motorDriver.ManualForward()
                 elif (self.controlType == 1):
                     if (self.prevSteer != self.steeringM and motor == 0):
                         self.prevSteer = self.steeringM
@@ -163,8 +164,7 @@ class CarController:
                             self.motorDriver.ManualReverse()
                         elif (self.drivingM  == 0):
                             self.motorDriver.ManualDriveStop()
-                if (motor == 1 and self.getSpeed() > 1 and self.error != -5):
-                    self.motorDriver.ManualForward()
+                
                 # elif (self.controlType == 2):
                 #     if (self.prevError != self.error):
                 #         self.prevError = self.error
@@ -183,6 +183,7 @@ class CarController:
                 #             self.motorDriver.Drive(self.drivingDegree * 8)
                     
     def StartCar(self):
+        self.IMU.begin()
         try:
             # creating thread
             t1 = threading.Thread(target=self.driveCar, args=(0,))
