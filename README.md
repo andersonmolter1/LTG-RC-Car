@@ -10,12 +10,14 @@ Much work has done to simplify this process of assembling the car itself. But to
 
 The Fritzing diagram below lays out the electrical diagram the car will follow. If you are confused by an instruction or image, it is HIGHLY recommended to come back to this guide.
 
-![Frit](LTG-Schematic_bb.png)
+![Frit](Images/TutorialImages/Picture2.png)
+
 ### Required Tools and Materials
 For this project, you need, the car, a Raspberry Pi Zero W, a Sparkfun AutoPhat, GPIO connectors and wires, a 5 IR sensor array, hot glue gun, electrical tape, wire cutters, and a phillips screw driver.  Soldering iron is not required but can help secure connections we will make. 
 
 ### Prepare the Car
 To prepare the car, we will take 4 screws off so we may take the top of the car off. Save these screws for we will need these later when we put the lid back on.
+
 ![InitialScrews](Images/TutorialImages/ScrewPositions.jpg)
 
 
