@@ -95,6 +95,10 @@ We then will move on to tuning D or the variable J_D. We want to increase this v
 ### Tuning I
 We will then move to tuning I or the variable J_I. We want to increase this value until the oscillations are very minute and keep the car in a relatively straight position.
 
+## Speed
+Speed is the most important value to adjust during the tuning process. The interface allows you to adjust the minimum and maximum speeds. They have a range from 0-200 and if your maximum speed is below your minimum speed, it will automatically make the speed the minimum speed at all times. The car provides more power to the rear motors if the car is turning due to the car having to take on incoming friction with the wheels and their orientation. So the higher the error, the more power the motors will be exerting, resulting in more speed around curves. 
+### Tuning Speed
+For this, you first want to look at the surface in which the car will be traveling on. If it is a hard surface like a tile or concrete floor, the minimum speed can be much lower than if the surface was foam or carpet. This is because on the harder surfaces, the car has an easier time overcoming intertia at the lower power levels. However, on a foam surface, you need more power all of the time due to the surface constantly providing friction. I recommend starting the max speed at 100 and the minimum speed at 50 and working both closer and closer until you reach an well working speed range. You may need to move the max or min speed up independently in order to find this optimal range. 
 ### Helpful Tip!
 If you cannot find the tuning that you desire, slow the speed of the car down and then try it again! Oscillation patterns are more common at higher speeds.
 
