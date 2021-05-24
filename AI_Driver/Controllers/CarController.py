@@ -146,6 +146,8 @@ class CarController:
                         else:
                             print(self.Speed())
                             self.motorDriver.Drive(self.Speed())
+                    # if (motor == 1 and self.getSpeed() > 1 and self.error != -5):
+                    #   self.motorDriver.ManualForward()
                 elif (self.controlType == 1):
                     if (self.prevSteer != self.steeringM and motor == 0):
                         self.prevSteer = self.steeringM
@@ -163,8 +165,7 @@ class CarController:
                             self.motorDriver.ManualReverse()
                         elif (self.drivingM  == 0):
                             self.motorDriver.ManualDriveStop()
-                if (motor == 1 and self.getSpeed() > 1 and self.error != -5):
-                    self.motorDriver.ManualForward()
+                
                 # elif (self.controlType == 2):
                 #     if (self.prevError != self.error):
                 #         self.prevError = self.error

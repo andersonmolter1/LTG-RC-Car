@@ -11,7 +11,7 @@ def TCP (car):
     # Connect the socket to the port where the server is listening
     ip = GetServerIP(carNum)
     print(ip)
-    portNumber = '6000' + carNum
+    portNumber = '600' + carNum
     server_address = (ip, int(portNumber))
     try:
         sock.connect(server_address)
@@ -51,7 +51,7 @@ def GetServerIP(carNum):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     # Bind the socket to the port
     print(carNum)
-    port = str(carNum) + str("0006")
+    port = str(carNum) + str("006")
     server_address = ('', int(port))
     sock.bind(server_address)
     data, address = sock.recvfrom(4096)
