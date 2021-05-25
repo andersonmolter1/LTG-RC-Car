@@ -5,6 +5,17 @@ Project for creating a line following car using a PID AI to control the movement
 <br>
 <img src="Images\CarDriving.gif"/>
 
+Bill of Materials
+| Component | Price | Link to Buy |
+| ----------- | ----------- |
+| SparkFun Autophat | $29.95 | [Link to Buy](https://www.sparkfun.com/products/16328)
+| Raspberry Pi Zero Wireless WH (Pre-Soldered Header)| $14.95 | [Link to Buy](https://www.pishop.us/product/raspberry-pi-zero-wireless-wh-pre-soldered-header/)
+| Tracker Sensor Module 5-ch ITR20001/T | $9.99 | [Link to Buy](https://www.amazon.com/Waveshare-Tracker-Sensor-ITR20001-Infrared/dp/B01MTPEKDC)
+| Jada Toys Hyperchargers | $48.20 | [Link to Buy](https://www.amazon.com/Jada-Hyperchargers-Chase-Control-Vehicle/dp/B07TYGQDSH/ref=sr_1_10?dchild=1&keywords=hypercharger+jada+rc&qid=1621895405&sr=8-10)
+| Camera Module for Raspberry PI | $13.99 | [Link to Buy](https://www.amazon.com/Dorhea-Raspberry-Camera-Adjustable-Focus-Infrared/dp/B07JXZ93SK/ref=sr_1_16?dchild=1&keywords=raspberry+pi+camera&qid=1621895262&sr=8-16)
+| JDB Ultra-Slim 5V/2.1A 5000mAh Power Bank | $9.99 | [Link to Buy](https://www.amazon.com/gp/product/B07DQG75MZ/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
+| Short USB C Cable | $6.99 | [Link to Buy](https://www.amazon.com/gp/product/B08LL1SVZD/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
+
 ## Hardware
 Much work has done to simplify this process of assembling the car itself. But to start this process, you must first have the car. For this project, we are using a Jada R/C Hypercharger RC car. The pack will come with a police car and red race car. Both cars work the same way, however, the police car has a little more space inside so we will start with that one. However, all elements of this tutorial apply to both.
 
