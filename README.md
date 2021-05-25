@@ -5,9 +5,9 @@ Project for creating a line following car using a PID AI to control the movement
 <br>
 <img src="Images\CarDriving.gif"/>
 
-Bill of Materials
+##Bill of Materials
 | Component | Price | Link to Buy |
-| ----------- | ----------- |
+| ----------- | ----------- | ------------ |
 | SparkFun Autophat | $29.95 | [Link to Buy](https://www.sparkfun.com/products/16328)
 | Raspberry Pi Zero Wireless WH (Pre-Soldered Header)| $14.95 | [Link to Buy](https://www.pishop.us/product/raspberry-pi-zero-wireless-wh-pre-soldered-header/)
 | Tracker Sensor Module 5-ch ITR20001/T | $9.99 | [Link to Buy](https://www.amazon.com/Waveshare-Tracker-Sensor-ITR20001-Infrared/dp/B01MTPEKDC)
