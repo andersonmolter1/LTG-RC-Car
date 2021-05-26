@@ -1,4 +1,8 @@
 #!/bin/bash
+echo "Enter static IP:"
+read static_ip
+echo "Enter routers IP:"
+read router_ip
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install python3-pip -y
 sudo apt-get install python3-rpi.gpio python3-rpi.gpio -y
@@ -8,10 +12,6 @@ sudo echo "start_x=1" >> /boot/config.txt
 sudo echo "gpu_mem=128" >> /boot/config.txt
 sudo service dhcpcd start
 sudo systemctl enable dhcpcd
-echo "Enter static IP:"
-read static_ip
-echo "Enter routers IP:"
-read router_ip
 echo "interface wlan0" >> /etc/dhcpcd.conf
 echo "static ip_address=${static_ip}/24" >> /etc/dhcpcd.conf
 echo "static routers=${router_ip}" >> /etc/dhcpcd.conf
