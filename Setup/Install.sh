@@ -15,8 +15,9 @@ sudo systemctl enable dhcpcd
 echo "interface wlan0" >> /etc/dhcpcd.conf
 echo "static ip_address=${static_ip}/24" >> /etc/dhcpcd.conf
 echo "static routers=${router_ip}" >> /etc/dhcpcd.conf
-echo "static domain_name_servers=8.8.8.8 4.4.4.4" >> /etc/dhcpcd.conf 
-echo "find . -name \".git\" -type d | sed 's/\/.git//' |  xargs -P10 -I{} git -C {} pull" >> .profile
+echo "static domain_name_servers=${router_ip} 8.8.8.8 4.4.4.4" >> /etc/dhcpcd.conf
+echo "find . -name \".git\" -type d | sed 's/\/.git//' |  xargs -P10 -I{} git -C {} pull" >> /etc/rc.local
+sudo ./ServiceMaker.sh
 cd /home/pi
 git clone https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git
 cd RPi_Cam_Web_Interface
