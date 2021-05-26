@@ -110,7 +110,7 @@ chmod u=rwx ./LTG-RC-Car/Setup/Install.sh
 ```
 The script we will be running below will prompt ask for what you would like the static ip of the raspberry pi to be, enter it and hit enter and allow the installation to proceed. The command to run this script is below.
 ```
-./LTG-RC-Car/Setup/Install.sh
+sudo ./LTG-RC-Car/Setup/Install.sh
 ```
 For the camera system, we must install RPI-Web-Cam-Interface. The link to the documentation will be below but I am going to walk you through the installation.
 First clone and enter into the directory with the commands
