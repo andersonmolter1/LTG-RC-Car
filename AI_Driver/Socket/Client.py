@@ -10,7 +10,6 @@ def TCP (car):
     port = int(str(6000) + host_addr[-1])
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     ip = GetServerIP(host_addr[-1])
-    print(ip)
     server_address = (ip, port)
     try:
         sock.connect(server_address)
