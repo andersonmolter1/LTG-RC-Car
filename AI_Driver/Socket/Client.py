@@ -5,15 +5,7 @@ import re
 import time
 import traceback
 def TCP (car):
-
-    # IPList = []
-    # for i in range(0, 100):
-    #     IPList.append('192.168.1.' + str(i))
-    # print(IPList.count)
-    # print(IPList[45])
-    # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # Connect the socket to the port where the server is listening
     ip = GetServerIP()
     print(ip)
     server_address = (ip, 50005)
@@ -51,9 +43,7 @@ def TCP (car):
     print("exit")
     os._exit(0)
 def GetServerIP():
-        # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    # Bind the socket to the port
     server_address = ('', 40005)
     sock.bind(server_address)
     data, address = sock.recvfrom(4096)
