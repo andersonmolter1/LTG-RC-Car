@@ -35,9 +35,10 @@ class CarController:
     GPIO.setup(33, GPIO.IN)  # MM IR Sensor
     GPIO.setup(35, GPIO.IN)  # LM IR Sensor
     GPIO.setup(37, GPIO.IN)  # LL IR Sensor
+    minSpeed = 75
     
     def Speed(self):  # Gets speed proportional to error term
-        speed = int(abs(self.error) *self.maxSpeed /4) + 70
+        speed = int(abs(self.error) *self.maxSpeed /4) + self.minSpeed
         if (speed > self.maxSpeed):
             return self.maxSpeed
         return speed
@@ -56,7 +57,7 @@ class CarController:
     def PID(self):  # Returns PID model
         return (self.Proportion() -  self.Integral() - self.Derivative())
     def modifyPID(self, newConstants):
-        self.direction = newConstants[0]
+        self.minSpeed = newConstants[0]
         self.turningDegree = newConstants[1]
         self.drivingDegree = newConstants[2]
         if (self.direction == 1):

@@ -1,14 +1,17 @@
-import socket
 import sys
+import socket
 import os
 import re
 import time
 import traceback
 def TCP (car):
+    hostname = socket.gethostname()
+    host_addr = socket.gethostbyname(hostname + ".local")
+    port = int(str(6000) + host_addr[-1])
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    ip = GetServerIP()
+    ip = GetServerIP(host_addr[-1])
     print(ip)
-    server_address = (ip, 50005)
+    server_address = (ip, port)
     try:
         sock.connect(server_address)
     except Exception as e:
@@ -18,7 +21,6 @@ def TCP (car):
     isConnected = True
     car.isConnected = True
     print("Connected")
-    # Send data
     while isConnected:
         try:
             data = sock.recv(11, socket.MSG_WAITALL)
@@ -42,9 +44,10 @@ def TCP (car):
             os._exit(0)
     print("exit")
     os._exit(0)
-def GetServerIP():
+def GetServerIP(deviceNumber):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    server_address = ('', 40005)
+    port = int(deviceNumber + str('0006'))
+    server_address = ('', port)
     sock.bind(server_address)
     data, address = sock.recvfrom(4096)
     sock.close()
