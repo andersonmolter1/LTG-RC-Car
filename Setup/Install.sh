@@ -6,10 +6,9 @@ read router_ip
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install python3-pip -y
 sudo apt-get install python3-rpi.gpio python3-rpi.gpio -y
-sudo python3-pip install sparkfun-qwiic-scmd -y
+sudo pip3 install sparkfun-qwiic-scmd
+sudo raspi-config nonint do_camera 0
 sudo sed -i '/#dtparam=i2c_arm=on/s/^#//g' /boot/config.txt
-sudo echo "start_x=1" >> /boot/config.txt
-sudo echo "gpu_mem=128" >> /boot/config.txt
 sudo service dhcpcd start
 sudo systemctl enable dhcpcd
 echo "interface wlan0" >> /etc/dhcpcd.conf
