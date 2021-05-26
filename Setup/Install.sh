@@ -6,6 +6,8 @@ sudo python3-pip install sparkfun-qwiic-scmd -y
 sudo sed -i '/#dtparam=i2c_arm=on/s/^#//g' /boot/config.txt
 sudo echo "start_x=1" >> /boot/config.txt
 sudo echo "gpu_mem=128" >> /boot/config.txt
+sudo service dhcpcd start
+sudo systemctl enable dhcpcd
 echo "Enter static IP:"
 read static_ip
 echo "Enter routers IP:"
