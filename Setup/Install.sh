@@ -2,7 +2,7 @@
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install python3-pip -y
 sudo apt-get install python3-rpi.gpio python3-rpi.gpio -y
-sudo pip install sparkfun-qwiic-scmd -y
+sudo python3-pip install sparkfun-qwiic-scmd -y
 sudo sed -i '/#dtparam=i2c_arm=on/s/^#//g' /boot/config.txt
 sudo echo "start_x=1" >> /boot/config.txt
 sudo echo "gpu_mem=128" >> /boot/config.txt
