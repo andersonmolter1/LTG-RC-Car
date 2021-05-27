@@ -3,6 +3,7 @@
 
 Project for creating a line following car using a PID AI to control the movement, speed, and steering of RC Car. This project uses the Raspberry Pi Zero with brushed DC motors for both steering and forward movement.
 <br>
+<br>
 <img src="Images\CarDriving.gif"/>
 
 ## Bill of Materials
