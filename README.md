@@ -102,7 +102,7 @@ sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git -y
 ```
 To use download and run the scripts within this repo, you must first clone the repo with the command
 ```
-git clone https://github.com/andersonmolter1/LTG-RC-Car-AI/
+git clone https://github.com/andersonmolter1/LTG-RC-Car/
 ```
 To run the installation script run this chmod command to run the .sh script.
 ```
