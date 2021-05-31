@@ -8,7 +8,7 @@ sudo apt-get install python3-pip -y
 sudo apt-get install python3-rpi.gpio python3-rpi.gpio -y
 sudo pip3 install sparkfun-qwiic-scmd
 sudo raspi-config nonint do_camera 0
-sudo sed -i '/#dtparam=i2c_arm=on/s/^#//g' /boot/config.txt
+sudo sh -c "echo 'dtparam=i2c_arm=on' >> /boot/config.txt"
 sudo service dhcpcd start
 sudo systemctl enable dhcpcd
 echo "interface wlan0" >> /etc/dhcpcd.conf
