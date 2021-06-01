@@ -7,15 +7,23 @@ import traceback
 def TCP (car):
     hostname = socket.gethostname()
     host_addr = socket.gethostbyname(hostname + ".local")
-    port = int(str(6000) + host_addr[-1])
+    carNum = 0
+    
+    if (host_addr[-2] != '.'):
+        carNum = host_addr[-2] + host_addr[-1]
+    else:
+        carNum = host_addr[-1]
+
+    port = int(str(600) + carNum)
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    ip = GetServerIP(host_addr[-1])
+    ip = GetServerIP(carNum)
     server_address = (ip, port)
     try:
         sock.connect(server_address)
     except Exception as e:
         print(e)
         os._exit(0)
+    
     sock.settimeout(3)
     isConnected = True
     car.isConnected = True
@@ -45,7 +53,7 @@ def TCP (car):
     os._exit(0)
 def GetServerIP(deviceNumber):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    port = int(deviceNumber + str('0006'))
+    port = int(deviceNumber + str('006'))
     server_address = ('', port)
     sock.bind(server_address)
     data, address = sock.recvfrom(4096)
