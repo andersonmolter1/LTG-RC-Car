@@ -7,7 +7,7 @@ import traceback
 def TCP (car):
     hostname = socket.gethostname()
     host_addr = socket.gethostbyname(hostname + ".local")
-    port = int(str(6000) + host_addr[-1])
+    port = int(str(600) + host_addr[-1])
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     ip = GetServerIP(host_addr[-1])
     server_address = (ip, port)
@@ -45,7 +45,7 @@ def TCP (car):
     os._exit(0)
 def GetServerIP(deviceNumber):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    port = int(deviceNumber + str('0006'))
+    port = int(deviceNumber + str('006'))
     server_address = ('', port)
     sock.bind(server_address)
     data, address = sock.recvfrom(4096)
