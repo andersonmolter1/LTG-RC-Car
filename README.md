@@ -95,24 +95,29 @@ Once you connect those two wires to the internals, you just need the micro sd ca
 But for now, assuming you have properly setup the micro-sd card, you can insert it into the Pi, and connect the power cable to the battery bank. You will see green flashing lights if the Raspberry Pi is properly booting up. Once you confirmed this, you can put the 4 screws back connecting the lid to the internal car. 
 ## Software 
 ### Installing the Software
-For instructions on how to connect the raspberry pi to your network and install Raspbian Buster, follow these instructions, 
-[Setup Raspberry PI](https://desertbot.io/blog/headless-pi-zero-w-wifi-setup-windows)
-Now that you have installed raspbian and have connected to the Raspberry Pi through your ssh client, you need to run two commands before we start our installation scripts. 
+
+This project comes with a custom made repo of Rasbian for users to flash to their SD card and get racing right away! 
+You must first download the image and then flash it to your sd card with BalenaEtcher which you can download at https://www.balena.io/etcher/
+Once the flash is complete, open up notepad and hit space once. Then save this file, however, name the file ssh and click all files in the file type selector. 
+
+Next we need to create our wpf_supplicant.conf file which will allow our Raspberry Pi to connect to our Wifi or hotspot network. 
+Open up notepad again and copy and paste the text below. If your network is not listed, add in your network name and password in the open option. 
+
 ```
-sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git -y
-```
-To use download and run the scripts within this repo, you must first clone the repo with the command
-```
-git clone https://github.com/andersonmolter1/LTG-RC-Car/
-```
-The script we will be running below will prompt ask for what you would like the static ip of the raspberry pi to be, enter it and hit enter and allow the installation to proceed. The command to run this script is below.
-```
-sudo ./LTG-RC-Car/Setup/Install.sh
+country=US
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="herocar"
+    psk="herocar"
+}
+network={
+    ssid="Name of Network"
+    psk="Password of Network"
+}
 ```
 
-A prompt will open up with different options after a little while, just hit enter and let the installation proceed.
-
-Once it is over, you will be prompted with a decision if you want to Auto-Start the cam stream when the pi is turned on, hit enter at this option selecting Yes.
 
 ## How to run? 
 Guess what, the script is already running. All operations that the car requires are now running as a service, which means they run at boot of the pi. If the car cannot be connected to, first check to see if the service named LTG is running with the command below.
