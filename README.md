@@ -96,8 +96,9 @@ But for now, assuming you have properly setup the micro-sd card, you can insert 
 ## Software 
 ### Installing the Software
 For instructions on how to connect the raspberry pi to your network and install Raspbian Buster, follow these instructions, Setup Raspberry PI Now that you have installed raspbian and have connected to the Raspberry Pi through your ssh client, you need to run two commands before we start our installation scripts.
-
+```
 sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git -y
+```
 To use download and run the scripts within this repo, you must first clone the repo with the command
 ```
 git clone https://github.com/andersonmolter1/LTG-RC-Car/
