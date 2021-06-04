@@ -101,7 +101,7 @@ You must first download the image and then flash it to your sd card with BalenaE
 Once the flash is complete, open up notepad and hit space once. Then save this file, however, name the file ssh and click all files in the file type selector. 
 
 Next we need to create our wpf_supplicant.conf file which will allow our Raspberry Pi to connect to our Wifi or hotspot network. 
-Open up notepad again and copy and paste the text below. If your network is not listed, add in your network name and password in the open option. 
+Open up notepad again and copy and paste the text below. If your network is not listed, add in your network name and password in the open option. Once you have named this file wpa_supplicant.conf and selected the All Files option, you may save this file. Drag and drop these files onto your boot drive.
 
 ```
 country=US
@@ -117,7 +117,9 @@ network={
     psk="Password of Network"
 }
 ```
+Once that is completed you are done! There are other customizations you can make, like creating a static IP for the Pi, however, those are not required.
 
+Possible Probl
 
 ## How to run? 
 Guess what, the script is already running. All operations that the car requires are now running as a service, which means they run at boot of the pi. If the car cannot be connected to, first check to see if the service named LTG is running with the command below.
