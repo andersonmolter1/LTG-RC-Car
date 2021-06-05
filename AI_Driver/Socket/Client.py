@@ -13,8 +13,12 @@ def TCP (car):
         carNum = host_addr[-2] + host_addr[-1]
     else:
         carNum = host_addr[-1]
-
-    port = int(str(60) + carNum)
+    if (carNum > 99):
+        prefPort = '60'
+    else:
+        prefPort = '600'
+    
+    port = int(prefPort + carNum)
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     ip = GetServerIP(carNum)
     server_address = (ip, port)
@@ -53,7 +57,11 @@ def TCP (car):
     os._exit(0)
 def GetServerIP(deviceNumber):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    port = int(deviceNumber + str('06'))
+    if (carNum > 99):
+        prefPort = '06'
+    else:
+        prefPort = '006'
+    port = int(deviceNumber + prefPort)
     server_address = ('', port)
     sock.bind(server_address)
     data, address = sock.recvfrom(4096)
