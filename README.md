@@ -123,7 +123,8 @@ If your network is not listed, add in your network name and password in the open
 Drag and drop these files onto your raspberry pi boot drive.
 
 ### Using the Image
-An image has been provided which already contains the 
+A Rasbian image has been provided which already contains the software and services needed to run the car.
+
 ### Installing the Software Manually
 For instructions on how to connect the raspberry pi to your network and install Raspbian Buster, follow these instructions, Setup Raspberry PI Now that you have installed raspbian and have connected to the Raspberry Pi through your ssh client, you need to run two commands before we start our installation scripts.
 ```
