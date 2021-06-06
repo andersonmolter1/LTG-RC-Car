@@ -94,7 +94,37 @@ Once you connect those two wires to the internals, you just need the micro sd ca
 
 But for now, assuming you have properly setup the micro-sd card, you can insert it into the Pi, and connect the power cable to the battery bank. You will see green flashing lights if the Raspberry Pi is properly booting up. Once you confirmed this, you can put the 4 screws back connecting the lid to the internal car. 
 ## Software 
-### Installing the Software
+### Connecting the Raspberry Pi to your network
+Download the *.img file to your local folder on your laptop
+
+Use an imaging tool such as Balena Etcher https://www.balena.io/etcher/ to write the .img file to your SD card
+
+Once the image is flashed, take out the micro SD card and insert it back into your computer. 
+
+Open up the notepad and hit space once. Then save this file, however, name the file ssh and click all files in the file type selector. 
+
+Open up notepad again and type in the text below.
+```
+country=US
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="herocar"
+    psk="herocar"
+}
+network={
+    ssid="Name of Network"
+    psk="Password of Network"
+}
+```
+If your network is not listed, add in your network name and password in the open option. Once you have named this file wpa_supplicant.conf and selected the All Files option, you may save this file. 
+
+Drag and drop these files onto your raspberry pi boot drive.
+
+### Using the Image
+An image has been provided which already contains the 
+### Installing the Software Manually
 For instructions on how to connect the raspberry pi to your network and install Raspbian Buster, follow these instructions, Setup Raspberry PI Now that you have installed raspbian and have connected to the Raspberry Pi through your ssh client, you need to run two commands before we start our installation scripts.
 ```
 sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git -y
