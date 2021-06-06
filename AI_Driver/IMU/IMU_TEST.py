@@ -18,7 +18,7 @@ def runExample():
 	while True:
 		if IMU.dataReady():
 			IMU.getAgmt() # read all axis and temp from sensor, note this also updates all instance variables
-			print(IMU.ayRaw)
+			print(IMU.ayRaw if IMU.ayRaw > 0 else '')
 			time.sleep(0.03)
 		else:
 			print("Waiting for data")

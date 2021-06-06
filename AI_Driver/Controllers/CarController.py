@@ -5,9 +5,11 @@ import socket
 from datetime import datetime
 from AutoPhat.AutoPhatMD import AutoPhatMD
 import os
+import qwiic_icm20948
 import threading
 
 class CarController:
+    IMU = qwiic_icm20948.QwiicIcm20948()
     isConnected = False
     motorDriver = AutoPhatMD()
     steeringM = 0
@@ -36,7 +38,7 @@ class CarController:
     GPIO.setup(35, GPIO.IN)  # LM IR Sensor
     GPIO.setup(37, GPIO.IN)  # LL IR Sensor
     minSpeed = 75
-    
+    IMU.begin()
     def Speed(self):  # Gets speed proportional to error term
         speed = int(abs(self.error) *self.maxSpeed /4) + self.minSpeed
         if (speed > self.maxSpeed):
@@ -141,6 +143,10 @@ class CarController:
                         else:
                             self.speed = self.Speed()
                             self.motorDriver.Drive(self.speed)
+                        # if self.IMU.dataReady():
+                        #     self.IMU.getAgmt() # read all axis and temp from sensor, note this also updates all instance variables
+                        #     if (self.IMU.ayRaw < 0 and self.error != -5):
+                        #         self.motorDriver.ManualForward()
                 elif (self.controlType == 1):
                     if (self.prevSteer != self.steeringM and motor == 0):
                         self.prevSteer = self.steeringM
