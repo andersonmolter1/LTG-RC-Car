@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "test"
 echo "Enter static IP:"
 read static_ip
 echo "Enter routers IP:"
