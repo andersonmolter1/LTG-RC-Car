@@ -122,6 +122,18 @@ If your network is not listed, add in your network name and password in the open
 
 Drag and drop these files onto your raspberry pi boot drive.
 
+### Creating Your Own Hotspot from Your Windows Laptop
+
+Select the Start  button, then select Settings  > Network & Internet > Mobile hotspot.
+
+For Share my Internet connection from, choose the Internet connection you want to share.
+
+Select Edit > enter a new network name and password > Save.
+
+Turn on Share my Internet connection with other devices.
+
+To connect on the other device, go to the Wi-Fi settings on that device, find your network name, select it, enter the password, and then connect.
+
 ### Using the Image
 A Rasbian image has been provided which already contains the software and services needed to run the car.
 
