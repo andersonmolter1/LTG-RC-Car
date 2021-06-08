@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "te"
+echo "tes"
 echo "Enter static IP:"
 read static_ip
 echo "Enter routers IP:"
