@@ -97,11 +97,11 @@ But for now, assuming you have properly setup the micro-sd card, you can insert 
 ### Connecting the Raspberry Pi to your network
 Download the *.img file to your local folder on your laptop
 
-Use an imaging tool such as Balena Etcher https://www.balena.io/etcher/ to write the .img file to your SD card
+Use an imaging tool such as Balena Etcher https://www.balena.io/etcher/ to write the .img file to your SD card by selecting the image and your micro sd card slot. Then select flash!
 
 Once the image is flashed, take out the micro SD card and insert it back into your computer. 
 
-Open up the notepad and hit space once. Then save this file, however, name the file ssh and click all files in the file type selector. 
+Open up the notepad and hit space once. Then save this file and name the file ssh and click all files in the file type selector. 
 
 Open up notepad again and type in the text below.
 ```
@@ -134,11 +134,8 @@ Turn on Share my Internet connection with other devices.
 
 To connect on the other device, go to the Wi-Fi settings on that device, find your network name, select it, enter the password, and then connect.
 
-### Using the Image
-A Rasbian image has been provided which already contains the software and services needed to run the car.
-
 ### Installing the Software Manually
-For instructions on how to connect the raspberry pi to your network and install Raspbian Buster, follow these instructions, Setup Raspberry PI Now that you have installed raspbian and have connected to the Raspberry Pi through your ssh client, you need to run two commands before we start our installation scripts.
+If you would like to install and setup the software manually, you may use the scripts within this repo for manual installation. For instructions on how to connect the raspberry pi to your network and install Stock Raspbian Buster, follow these instructions, [Setup Raspberry PI](https://desertbot.io/blog/headless-pi-zero-w-wifi-setup-windows) Now that you have installed raspbian and have connected to the Raspberry Pi through your ssh client, you need to run two commands before we start our installation scripts.
 ```
 sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git -y
 ```
