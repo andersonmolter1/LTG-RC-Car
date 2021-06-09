@@ -1,3 +1,4 @@
+# Hardware Assembly Guide
 ## Bill of Materials
 | Component | Price | Quantity | Description | Part Number/SKU | Link to Buy |
 | ----------- | ----------- | ----------- |------------ | ----------- | ---------- |
