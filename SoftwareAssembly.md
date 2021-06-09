@@ -59,9 +59,15 @@ sudo ./LTG-RC-Car/Setup/Install.sh
 A prompt will open up with different options for the camera setup after a little while, just hit enter and let the installation proceed.
 
 Once it is over, you will be prompted with a decision if you want to Auto-Start the cam stream when the pi is turned on, hit enter at this option selecting Yes.
+## Set Static IP Address
+If you used the image provided, the car will not have a static IP address. If you would like to set one, that can be done with the command 
+```
+sudo /home/pi/LTG-RC-Car/SetStaticIP.sh
+```
+It will prompt you to provide a static IP, use the range 192.168.0.0 – 192.168.255.255, and then type in your routers IP address or the default gateway. This will likely be 192.168.1.1 or 192.168.0.1.
 
 ## How to run? 
-Guess what, the script is already running. All operations that the car requires are now running as a service, which means they run at boot of the pi. If the car cannot be connected to, first check to see if the service named LTG is running with the command below.
+Guess what! The script is already running if you flashed the image to your micro sd or used the installation script. All operations that the car requires are now running as a service, which means they run at boot of the pi. If the car cannot be connected to, first check to see if the service named LTG is running with the command below.
 ```
 sudo systemctl status LTG.service
 ```
