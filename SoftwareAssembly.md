@@ -1,14 +1,8 @@
-# LTG-RC-Car
+# Software Assembly Guide
 
 
-Project for creating a line following car using a PID AI to control the movement, speed, and steering of RC Car. This project uses the Raspberry Pi Zero with brushed DC motors for both steering and forward movement.
-<br>
-<br>
-<img src="Images\CarDriving.gif"/>
+## Imaging Micro SD Card
 
-
-## Software 
-### Connecting the Raspberry Pi to your network
 Download the *.img file to your local folder on your laptop
 
 Use an imaging tool such as Balena Etcher https://www.balena.io/etcher/ to write the .img file to your SD card by selecting the image and your micro sd card slot. Then select flash!
@@ -36,7 +30,7 @@ If your network is not listed, add in your network name and password in the open
 
 Drag and drop these files onto your raspberry pi boot drive.
 
-### Creating Your Own Hotspot from Your Windows Laptop
+## Creating Your Own Hotspot from Your Windows Laptop
 
 Select the Start  button, then select Settings  > Network & Internet > Mobile hotspot.
 
@@ -48,7 +42,8 @@ Turn on Share my Internet connection with other devices.
 
 To connect on the other device, go to the Wi-Fi settings on that device, find your network name, select it, enter the password, and then connect.
 
-### Installing the Software Manually
+## Installing the Software Manually
+
 If you would like to install and setup the software manually, you may use the scripts within this repo for manual installation. For instructions on how to connect the raspberry pi to your network and install Stock Raspbian Buster, follow these instructions, [Setup Raspberry PI](https://desertbot.io/blog/headless-pi-zero-w-wifi-setup-windows) Now that you have installed raspbian and have connected to the Raspberry Pi through your ssh client, you need to run two commands before we start our installation scripts.
 ```
 sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git -y
@@ -74,38 +69,7 @@ If this comes back that is not running, you can re-create the service by running
 ```
 python3 LTG-RC-Car\AI_Driver\main.py
 ```
-## Error? What's an Error?
 
-One concept you will hear me talk about a lot in this tutorial is the idea of error. Error is going to refer to how far left or right the car is relative to the middle of the track.
-In the simulation in this repo, the cars have 5 trackers on the front of the car that will be looking for where the car is on the track. We will talk about how they do this later in this tutorial. For now, keep in mind that if the car is not in the middle of the track or is swaying to one side of the track, the car will have a higher error. If the car is in the middle of the track, the car will have no error. 
-
-## PID (Proportional-Integral-Derivative) Controller
-
-Control of this car is going to use a PID Controller Model below. The variable "error" will be defined by how far left or right the car is angled relative to the line the car is following. We will be calculating our error with the following logic.
-
-    0 0 0 0 1 ==> Error = 4
-    0 0 0 1 1 ==> Error = 3
-    0 0 0 1 0 ==> Error = 2
-    0 0 1 1 0 ==> Error = 1
-    0 0 1 0 0 ==> Error = 0
-    0 1 1 0 0 ==> Error = -1
-    0 1 0 0 0 ==> Error = -2
-    1 1 0 0 0 ==> Error = -3
-    1 0 0 0 0 ==> Error = -4
-
-A 1 in this visualization means that that sensor is currently interacting with the box collider that is in the middle of the track. As you can see, 2 trackers can be interacting with that collider at the same time giving us a greater level of accurary when seeing where on the track the car currently is.
-
-The range of motor control we will be using for both steering and forward movement will be within the range of 0-100, where 100 will be the furthest we can turn the car left or right and 0 will have no steering (straight). This range is derived from the motor capability to turn and is standard to this motor type. If we give the motor values outside this range we will
-recieve runtime errors from the scripts used to move the car. 
-
-![\Large \alpha _{error} = (J_P\vert_{J_{P=25}}error) - (J_D\vert_{J_{D=0}}\frac{d}{dt}error) - (J_I\vert_{J_{I=0}}\sum_{n=0}^{k\vert_{k=v.len}}v\vert_{v=v[]})](https://latex.codecogs.com/gif.latex?%5CLarge%20%5Calpha%20_%7Berror%7D%20%3D%20%28J_P%5Cvert_%7BJ_%7BP%3D25%7D%7Derror%29%20-%20%28J_D%5Cvert_%7BJ_%7BD%3D0%7D%7D%5Cfrac%7Bd%7D%7Bdt%7Derror%29%20-%20%28J_I%5Cvert_%7BJ_%7BI%3D0%7D%7D%5Csum_%7Bn%3D0%7D%5E%7Bk%5Cvert_%7Bk%3Dv.len%7D%7Dv%5Cvert_%7Bv%3Dv%5B%5D%7D%29)
-
-
-
-
-
-## Gallery of Cars 
-![Police Car](Images/PoliceCam.jpg)
 
 ## Authors
 
