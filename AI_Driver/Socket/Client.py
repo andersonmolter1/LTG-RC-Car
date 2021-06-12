@@ -45,7 +45,12 @@ def TCP (car):
         if not data: break
         car.modifyPID(data)
         try:
-            rList = [car.error + 10, car.speed]
+            speed = car.speed
+            if (speed < 0):
+                speed = 0
+            elif (speed > 255):
+                speed = 255
+            rList = [car.error + 10, speed]
             arr = bytearray(rList)
             sock.sendall(arr)
         except BrokenPipeError as e:
