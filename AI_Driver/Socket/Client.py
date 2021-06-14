@@ -4,9 +4,18 @@ import os
 import re
 import time
 import traceback
+
+def get_ip_address():
+ ip_address = '';
+ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+ s.connect(("8.8.8.8",80))
+ ip_address = s.getsockname()[0]
+ s.close()
+ return ip_address
+
 def TCP (car):
     hostname = socket.gethostname()
-    host_addr = socket.gethostbyname(hostname + ".local")
+    host_addr = get_ip_address()
     carNum = 0
     oclet = host_addr.split('.')
     # if (host_addr[-2] != '.'):
