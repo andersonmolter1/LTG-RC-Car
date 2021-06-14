@@ -130,23 +130,17 @@ class CarController:
                 if (motor == 0):
                     self.error = self.getError()
                 if (self.controlType == 0):
-                    if (self.prevError != self.error):
-                        self.prevError = self.error
-                        if (self.error == -5):
-                            if (self.speed != 0):
-                                self.speed = self.speed - 50
-                            else:
-                                self.speed = 0
-                            self.motorDriver.Stop()
-                        elif (motor == 0):
-                            self.motorDriver.Turn(self.PID())
+                    if (self.error == -5):
+                        if (self.speed != 0):
+                            self.speed = self.speed - 50
                         else:
-                            self.speed = self.Speed()
-                            self.motorDriver.Drive(self.speed)
-                        # if self.IMU.dataReady():
-                        #     self.IMU.getAgmt() # read all axis and temp from sensor, note this also updates all instance variables
-                        #     if (self.IMU.ayRaw < 0 and self.error != -5):
-                        #         self.motorDriver.ManualForward()
+                            self.speed = 0
+                        self.motorDriver.Stop()
+                    elif (motor == 0):
+                        self.motorDriver.Turn(self.PID())
+                    else:
+                        self.speed = self.Speed()
+                        self.motorDriver.Drive(self.speed)
                 elif (self.controlType == 1):
                     if (self.prevSteer != self.steeringM and motor == 0):
                         self.prevSteer = self.steeringM
@@ -164,23 +158,7 @@ class CarController:
                             self.motorDriver.ManualReverse()
                         elif (self.drivingM  == 0):
                             self.motorDriver.ManualDriveStop()
-                elif (self.controlType == 2):
-                    if (self.prevError != self.error):
-                        self.prevError = self.error
-                        if (self.error == -5):
-                            if (self.speed != 0):
-                                self.speed = self.speed - 50
-                            else:
-                                self.speed = 0
-                            self.motorDriver.Stop()
-                        elif (motor == 0):
-                            if (self.turningDegree > 0):
-                                self.motorDriver.Turn(self.turningDegree * 100 + 100)
-                            else:
-                                self.motorDriver.Turn(self.turningDegree * 100 + -100)
-                        else:
-                            self.motorDriver.Drive(self.drivingDegree * 8)
-                    
+            sleep(0.01)
     def StartCar(self):
         try:
             # creating thread
